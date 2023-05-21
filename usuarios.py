@@ -1,9 +1,8 @@
 class Usuarios:
-    def __init__(self, nombreCompleto, usuario, contrasena, recuperar_contrasena, documento, correo, respuesta1, respuesta2, respuesta3, respuesta4, respuesta5, respuesta6):
+    def __init__(self, nombreCompleto, usuario, contrasena, documento, correo, respuesta1, respuesta2, respuesta3, respuesta4, respuesta5, respuesta6):
         self.nombreCompleto = nombreCompleto
         self.usuario = usuario
         self.contrasena = contrasena
-        self.recuperar_contrasena = recuperar_contrasena
         self.documento = documento
         self.correo = correo
         self.respuesta1 = respuesta1
