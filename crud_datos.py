@@ -51,12 +51,14 @@ class Crud_datos(QMainWindow):
         self.letrero1 = QLabel()
         self.letrero1.setText("Editar cliente")
         self.letrero1.setFont(QFont("Arial", 20))
+        self.letrero1.setStyleSheet('background-color: transparent;')
 
         self.letrero2 = QLabel()
         self.letrero2.setFixedWidth(355)
         self.letrero2.setText("Por favor ingrese la informacion del cliente\n"
                               "en el formulario de abajo, los campos marcados\n"
                               "con asterisco son obligatorios.")
+
         self.letrero2.setFont(QFont("Arial", 10))
         self.letrero2.setStyleSheet('color: black; margin-bottom: 40px;'
                                     'margin-top: 25px;'
@@ -65,7 +67,26 @@ class Crud_datos(QMainWindow):
                                     'border-left: none;'
                                     'border-right: none;'
                                     'border-top: none;'
+                                    'background-color: transparent;'
                                     )
+
+        self.labelNombre = QLabel("Nombre compeleto*")
+        self.labelNombre.setStyleSheet('background-color: transparent;')
+
+        self.labelUsuario = QLabel("Ingrese usuario*")
+        self.labelUsuario.setStyleSheet('background-color: transparent;')
+
+        self.labelContrasena = QLabel("Ingrese Contraseña*")
+        self.labelContrasena.setStyleSheet('background-color: transparent;')
+
+        self.labelConfirmar_contrasena = QLabel("Confirmar contraseña*")
+        self.labelConfirmar_contrasena.setStyleSheet('background-color: transparent;')
+
+        self.labelDocumento = QLabel("Documento*")
+        self.labelDocumento.setStyleSheet('background-color: transparent;')
+
+        self.labelCorreo = QLabel("Correo*")
+        self.labelCorreo.setStyleSheet('background-color: transparent;')
 
         # labels y campos
         self.nombreCompleto = QLineEdit()
@@ -99,52 +120,55 @@ class Crud_datos(QMainWindow):
 
         self.botonEditar = QPushButton("Editar")
         self.botonEditar.setFixedWidth(90)
-        self.botonEditar.setStyleSheet('background-color: #008845;'
+        self.botonEditar.setStyleSheet('background-color: #2F4F4F;'
                                        'color: #FFFFFF;'
-                                       'padding: 10px;'
+                                       'padding: 5px;'
                                        'margin-top: 10px;'
                                        )
         self.botonEditar.clicked.connect(self.accionEditar)
 
         self.botonlimpiar = QPushButton("Limpiar")
         self.botonlimpiar.setFixedWidth(90)
-        self.botonlimpiar.setStyleSheet('background-color: #008845;'
+        self.botonlimpiar.setStyleSheet('background-color: #2F4F4F;'
                                         'color: #FFFFFF;'
-                                        'padding: 10px;'
+                                        'padding: 5px;'
                                         'margin-top: 10px;'
                                         )
         self.botonlimpiar.clicked.connect(self.accionLimpiar)
 
         self.botonEliminar = QPushButton("Eliminar")
         self.botonEliminar.setFixedWidth(90)
-        self.botonEliminar.setStyleSheet('background-color: #008845;'
+        self.botonEliminar.setStyleSheet('background-color: #2F4F4F;'
                                          'color: #FFFFFF;'
-                                         'padding: 10px;'
+                                         'padding: 5px;'
                                          'margin-top: 3px;'
                                          )
         self.botonEliminar.clicked.connect(self.accionEliminar)
 
         self.botonVolver = QPushButton("Volver")
         self.botonVolver.setFixedWidth(90)
-        self.botonVolver.setStyleSheet('background-color: #008845;'
+        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
                                        'color: #FFFFFF;'
-                                       'padding: 10px;'
+                                       'padding: 5px;'
                                        'margin-top: 3px;'
                                        )
         self.botonVolver.clicked.connect(self.accionVolver)
 
+
+
         # ----Agregamos al layout izquierdo----
         self.layoutIzq_form.addRow(self.letrero1)
         self.layoutIzq_form.addRow(self.letrero2)
-        self.layoutIzq_form.addRow("Nombre completo*", self.nombreCompleto)
-        self.layoutIzq_form.addRow("Ingrese usuario*", self.usuario)
-        self.layoutIzq_form.addRow("Ingrese contraseña*", self.contrasena)
-        self.layoutIzq_form.addRow("Confirmar contraseña*", self.confirmar_contrasena)
-        self.layoutIzq_form.addRow("Documento ID*", self.documento)
-        self.layoutIzq_form.addRow("Correo*", self.correo)
+        self.layoutIzq_form.addRow(self.labelNombre, self.nombreCompleto)
+        self.layoutIzq_form.addRow(self.labelUsuario, self.usuario)
+        self.layoutIzq_form.addRow(self.labelContrasena, self.contrasena)
+        self.layoutIzq_form.addRow(self.labelConfirmar_contrasena, self.confirmar_contrasena)
+        self.layoutIzq_form.addRow(self.labelDocumento, self.documento)
+        self.layoutIzq_form.addRow(self.labelCorreo, self.correo)
         self.layoutIzq_form.addRow(self.botonEditar, self.botonlimpiar)
         self.layoutIzq_form.addRow(self.botonEliminar)
         self.layoutIzq_form.addRow(self.botonVolver)
+
 
         self.horizontal.addLayout(self.layoutIzq_form)
 
@@ -155,9 +179,11 @@ class Crud_datos(QMainWindow):
         # letreros de informacion derecho
         self.letrero3 = QLabel()
         self.letrero3.setFixedWidth(355)
-        self.letrero3.setText("Recuperar Contraseña")
+        self.letrero3.setText("Editar preguntas y\n"
+                              "respuestas")
         self.letrero3.setFont(QFont("Arial", 20))
-        self.letrero3.setStyleSheet('color: black;')
+        self.letrero3.setStyleSheet('color: black;'
+                                    'background-color: transparent;')
 
         self.letrero4 = QLabel()
         self.letrero4.setFixedWidth(355)
@@ -173,17 +199,29 @@ class Crud_datos(QMainWindow):
                                     'border-left: none;'
                                     'border-right: none;'
                                     'border-top: none;'
+                                    'background-color: transparent;'
                                     )
 
         # Labels y campos lado derecho (preguntas y respuestas)
 
         # Labels
         self.pregunta1 = QLabel("Pregunta de verificacion 1*")
+        self.pregunta1.setStyleSheet('background-color: transparent;')
+
         self.pregunta2 = QLabel("Pregunta de verificacion 2*")
+        self.pregunta2.setStyleSheet('background-color: transparent;')
+
         self.pregunta3 = QLabel("Pregunta de verificacion 3*")
+        self.pregunta3.setStyleSheet('background-color: transparent;')
+
         self.pregunta4 = QLabel("Respuesta de verificacion 1*")
+        self.pregunta4.setStyleSheet('background-color: transparent;')
+
         self.pregunta5 = QLabel("Respuesta de verificacion 2*")
+        self.pregunta5.setStyleSheet('background-color: transparent;')
+
         self.pregunta6 = QLabel("Respuesta de verificacion 3*")
+        self.pregunta6.setStyleSheet('background-color: transparent;')
 
         # campos QlineEdits
         self.respuesta1 = QLineEdit()
@@ -257,7 +295,9 @@ class Crud_datos(QMainWindow):
         self.vertical = QVBoxLayout()
 
         self.mensaje = QLabel("")
-        self.mensaje.setStyleSheet('background-color: #008B45; color: #FFFFFF; padding: 10 px;')
+        self.mensaje.setStyleSheet('background-color: #2F4F4F;'
+                                   'color: #FFFFFF;'
+                                   'padding: 5px;')
 
         self.vertical.addWidget(self.mensaje)
         self.vertical.addWidget(self.opciones)
@@ -428,8 +468,6 @@ class Crud_datos(QMainWindow):
 
         if self.datosCorrectos:
 
-
-
             self.ventanaDialogo_eliminar = QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint)
 
             self.ventanaDialogo_eliminar.resize(300, 150)
@@ -439,7 +477,9 @@ class Crud_datos(QMainWindow):
             self.verticalEliminar = QVBoxLayout()
 
             self.mensajeEliminar = QLabel("¿Estas seguro que desea eliminar este registro de usuario?")
-            self.mensajeEliminar.setStyleSheet('background-color: #008B45; color: #FFFFFF; padding: 10 px;')
+            self.mensajeEliminar.setStyleSheet('background-color: #2F4F4F;'
+                                               'color: #FFFFFF;'
+                                               'padding: 5px;')
 
             self.verticalEliminar.addWidget(self.mensajeEliminar)
 
@@ -594,6 +634,3 @@ class Crud_datos(QMainWindow):
 
             self.ventanaDialogo.exec_()
             self.accionVolver()
-
-
-

@@ -76,14 +76,14 @@ class Consulta_datos_tabular(QMainWindow):
         self.letrero1 = QLabel()
         self.letrero1.setText("Usuario registrado")
         self.letrero1.setFont(QFont("Arial", 20))
-        self.letrero1.setStyleSheet('color: black;')
+        self.letrero1.setStyleSheet('color: black;'
+                                    'background-color: transparent;')
 
         self.vertical.addWidget(self.letrero1)
         self.vertical.addStretch()
 
         self.scrollArea = QScrollArea()
         self.scrollArea.setWidgetResizable(True)
-
 
         # para crear la tabla para que se vean de forma tabular
         self.tabla = QTableWidget()
@@ -138,14 +138,13 @@ class Consulta_datos_tabular(QMainWindow):
 
         self.vertical.addStretch()
 
-
         # Boton volver
 
         self.botonVolver = QPushButton("Volver")
         self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setStyleSheet('background-color: #008B45;'
-                                       'color:#FFFFFF;'
-                                       'padding:5px;')
+        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
+                                       'color: #FFFFFF;'
+                                       'padding: 5px;')
 
         self.botonVolver.clicked.connect(self.metodo_botonVolver)
 
@@ -153,9 +152,7 @@ class Consulta_datos_tabular(QMainWindow):
 
         self.vertical.addWidget(self.botonVolver)
 
-
         self.fondo.setLayout(self.vertical)
-
 
     def metodo_botonVolver(self):
         self.hide()
