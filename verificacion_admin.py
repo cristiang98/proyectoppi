@@ -46,7 +46,7 @@ class Verificacion_admin(QMainWindow):
         # layout formulario
 
         self.formulario = QFormLayout()
-        self.formulario.setContentsMargins(0, 30, 90, 0)
+        self.formulario.setContentsMargins(90, 30, 90, 0)
 
         # label y campo
 
@@ -55,7 +55,7 @@ class Verificacion_admin(QMainWindow):
         self.verificar.setFont(QFont('VAG Rounded.ttf', 12))
         self.verificar.setStyleSheet('background-color:transparent;'
                                      'color:black;'
-                                     'margin-left:80px;')
+                                     )
 
         self.campo_verificar = QLineEdit()
         self.campo_verificar.setFixedWidth(100)

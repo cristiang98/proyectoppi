@@ -47,7 +47,9 @@ class Consulta_datos(QMainWindow):
         self.letrero1 = QLabel()
         self.letrero1.setText("Usuario registrado")
         self.letrero1.setFont(QFont("Arial", 20))
-        self.letrero1.setStyleSheet('color: black;')
+        self.letrero1.setStyleSheet('color: black;'
+                                    'background-color: transparent;')
+        self.letrero1.setAlignment(Qt.AlignCenter)
 
         self.vertical.addWidget(self.letrero1)
         self.vertical.addStretch()
@@ -108,8 +110,8 @@ class Consulta_datos(QMainWindow):
                     self.botonAccion = QPushButton(self.usuarios[self.contador].documento)
                     self.botonAccion.setFixedWidth(90)
                     self.botonAccion.setFixedHeight(40)
-                    self.botonAccion.setStyleSheet('background-color: #008B45;'
-                                                   'color:#FFFFFF;'
+                    self.botonAccion.setStyleSheet('background-color: #2F4F4F;'
+                                                   'color: #FFFFFF;'
                                                    'padding:5px;')
                     self.verticalCuadricula.addWidget(self.botonAccion)
                     self.botones.addButton(self.botonAccion, int(self.usuarios[self.contador].documento))
@@ -120,21 +122,24 @@ class Consulta_datos(QMainWindow):
 
         self.botones.idClicked.connect(self.metodo_accionBotones)
 
+        self.vertical.addStretch()
+
         # ------------- boton tabular ------------
         self.tabular = QPushButton("Forma Tabular")
         self.tabular.setFixedWidth(100)
-        self.tabular.setStyleSheet('background-color: #008B45;'
-                                   'color:#FFFFFF;'
-                                   'padding:5px;')
+        self.tabular.setStyleSheet('background-color: #2F4F4F;'
+                                   'color: #FFFFFF;'
+                                   'padding: 5px;')
+
         self.tabular.clicked.connect(self.metodo_accionTabular)
         self.vertical.addWidget(self.tabular)
 
         # -----------------Boton volver----------------
         self.botonVolver = QPushButton("Volver")
         self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setStyleSheet('background-color: #008B45;'
-                                       'color:#FFFFFF;'
-                                       'padding:5px;')
+        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
+                                       'color: #FFFFFF;'
+                                       'padding: 5px;')
         self.botonVolver.clicked.connect(self.metodo_botonVolver)
         self.vertical.addWidget(self.botonVolver)
 
@@ -152,9 +157,7 @@ class Consulta_datos(QMainWindow):
         self.consulta_datos_tabular = Consulta_datos_tabular(self)
         self.consulta_datos_tabular.show()
 
-
     # commit clase 4 boton volver y al final otro commit con ventana 4 lista
     def metodo_botonVolver(self):
         self.hide()
         self.Anterior.show()
-

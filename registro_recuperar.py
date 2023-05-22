@@ -19,7 +19,7 @@ class Registro_recuperar(QMainWindow):
         self.setWindowTitle("Formulario de registro")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 900
-        self.alto = 600
+        self.alto = 650
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -125,13 +125,12 @@ class Registro_recuperar(QMainWindow):
         # Creacion de botones limpiar y registrar
 
         self.botonregistrar = QPushButton("Registrar")
-        self.botonregistrar.setFixedWidth(140)
+        self.botonregistrar.setFixedWidth(90)
         self.botonregistrar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 40px;'
                                           'border-radius:10px;'
-                                          'margin-left:50px;'
                                           )
 
         self.botonregistrar.clicked.connect(self.accionRegistrar)
@@ -280,12 +279,12 @@ class Registro_recuperar(QMainWindow):
         self.botonRecuperar.clicked.connect(self.accionRecuperar)
 
         self.botonContinuar = QPushButton("Continuar")
-        self.botonContinuar.setFixedWidth(140)
+        self.botonContinuar.setFixedWidth(90)
         self.botonContinuar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 10px;'
-                                          'margin-left: 50px;'
+                                          
                                           'border-radius:10px;'
                                           )
         self.botonContinuar.clicked.connect(self.accion_botonContinuar)
