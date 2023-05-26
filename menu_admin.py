@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QFormLayout, QP
     QWidget, QVBoxLayout, QAction, QSpacerItem, QSizePolicy, QApplication
 
 from ingreso_visitantes import Ingreso_visitantes
+from residentes import Residentes
 
 
 class Menu_admin(QMainWindow):
@@ -168,7 +169,9 @@ class Menu_admin(QMainWindow):
         pass
 
     def accion_ventanaResidentes(self):
-        pass
+        self.hide()
+        self.residentes = Residentes(self)
+        self.residentes.show()
 
 
 
