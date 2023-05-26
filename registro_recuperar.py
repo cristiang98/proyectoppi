@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QFormLayout, QApplication, QLineEdit, \
     QPushButton, QDialog, QDialogButtonBox, QVBoxLayout
 
+from consulta_datos import Consulta_datos
 from usuarios import Usuarios
 
 
@@ -18,7 +19,7 @@ class Registro_recuperar(QMainWindow):
         self.setWindowTitle("Formulario de registro")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 900
-        self.alto = 600
+        self.alto = 650
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -124,13 +125,12 @@ class Registro_recuperar(QMainWindow):
         # Creacion de botones limpiar y registrar
 
         self.botonregistrar = QPushButton("Registrar")
-        self.botonregistrar.setFixedWidth(140)
+        self.botonregistrar.setFixedWidth(90)
         self.botonregistrar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 40px;'
                                           'border-radius:10px;'
-                                          'margin-left:50px;'
                                           )
 
         self.botonregistrar.clicked.connect(self.accionRegistrar)
@@ -278,6 +278,17 @@ class Registro_recuperar(QMainWindow):
                                           )
         self.botonRecuperar.clicked.connect(self.accionRecuperar)
 
+        self.botonContinuar = QPushButton("Continuar")
+        self.botonContinuar.setFixedWidth(90)
+        self.botonContinuar.setStyleSheet('background-color: #2F4F4F;'
+                                          'color: #FFFFFF;'
+                                          'padding: 10px;'
+                                          'margin-top: 10px;'
+                                          
+                                          'border-radius:10px;'
+                                          )
+        self.botonContinuar.clicked.connect(self.accion_botonContinuar)
+
         # Se agrega al layout derecho
         self.layoutDer_form.addRow(self.letrero3)
         self.layoutDer_form.addRow(self.letrero4)
@@ -301,6 +312,7 @@ class Registro_recuperar(QMainWindow):
         self.layoutDer_form.addRow(self.respuesta6)
 
         self.layoutDer_form.addRow(self.botonBuscar, self.botonRecuperar)
+        self.layoutDer_form.addRow(self.botonContinuar)
 
         self.horizontal.addLayout(self.layoutDer_form)
 
@@ -367,7 +379,6 @@ class Registro_recuperar(QMainWindow):
                 self.nombreCompleto.text() == ''
                 or self.usuario.text() == ''
                 or self.contrasena.text() == ''
-                or self.confirmar_contrasena.text() == ''
                 or self.documento.text() == ''
                 or self.correo.text() == ''
                 or self.respuesta1.text() == ''
@@ -390,7 +401,6 @@ class Registro_recuperar(QMainWindow):
             self.file.write(bytes(self.nombreCompleto.text() + ";" +
                                   self.usuario.text() + ";" +
                                   self.contrasena.text() + ";" +
-                                  self.confirmar_contrasena.text() + ";" +
                                   self.documento.text() + ";" +
                                   self.correo.text() + ";" +
                                   self.respuesta1.text() + ";" +
@@ -468,7 +478,6 @@ class Registro_recuperar(QMainWindow):
                     lista[8],
                     lista[9],
                     lista[10],
-                    lista[11],
                 )
 
                 # metemos el objeto en la lista de usuarios
@@ -576,7 +585,6 @@ class Registro_recuperar(QMainWindow):
                     lista[8],
                     lista[9],
                     lista[10],
-                    lista[11],
                 )
                 usuarios.append(u)
             self.file.close()
@@ -626,3 +634,8 @@ class Registro_recuperar(QMainWindow):
     def accion_botonVolver(self):
         self.hide()
         self.Anterior.show()
+
+    def accion_botonContinuar(self):
+        self.hide()
+        self.consulta_datos = Consulta_datos(self)
+        self.consulta_datos.show()
