@@ -8,9 +8,10 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QF
     QToolBar, QAction
 
 from lista_residente import Residente
+from visitante import Visitante
 
 
-class Residente_tabular(QMainWindow):
+class Visitantes_tabular(QMainWindow):
     def __init__(self, anterior):
         super().__init__()
 
@@ -45,7 +46,7 @@ class Residente_tabular(QMainWindow):
         # creacion de layout horizontal para la distribucion
         self.vertical = QVBoxLayout()
 
-        self.file = open('datos/residente.txt', 'rb')
+        self.file = open('datos/visitantes.txt', 'rb')
         self.usuarios = []
 
         while self.file:
@@ -55,14 +56,15 @@ class Residente_tabular(QMainWindow):
             if linea == '':
                 break
 
-            u = Residente(
+            u = Visitante(
                 lista[0],
                 lista[1],
                 lista[2],
                 lista[3],
                 lista[4],
                 lista[5],
-                lista[6]
+                lista[6],
+                lista[7]
             )
 
             self.usuarios.append(u)
@@ -71,27 +73,7 @@ class Residente_tabular(QMainWindow):
         self.numeroUsuarios = len(self.usuarios)
         self.contador = 0
 
-        # ---- Construccion del toolbar----
-        self.toolbar = QToolBar('Main Toolbar')
-        self.toolbar.setIconSize(QSize(25, 25))
-        self.addToolBar(self.toolbar)
 
-        # toolbar eliminar
-        self.delete = QAction(QIcon('imagenes/borrar.png'), "&borrar", self)
-        self.delete.triggered.connect(self.accion_delete)
-        self.toolbar.addAction(self.delete)
-
-        # toolbar agregar
-        self.agregar = QAction(QIcon('imagenes/agregar.png'), "&agregar", self)
-        self.agregar.triggered.connect(self.accion_agregar)
-        self.toolbar.addAction(self.agregar)
-
-        # toolbar editar
-        self.editar = QAction(QIcon('imagenes/editar.png'), "&editar", self)
-        self.editar.triggered.connect(self.accion_editar)
-        self.toolbar.addAction(self.editar)
-
-        # ---- Fin toolbar------
 
         # hacemos los labels informativos
         self.letrero1 = QLabel()
@@ -110,7 +92,7 @@ class Residente_tabular(QMainWindow):
 
         # para crear la tabla para que se vean de forma tabular
         self.tabla = QTableWidget()
-        self.tabla.setColumnCount(7)
+        self.tabla.setColumnCount(8)
 
         # definimos los numeros de colimnas que tendra la tabla
 
@@ -121,29 +103,45 @@ class Residente_tabular(QMainWindow):
         self.tabla.setColumnWidth(4, 150)
         self.tabla.setColumnWidth(5, 150)
         self.tabla.setColumnWidth(6, 150)
+        self.tabla.setColumnWidth(7, 150)
 
-        self.tabla.setHorizontalHeaderLabels(["Nombre",
-                                              "Cédula",
+        self.tabla.setHorizontalHeaderLabels(["Apartamento",
+                                              "Nombre del Residente",
                                               "Celular",
-                                              "Correo",
-                                              "Apartamento",
+                                              "Nombre del visitante",
+                                              "Vehiculo",
                                               "Placa",
-                                              "Celda"
+                                              "Fecha",
+                                              "Hora"
                                               ])
 
         self.tabla.setRowCount(self.numeroUsuarios)
 
         for u in self.usuarios:
-            self.tabla.setItem(self.contador, 0, QTableWidgetItem(u.nombreCompleto))
+            self.tabla.setItem(self.contador, 0, QTableWidgetItem(u.apartamento))
             # evitar que se deje modificar
             self.tabla.item(self.contador, 0).setFlags(Qt.ItemIsEnabled)
-            self.tabla.setItem(self.contador, 1, QTableWidgetItem(u.cedula))
+
+            self.tabla.setItem(self.contador, 1, QTableWidgetItem(u.nombreCompleto))
+            self.tabla.item(self.contador, 1).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(self.contador, 2, QTableWidgetItem(u.celular))
-            self.tabla.setItem(self.contador, 3, QTableWidgetItem(u.correo))
+            self.tabla.item(self.contador, 2).setFlags(Qt.ItemIsEnabled)
+
+            self.tabla.setItem(self.contador, 3, QTableWidgetItem(u.nomVisitante))
             self.tabla.item(self.contador, 3).setFlags(Qt.ItemIsEnabled)
-            self.tabla.setItem(self.contador, 4, QTableWidgetItem(u.apartamento))
+
+            self.tabla.setItem(self.contador, 4, QTableWidgetItem(u.vehiculo2))
+            self.tabla.item(self.contador, 4).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(self.contador, 5, QTableWidgetItem(u.placa))
-            self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.celda))
+            self.tabla.item(self.contador, 5).setFlags(Qt.ItemIsEnabled)
+
+            self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.fecha))
+            self.tabla.item(self.contador, 6).setFlags(Qt.ItemIsEnabled)
+
+            self.tabla.setItem(self.contador, 7, QTableWidgetItem(u.hora))
+            self.tabla.item(self.contador, 7).setFlags(Qt.ItemIsEnabled)
 
             self.contador += 1
 

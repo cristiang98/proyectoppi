@@ -4,9 +4,10 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QFormLayout, QApplication, QLineEdit, \
-    QPushButton, QDialog, QDialogButtonBox, QVBoxLayout
+    QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QMessageBox
 
 from consulta_datos import Consulta_datos
+from consulta_datos_tabular import Consulta_datos_tabular
 from usuarios import Usuarios
 
 
@@ -367,13 +368,48 @@ class Registro_recuperar(QMainWindow):
         # datos correctos
         self.datosCorrectos = True
 
+
+
+        if not self.usuario.text().isalpha():
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Solo letras en usuario.'
+            )
+
+        if self.contrasena.text().isalpha():
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'En contraseña solo es válido números.'
+            )
+
+        if self.documento.text().isalpha():
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'En documento solo es válido números.'
+            )
+
+        if not self.contrasena.text().isalnum():
+            self.datos_Correctos = False
+
+            if self.contrasena.text() != '':
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Ingreso caracteres especiales.'
+                )
+
         # Validacion de passwords
         if (
                 self.contrasena.text() != self.confirmar_contrasena.text()
         ):
-            self.datosCorrectos = False
-            self.mensaje.setText("Las contraseñas no son iguales")
-            self.ventanaDialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Las contraseñas no son iguales.'
+            )
 
         if (
                 self.nombreCompleto.text() == ''
@@ -388,9 +424,11 @@ class Registro_recuperar(QMainWindow):
                 or self.respuesta5.text() == ''
                 or self.respuesta6.text() == ''
         ):
-            self.datosCorrectos = False
-            self.mensaje.setText("Debe ingresar todos los campos")
-            self.ventanaDialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Debe ingresar todos los campos.'
+            )
 
         # si los datos estan correctos
         if self.datosCorrectos:
@@ -410,6 +448,8 @@ class Registro_recuperar(QMainWindow):
                                   self.respuesta5.text() + ";" +
                                   self.respuesta6.text() + ";" + "\n", encoding='UTF-8'))
             self.file.close()
+
+
 
             self.file = open('datos/usuarios.txt', 'rb')
             while self.file:
@@ -511,9 +551,11 @@ class Registro_recuperar(QMainWindow):
             if (
                     not existeDocumento
             ):
-                self.mensaje.setText(f"No existe usuario con este numero"
-                                     f"de documento.{self.documento.text()}")
-                self.ventanaDialogo.exec_()
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'No existe usuario registrado'
+                )
 
     def accionRecuperar(self):
 
@@ -637,5 +679,5 @@ class Registro_recuperar(QMainWindow):
 
     def accion_botonContinuar(self):
         self.hide()
-        self.consulta_datos = Consulta_datos(self)
+        self.consulta_datos = Consulta_datos_tabular(self)
         self.consulta_datos.show()
