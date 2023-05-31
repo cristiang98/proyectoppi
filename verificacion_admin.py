@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QApplication, QVBoxLayout, QFormLayout, \
@@ -12,6 +12,7 @@ class Verificacion_admin(QMainWindow):
         super().__init__()
         self.Anterior = anterior
         self.setWindowTitle("Sophos R.P.H")
+        self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 600
         self.alto = 400
         self.resize(self.ancho, self.alto)
