@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QF
     QPushButton, QDialog, QDialogButtonBox, QVBoxLayout
 
 from consulta_datos import Consulta_datos
+from consulta_datos_tabular import Consulta_datos_tabular
 from usuarios import Usuarios
 
 
@@ -411,6 +412,8 @@ class Registro_recuperar(QMainWindow):
                                   self.respuesta6.text() + ";" + "\n", encoding='UTF-8'))
             self.file.close()
 
+
+
             self.file = open('datos/usuarios.txt', 'rb')
             while self.file:
                 linea = self.file.readline().decode('UTF-8')
@@ -637,5 +640,5 @@ class Registro_recuperar(QMainWindow):
 
     def accion_botonContinuar(self):
         self.hide()
-        self.consulta_datos = Consulta_datos(self)
+        self.consulta_datos = Consulta_datos_tabular(self)
         self.consulta_datos.show()
