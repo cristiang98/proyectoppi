@@ -18,7 +18,7 @@ class Consulta_datos_tabular(QMainWindow):
         self.Anterior = anterior
         # creacion de la ventana
         self.setWindowTitle("Usuarios Registrados")
-        self.setWindowIcon(QtGui.QIcon('imagenes/mochila_clase9.jpg'))
+        self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 900
         self.alto = 600
         self.resize(self.ancho, self.alto)
@@ -78,7 +78,7 @@ class Consulta_datos_tabular(QMainWindow):
         self.addToolBar(self.toolbar)
 
         # toolbar eliminar
-        self.delete = QAction(QIcon('imagenes/delete.jpg'), "&borrar", self)
+        self.delete = QAction(QIcon('imagenes/borrar.png'), "&borrar", self)
         self.delete.triggered.connect(self.accion_delete)
         self.toolbar.addAction(self.delete)
 

@@ -1,5 +1,1 @@
-a;a;a;1;aa;a;a;a;a;a;a;
-a;a;a;1;a;a;a;a;a;a;a;
-a;a;a;1;a;a;a;a;a;a;a;
-a;qq;a;8;a;a;a;a;a;a;a;
-a;a;a;5;a;a;a;a;a;a;
+Cristian Gallego;cristiang;9807;1036680199;cristiangallego40@gmail.com;libro preferido;año de nacimiento;cuantos hermanos tiene;alaska;1998;0;

@@ -19,7 +19,7 @@ class Crud_datos(QMainWindow):
         self.cedulaUsuario = cedula
         # creacion de la ventana
         self.setWindowTitle("Editar usuario")
-        self.setWindowIcon(QtGui.QIcon('imagenes/mochila_clase9.jpg'))
+        self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 900
         self.alto = 650
         self.resize(self.ancho, self.alto)

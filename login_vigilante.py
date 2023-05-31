@@ -3,10 +3,11 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QApplication, QVBoxLayout, QFormLayout, \
-    QPushButton, QDialogButtonBox, QDialog, QLineEdit
+    QPushButton, QDialogButtonBox, QDialog, QLineEdit, QMessageBox
 
 from menu_admin import Menu_admin
 from menu_vigilante import Menu_vigilante
+from usuarios import Usuarios
 
 
 class Login_vigilante(QMainWindow):
@@ -156,77 +157,119 @@ class Login_vigilante(QMainWindow):
 
     def accion_inicioSesion(self):
 
-        # ventanas emergentes creacion
-        self.ventana_Dialogo = QDialog()
-        self.ventana_Dialogo.resize(250, 150)
-
-        # creamos boton para ok
-        self.boton_OK = QDialogButtonBox.Ok
-        self.opciones_Botones = QDialogButtonBox(self.boton_OK)
-        self.opciones_Botones.accepted.connect(self.ventana_Dialogo.accept)
-
-        # titulo de la ventana emergente
-        self.ventana_Dialogo.setWindowTitle("Error")
-        self.ventana_Dialogo.setWindowModality(Qt.ApplicationModal)
-
-        # creamos el layout que queremos usar (vertical)
-        self.vertical = QVBoxLayout()
-
-        # creacion del label mensaje
-        self.mensaje = QLabel("")
-        self.mensaje.setStyleSheet('background-color: #000000; color: #FFFFFF; padding: 10px;'
-                                   'border-radius:10px;')
-
-        # agregamos la etiqueta
-        self.vertical.addWidget(self.mensaje)
-        self.vertical.addWidget(self.opciones_Botones)
-
-        self.ventana_Dialogo.setLayout(self.vertical)
-
         # declaracion de verdadero
         self.datos_Correctos = True
 
         # condiciones
-        if self.campo1.text().isspace():
-            self.datos_Correctos = False
-            self.mensaje.setText("Ingreso espacios en blanco en usuario")
-            self.ventana_Dialogo.exec_()
-
         if self.campo1.text() == '':
-            self.datos_Correctos = False
-            self.mensaje.setText("No ingresó nada en usuario")
-            self.ventana_Dialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Por favor introduzca su usuario.'
+            )
 
         if not self.campo1.text().isalpha():
-            self.datos_Correctos = False
-            self.mensaje.setText("Solo son válidas letras en usuario")
-            self.ventana_Dialogo.exec_()
-
-        if self.campo2.text().isspace():
-            self.datos_Correctos = False
-            self.mensaje.setText("Ingresó espacios en contraseña")
-            self.ventana_Dialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Solo letras en usuario.'
+            )
 
         if self.campo2.text() == '':
-            self.datos_Correctos = False
-            self.mensaje.setText("No ingresó nada en contraseña")
-            self.ventana_Dialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Por favor introduzca su contraseña.'
+            )
 
         if self.campo2.text().isalpha():
-            self.datos_Correctos = False
-            self.mensaje.setText("Solo son válidos números en contraseña")
-            self.ventana_Dialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'En contraseña solo es válido números'
+            )
 
         if not self.campo2.text().isalnum():
             self.datos_Correctos = False
 
             if self.campo2.text() != '':
-                self.mensaje.setText("Ingresó caracteres especiales")
-                self.ventana_Dialogo.exec_()
-
-
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Ingreso caracteres especiales'
+                )
 
         if self.datos_Correctos:
+
+            self.file = open('datos/usuarios.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                # obtenemos del string una lista con 11 datos separados por;
+                lista = linea.split(";")
+
+                # paramos el bucle si ya no encuentra mas registros en el archivo
+                if linea == '':
+                    break
+
+                u = Usuarios(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7],
+                    lista[8],
+                    lista[9],
+                    lista[10],
+                )
+
+                # metemos el objeto en la lista de usuarios
+                usuarios.append(u)
+
+            # cerramos ael archivo txt
+            self.file.close()
+
+            # en este punto tenemos la lista de usuarios con todos los usuarios
+
+            existeDocumento = False
+
+            # buscamos en la lista de usuarios si existe la cedula
+
+            for u in usuarios:
+                """comparamos el usuario ingresado:
+                si correspopnde con el usuario, es el usuario correcto:"""
+
+                if u.usuario == self.campo1.text() and u.contrasena == self.campo2.text():
+                    # indicamos que existen
+                    existeDocumento = True
+
+                    break
+
+            if (
+                    u.contrasena != self.campo2.text()
+            ):
+                existeDocumento = False
+
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'No existe contraseña registrado'
+                )
+
+            # si no existe usuario con este documento
+            if (
+                    not existeDocumento
+            ):
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'No existe usuario registrado'
+                )
+
             self.hide()
             self.menu_vigilante = Menu_vigilante(self)
             self.menu_vigilante.show()
@@ -235,37 +278,14 @@ class Login_vigilante(QMainWindow):
         self.campo2.setText("")
 
     def accion_recuperarContrasena(self):
-        # ventanas emergentes creacion
-        self.ventana_Dialogo = QDialog()
-        self.ventana_Dialogo.resize(250, 150)
-
-        # creamos boton para ok
-        self.boton_OK = QDialogButtonBox.Ok
-        self.opciones_Botones = QDialogButtonBox(self.boton_OK)
-        self.opciones_Botones.accepted.connect(self.ventana_Dialogo.accept)
-
-        # titulo de la ventana emergente
-        self.ventana_Dialogo.setWindowTitle("Error")
-        self.ventana_Dialogo.setWindowModality(Qt.ApplicationModal)
-
-        # creamos el layout que queremos usar (vertical)
-        self.vertical = QVBoxLayout()
-
-        # creacion del label mensaje
-        self.mensaje = QLabel("")
-        self.mensaje.setStyleSheet('background-color: #000000; color: #FFFFFF; padding: 10px;'
-                                   'border-radius:10px;')
-
-        # agregamos la etiqueta
-        self.vertical.addWidget(self.mensaje)
-        self.vertical.addWidget(self.opciones_Botones)
-
-        self.ventana_Dialogo.setLayout(self.vertical)
 
         # declaracion de verdadero
         self.datos_Correctos = True
 
         if self.datos_Correctos:
-            self.mensaje.setText("Contacte con el administrador\n"
-                                 "si quiere recuperar su contraseña.")
-            self.ventana_Dialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                "Contacte con el administrador\n"
+                "si quiere recuperar su contraseña."
+            )

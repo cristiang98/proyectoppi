@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QVBoxLayout, Q
 
 from lista_residente import Residente
 from residentes import Residentes
+from visitantes_tabular import Visitantes_tabular
 
 
 # from ingreso_datos import Ingreso_datos
@@ -21,8 +22,8 @@ class Ingreso_visitantes(QMainWindow):
         # hacemos la ventana
         # caracteristicas de la ventana
         self.setWindowTitle("Sofos R.P.H")
-        self.ancho = 700
-        self.alto = 550
+        self.ancho = 750
+        self.alto = 600
         self.resize(self.ancho, self.alto)
         self.setWindowIcon(QIcon('imagenes/sophos.jpeg'))
 
@@ -73,6 +74,7 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_apartamento.setFixedWidth(100)
         self.campo_apartamento.setFixedHeight(30)
         self.campo_apartamento.setMaxLength(4)
+        self.campo_apartamento.setPlaceholderText("APTO")
         self.campo_apartamento.setStyleSheet('background-color: white;')
 
         self.nombreResidente = QLabel()
@@ -84,7 +86,8 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_nombreResidente = QLineEdit()
         self.campo_nombreResidente.setFixedWidth(100)
         self.campo_nombreResidente.setFixedHeight(30)
-        # self.campo_nombreResidente.setMaxLength()
+        self.campo_nombreResidente.setPlaceholderText("Nombre Residente")
+        self.campo_nombreResidente.setReadOnly(True)
         self.campo_nombreResidente.setStyleSheet('background-color: white;')
 
         self.celularResidente = QLabel()
@@ -96,7 +99,8 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_celularResidente = QLineEdit()
         self.campo_celularResidente.setFixedWidth(100)
         self.campo_celularResidente.setFixedHeight(30)
-        # self.campo_celularResidente.setMaxLength(4)
+        self.campo_celularResidente.setPlaceholderText("Celular")
+        self.campo_celularResidente.setReadOnly(True)
         self.campo_celularResidente.setStyleSheet('background-color: white;')
 
         self.nombreVisitante = QLabel()
@@ -108,7 +112,7 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_nombreVisitante = QLineEdit()
         self.campo_nombreVisitante.setFixedWidth(100)
         self.campo_nombreVisitante.setFixedHeight(30)
-        # self.campo_nombreVisitante.setMaxLength(4)
+        self.campo_nombreVisitante.setPlaceholderText("Nombre")
         self.campo_nombreVisitante.setStyleSheet('background-color: white;')
 
         self.vehiculo = QLabel()
@@ -121,6 +125,7 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_vehiculo.setFixedWidth(100)
         self.campo_vehiculo.setFixedHeight(30)
         self.campo_vehiculo.setMaxLength(2)
+        self.campo_vehiculo.setPlaceholderText("Si o No")
         self.campo_vehiculo.setStyleSheet('background-color: white;')
 
         self.placa = QLabel()
@@ -133,7 +138,34 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_placa.setFixedWidth(100)
         self.campo_placa.setFixedHeight(30)
         self.campo_placa.setMaxLength(7)
+        self.campo_placa.setPlaceholderText("aaa 000")
         self.campo_placa.setStyleSheet('background-color: white;')
+
+        self.fechaVisitante = QLabel()
+        self.fechaVisitante.setFixedWidth(250)
+        self.fechaVisitante.setText("Fecha de Ingreso:")
+        self.fechaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.fechaVisitante.setStyleSheet('background-color: transparent;')
+
+        self.campo_fechaVisitante = QLineEdit()
+        self.campo_fechaVisitante.setFixedWidth(100)
+        self.campo_fechaVisitante.setFixedHeight(30)
+        self.campo_fechaVisitante.setMaxLength(8)
+        self.campo_fechaVisitante.setPlaceholderText("DD/MM/AA")
+        self.campo_fechaVisitante.setStyleSheet('background-color: white;')
+
+        self.horaVisitante = QLabel()
+        self.horaVisitante.setFixedWidth(250)
+        self.horaVisitante.setText("Hora en la que ingresa:")
+        self.horaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.horaVisitante.setStyleSheet('background-color: transparent;')
+
+        self.campo_horaVisitante = QLineEdit()
+        self.campo_horaVisitante.setFixedWidth(100)
+        self.campo_horaVisitante.setFixedHeight(30)
+        self.campo_horaVisitante.setMaxLength(8)
+        self.campo_horaVisitante.setPlaceholderText("00:00")
+        self.campo_horaVisitante.setStyleSheet('background-color: white;')
 
         # agregamos objetos a form1
         self.formulario1.addRow(self.numero_apartamento, self.campo_apartamento)
@@ -142,6 +174,8 @@ class Ingreso_visitantes(QMainWindow):
         self.formulario1.addRow(self.nombreVisitante, self.campo_nombreVisitante)
         self.formulario1.addRow(self.vehiculo, self.campo_vehiculo)
         self.formulario1.addRow(self.placa, self.campo_placa)
+        self.formulario1.addRow(self.fechaVisitante, self.campo_fechaVisitante)
+        self.formulario1.addRow(self.horaVisitante, self.campo_horaVisitante)
         self.vertical.addLayout(self.formulario1)
 
         # -------- layout horizontal1 ----------
@@ -170,10 +204,18 @@ class Ingreso_visitantes(QMainWindow):
                                            'border-radius:10px;')
         self.boton_registrar.clicked.connect(self.accion_Registrar)
 
+        self.botonHistorial = QPushButton("Historial")
+        self.botonHistorial.setFixedWidth(100)
+        self.botonHistorial.setFixedHeight(40)
+        self.botonHistorial.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
+                                           'border-radius:10px;')
+        self.botonHistorial.clicked.connect(self.accion_botonHistorial)
+
         # Agregamos objetos a layout hor1----
         self.horizontal1.addWidget(self.boton_Volver)
         self.horizontal1.addWidget(self.boton_ingresar)
         self.horizontal1.addWidget(self.boton_registrar)
+        self.horizontal1.addWidget(self.botonHistorial)
         self.vertical.addLayout(self.horizontal1)
 
         # spacing
@@ -199,6 +241,11 @@ class Ingreso_visitantes(QMainWindow):
         self.hide()
         self.ventanaAnterior.show()
 
+    def accion_botonHistorial(self):
+        self.hide()
+        self.visitantes_tabular = Visitantes_tabular(self)
+        self.visitantes_tabular.show()
+
     def accionLimpiar(self):
         # datos correctos
         self.datosCorrectos = True
@@ -209,6 +256,8 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_nombreVisitante.setText("")
         self.campo_vehiculo.setText("")
         self.campo_placa.setText("")
+        self.campo_fechaVisitante.setText("")
+        self.campo_horaVisitante.setText("")
 
     def accion_Buscar(self):
         self.datosCorrectos = True
@@ -320,7 +369,9 @@ class Ingreso_visitantes(QMainWindow):
                                   self.campo_celularResidente.text() + ";" +
                                   self.campo_nombreVisitante.text() + ";" +
                                   self.campo_vehiculo.text() + ";" +
-                                  self.campo_placa.text() + ";" + '\n', encoding='UTF-8'))
+                                  self.campo_placa.text() + ";" +
+                                  self.campo_fechaVisitante.text() + ";" +
+                                  self.campo_horaVisitante.text() + ";" + '\n', encoding='UTF-8'))
             self.file.close()
 
         self.file = open('datos/visitantes.txt', 'rb')
