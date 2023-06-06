@@ -192,7 +192,8 @@ class Consulta_datos_tabular(QMainWindow):
 
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)
