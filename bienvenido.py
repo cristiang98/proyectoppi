@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QFont, QIcon, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QApplication, QVBoxLayout, QFormLayout, \
     QPushButton
@@ -17,7 +17,7 @@ class Bienvenido(QMainWindow):
         self.setWindowTitle("Sophos R.P.H")
         self.setWindowIcon(QIcon('imagenes/sophos.jpeg'))
         self.ancho = 500
-        self.alto = 350
+        self.alto = 300
         self.resize(self.ancho, self.alto)
         self.setFixedWidth(self.ancho)
         self.setFixedHeight(self.alto)
@@ -37,13 +37,31 @@ class Bienvenido(QMainWindow):
 
         self.vertical = QVBoxLayout()
 
-        self.titulo = QLabel()
-        self.titulo.setText("¡Bienvenido!")
-        self.titulo.setFont(QFont('VAG Rounded.ttf', 20))
-        self.titulo.setStyleSheet('color: black;'
-                                  'background-color: transparent;'
-                                  )
-        self.titulo.setAlignment(Qt.AlignCenter)
+        self.horizontal1 = QHBoxLayout()
+        self.horizontal1.setContentsMargins(60, 0, 0, 0)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("¡Bienvenido!")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
+        self.letrero1.setAlignment(Qt.AlignCenter)
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal1)
+
+        self.vertical.addSpacing(60)
 
         # -------------formulario-----------
         self.formulario = QFormLayout()
@@ -71,33 +89,13 @@ class Bienvenido(QMainWindow):
                                       )
         self.botonAdmin.clicked.connect(self.accion_botonAdmin)
 
-
         # agregamos layout
-        self.vertical.addWidget(self.titulo)
+        #self.vertical.addWidget(self.titulo)
         self.formulario.addRow(self.botonVigilante, self.botonAdmin)
         self.vertical.addLayout(self.formulario)
 
-        # -------------Layout horizontal--------
-        self.horizontal = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setFixedSize(50, 50)
-
-        # Agregamos icono al horizontal
-        self.horizontal.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal)
-
-
-        #______Layout de la ventana principal-------
+        # ______Layout de la ventana principal-------
         self.fondo.setLayout(self.vertical)
-
-
 
     def accion_botonVigilante(self):
         self.hide()
@@ -108,9 +106,6 @@ class Bienvenido(QMainWindow):
         self.hide()
         self.verificacion_admin = Verificacion_admin(self)
         self.verificacion_admin.show()
-
-
-
 
 
 if __name__ == '__main__':

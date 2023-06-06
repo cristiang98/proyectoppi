@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QFont, QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QApplication, QVBoxLayout, QFormLayout, \
     QPushButton, QDialogButtonBox, QDialog, QLineEdit, QMessageBox
@@ -16,9 +16,9 @@ class Login_vigilante(QMainWindow):
         self.Anterior = anterior
         # hacemos la ventana
         # caracteristicas de la ventana
-        self.setWindowTitle("Sofos R.P.H")
+        self.setWindowTitle("Inicio de Sesión")
         self.ancho = 600
-        self.alto = 450
+        self.alto = 400
         self.resize(self.ancho, self.alto)
         self.setWindowIcon(QIcon('imagenes/sophos.jpeg'))
 
@@ -43,102 +43,27 @@ class Login_vigilante(QMainWindow):
         self.formulario = QFormLayout()
         self.vertical1 = QVBoxLayout()
 
+        # ------- layout horizontal-----
+
+        self.horizontal1 = QHBoxLayout()
+
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
         # ahora creamos los letreros (Qlabel())
         self.letrero1 = QLabel(self)
         self.letrero1.setText("Inicio de Sesión")
-        self.letrero1.setFont(QFont('VAG Rounded.ttf', 20))
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
         self.letrero1.setAlignment(Qt.AlignCenter)
         self.letrero1.setStyleSheet('background-color: transparent;'
                                     ' color: black; '
-                                    'padding: 10px;')
-        self.vertical1.addWidget(self.letrero1)
-
-        self.formulario.setContentsMargins(180, 0, 100, 0)
-        # etiqueta de usuario
-        self.usuario = QLabel()
-        self.usuario.setText("Usuario")
-        self.usuario.setFont(QFont("VAG_ROUNDED.ttf", 15))
-        self.usuario.setStyleSheet('background-color: transparent;'
-                                   'margin-top:20px;'
-                                   'margin-left:50px;')
-
-        # hacemos el campo para el usuario
-        self.campo1 = QLineEdit()
-        self.campo1.setFixedWidth(170)
-        self.campo1.setFixedHeight(25)
-        self.campo1.setMaxLength(10)
-        self.campo1.setStyleSheet('background-color: white;'
-                                  'margin-top:5px;'
-                                  'margin-left:60px;')
-
-        # etiqueta de contraseña
-        self.contraseña = QLabel("Contraseña")
-        self.contraseña.setFont(QFont("VAG_ROUNDED.ttf", 15))
-        self.contraseña.setStyleSheet('background-color: transparent;'
-                                      'margin-top:10px;'
-                                      'margin-left:50px;')
-
-        # campo de la contraseña
-        self.campo2 = QLineEdit()
-        self.campo2.setFixedWidth(170)
-        self.campo2.setFixedHeight(25)
-        self.campo2.setMaxLength(4)
-        self.campo2.setStyleSheet('background-color: white;'
-                                  'margin-top:5px;'
-                                  'margin-left:60px;')
-        self.campo2.setEchoMode(QLineEdit.EchoMode.Password)
-
-        # hacemos el boton de inicio de sesion
-        self.inicio_sesion = QPushButton("Iniciar Sesión")
-        self.inicio_sesion.setFixedWidth(100)
-        self.inicio_sesion.setFixedHeight(50)
-        self.inicio_sesion.setStyleSheet('background-color: #2F4F4F;'
-                                         'color: #FFFFFF; '
-                                         'padding: 10px;'
-                                         'border-radius:10px;'
-                                         'margin-top:15px;'
-                                         '')
-        self.inicio_sesion.clicked.connect(self.accion_inicioSesion)
-
-        # hacer boton registro
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(120)
-        self.botonVolver.setFixedHeight(50)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF; '
-                                       'padding: 10px;'
-                                       'border-radius:10px;'
-                                       'margin-top:15px;'
-                                       'margin-right:20px;')
-        self.botonVolver.clicked.connect(self.accion_botonVolver)
-
-        # Agregamos boton recuperar contraseña
-        self.recuperar = QPushButton()
-        self.recuperar.setText("¿Recuperar Contraseña?")
-        self.recuperar.setFont(QFont("VAG_ROUNDED.ttf", 10))
-        self.recuperar.setFixedWidth(230)
-        self.recuperar.setStyleSheet('background-color: transparent; '
-                                     'text-decoration: underline;'
-                                     'margin-top:15px;'
-                                     'margin-left:0px;')
-
-        self.recuperar.clicked.connect(self.accion_recuperarContrasena)
-
-        # ________Agregamos los objetos a la ventana con formulario_________
-
-        self.formulario.addRow(self.usuario)
-        self.formulario.addRow(self.campo1)
-        self.formulario.addRow(self.contraseña)
-        self.formulario.addRow(self.campo2)
-        self.formulario.addRow(self.botonVolver, self.inicio_sesion)
-        self.formulario.addRow(self.recuperar)
-        self.vertical1.addLayout(self.formulario)
-
-        self.vertical1.addStretch()
-
-        # -------------Layout horizontal--------
-        self.horizontal = QHBoxLayout()
-
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
         # icono de sendero verde
         self.icon_sendero = QLabel()
         self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
@@ -146,13 +71,95 @@ class Login_vigilante(QMainWindow):
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal.addWidget(self.icon_sendero)
-        self.vertical1.addLayout(self.horizontal)
+
+        self.horizontal1.addWidget(self.botonanterior)
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical1.addLayout(self.horizontal1)
+
+        self.formulario.setContentsMargins(220, 0, 100, 0)
+        # etiqueta de usuario
+        self.usuario = QLabel()
+        self.usuario.setText("Usuario")
+        self.usuario.setFont(QFont("VAG_ROUNDED.ttf", 15))
+        self.usuario.setStyleSheet('background-color: transparent;'
+                                   'margin-top:20px;'
+                                   'margin-left:15px;')
+
+        # hacemos el campo para el usuario
+        self.campo1 = QLineEdit()
+        self.campo1.setFixedWidth(130)
+        self.campo1.setFixedHeight(25)
+        self.campo1.setMaxLength(10)
+        self.campo1.setStyleSheet('background-color: white;'
+                                  'margin-top:5px;'
+                                  'margin-left:0px;')
+
+        # etiqueta de contraseña
+        self.contraseña = QLabel("Contraseña")
+        self.contraseña.setFont(QFont("VAG_ROUNDED.ttf", 15))
+        self.contraseña.setStyleSheet('background-color: transparent;'
+                                      'margin-top:10px;'
+                                      'margin-left:0px;')
+
+        # campo de la contraseña
+        self.campo2 = QLineEdit()
+        self.campo2.setFixedWidth(130)
+        self.campo2.setFixedHeight(25)
+        self.campo2.setMaxLength(4)
+        self.campo2.setStyleSheet('background-color: white;'
+                                  'margin-top:5px;'
+                                  'margin-left:0px;')
+        self.campo2.setEchoMode(QLineEdit.EchoMode.Password)
+
+        # hacemos el boton de inicio de sesion
+        self.inicio_sesion = QPushButton("Iniciar Sesión")
+        self.inicio_sesion.setFixedWidth(115)
+        self.inicio_sesion.setFixedHeight(60)
+        self.inicio_sesion.setStyleSheet('background-color: #2F4F4F;'
+                                         'color: #FFFFFF; '
+                                         'padding: 10px;'
+                                         'border-radius:10px;'
+                                         'margin-top:20px;'
+                                         'margin-left: 15px;')
+        self.inicio_sesion.clicked.connect(self.accion_inicioSesion)
+
+
+
+        # ________Agregamos los objetos a la ventana con formulario_________
+
+        self.formulario.addRow(self.usuario)
+        self.formulario.addRow(self.campo1)
+        self.formulario.addRow(self.contraseña)
+        self.formulario.addRow(self.campo2)
+        self.formulario.addRow(self.inicio_sesion)
+        self.vertical1.addLayout(self.formulario)
+
+        self.vertical1.addStretch()
+
+        # -------------Layout horizontal--------
+        self.horizontal2 = QHBoxLayout()
+
+        # Agregamos boton recuperar contraseña
+        self.recuperar = QPushButton()
+        self.recuperar.setText("¿Recuperar Contraseña?")
+        self.recuperar.setFont(QFont("VAG_ROUNDED.ttf", 10))
+        self.recuperar.setFixedWidth(250)
+        self.recuperar.setStyleSheet('background-color: transparent; '
+                                     'text-decoration: underline;'
+                                     'margin-top:15px;'
+                                     'margin-right:0px;')
+
+        self.recuperar.clicked.connect(self.accion_recuperarContrasena)
+        self.horizontal2.addWidget(self.recuperar)
+        self.vertical1.addLayout(self.horizontal2)
+
+        self.vertical1.addSpacing(50)
 
         # Layout que se usa para el fondo de la ventana
         self.fondo.setLayout(self.vertical1)
 
-    def accion_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 
