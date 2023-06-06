@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QPixmap
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QFont, QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QApplication, QVBoxLayout, QFormLayout, \
     QPushButton, QDialogButtonBox, QDialog, QLineEdit, QMessageBox
 
@@ -11,10 +11,10 @@ class Verificacion_admin(QMainWindow):
     def __init__(self, anterior):
         super().__init__()
         self.Anterior = anterior
-        self.setWindowTitle("Sophos R.P.H")
+        self.setWindowTitle("Validación")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
-        self.ancho = 600
-        self.alto = 400
+        self.ancho = 500
+        self.alto = 250
         self.resize(self.ancho, self.alto)
         self.setFixedWidth(self.ancho)
         self.setFixedHeight(self.alto)
@@ -34,20 +34,46 @@ class Verificacion_admin(QMainWindow):
 
         self.vertical = QVBoxLayout()
 
+        self.horizontal1 = QHBoxLayout()
+
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
         # ahora creamos los letreros (Qlabel())
-        self.letrero1 = QLabel()
+        self.letrero1 = QLabel(self)
         self.letrero1.setText("Administrador")
-        self.letrero1.setFont(QFont('VAG Rounded.ttf', 20))
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
         self.letrero1.setAlignment(Qt.AlignCenter)
-        self.letrero1.setStyleSheet('background-color: transparent; '
-                                    'color: black;'
-                                    'margin-bottom:0px;'
-                                    'padding:10px;')
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+
+
+        self.horizontal1.addWidget(self.botonanterior)
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal1)
+
+
 
         # layout formulario
 
         self.formulario = QFormLayout()
-        self.formulario.setContentsMargins(90, 30, 90, 0)
+        self.formulario.setContentsMargins(50, 30, 0, 0)
 
         # label y campo
 
@@ -67,24 +93,15 @@ class Verificacion_admin(QMainWindow):
 
         # _________Agregamos los objetos al layout formulario--------------
 
-        self.vertical.addWidget(self.letrero1)
         self.formulario.addRow(self.verificar, self.campo_verificar)
         self.vertical.addLayout(self.formulario)
 
         # layout horizontal
         self.horizontal = QHBoxLayout()
-        self.horizontal.setContentsMargins(160, 0, 160, 0)
+        self.horizontal.setContentsMargins(160, 0, 160, 10)
 
         # boton volver, boton ingresar
 
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setFixedHeight(40)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F; '
-                                       'color: #FFFFFF; '
-                                       'border-radius:10px;'
-                                       '')
-        self.botonVolver.clicked.connect(self.accion_botonVolver)
 
         self.botonIngresar = QPushButton("Ingresar")
         self.botonIngresar.setFixedWidth(100)
@@ -95,29 +112,18 @@ class Verificacion_admin(QMainWindow):
                                          'border-radius:10px;')
         self.botonIngresar.clicked.connect(self.accion_botonIngresar)
 
-        self.horizontal.addWidget(self.botonVolver)
+
         self.horizontal.addWidget(self.botonIngresar)
 
         self.vertical.addLayout(self.horizontal)
-        self.vertical.addSpacing(60)
+
 
         # creacion horizontal2
-        self.horizontal2 = QHBoxLayout()
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        # esta linena es para correr a la derecha el icono
-        # self.horizontal2.addSpacing(0)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal2.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal2)
+
 
         self.fondo.setLayout(self.vertical)
 
-    def accion_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 

@@ -16,9 +16,9 @@ class Login_admin(QMainWindow):
         self.Anterior = anterior
         # hacemos la ventana
         # caracteristicas de la ventana
-        self.setWindowTitle("Sofos R.P.H")
+        self.setWindowTitle("Inicio de Sesión")
         self.ancho = 600
-        self.alto = 450
+        self.alto = 400
         self.resize(self.ancho, self.alto)
         self.setWindowIcon(QIcon('imagenes/sophos.jpeg'))
 
@@ -63,10 +63,20 @@ class Login_admin(QMainWindow):
         self.letrero1.setStyleSheet('background-color: transparent;'
                                     ' color: black; '
                                     'padding: 10px;'
-                                    'margin-right: 50px;')
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+
 
         self.horizontal1.addWidget(self.botonanterior)
         self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
         self.vertical1.addLayout(self.horizontal1)
 
 
@@ -77,7 +87,7 @@ class Login_admin(QMainWindow):
         self.usuario.setFont(QFont("VAG_ROUNDED.ttf", 15))
         self.usuario.setStyleSheet('background-color: transparent;'
                                    'margin-top:20px;'
-                                   'margin-left:50px;')
+                                   'margin-left:65px;')
 
         # hacemos el campo para el usuario
         self.campo1 = QLineEdit()
@@ -155,17 +165,6 @@ class Login_admin(QMainWindow):
         self.vertical1.addStretch()
 
         # -------------Layout horizontal--------
-        self.horizontal = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal.addWidget(self.icon_sendero)
-        self.vertical1.addLayout(self.horizontal)
 
         # Layout que se usa para el fondo de la ventana
         self.fondo.setLayout(self.vertical1)

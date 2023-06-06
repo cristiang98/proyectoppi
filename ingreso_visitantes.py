@@ -21,9 +21,9 @@ class Ingreso_visitantes(QMainWindow):
 
         # hacemos la ventana
         # caracteristicas de la ventana
-        self.setWindowTitle("Sofos R.P.H")
+        self.setWindowTitle("Ingreso de Visitantes")
         self.ancho = 800
-        self.alto = 600
+        self.alto = 550
         self.resize(self.ancho, self.alto)
         self.setWindowIcon(QIcon('imagenes/sophos.jpeg'))
 
@@ -49,13 +49,41 @@ class Ingreso_visitantes(QMainWindow):
         # Definimos el layout que vamos a usar
         self.vertical = QVBoxLayout()
 
-        # titulo
-        self.titulo = QLabel()
-        self.titulo.setText("Ingreso de Visitantes")
-        self.titulo.setFont(QFont('VAG_ROUNDED.ttf', 20))
-        self.titulo.setAlignment(Qt.AlignCenter)
-        self.titulo.setStyleSheet('background-color: transparent; color: black; padding: 10px;')
-        self.vertical.addWidget(self.titulo)
+        # ------- layout horizontal-----
+
+        self.horizontal1 = QHBoxLayout()
+
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("Ingreso de Visitantes")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
+        self.letrero1.setAlignment(Qt.AlignCenter)
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal1.addWidget(self.botonanterior)
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal1)
+
+        self.vertical.addSpacing(30)
 
 
         self.horizontal = QHBoxLayout()
@@ -244,14 +272,6 @@ class Ingreso_visitantes(QMainWindow):
         self.horizontal1 = QHBoxLayout()
         self.horizontal1.setContentsMargins(200, 0, 200, 0)
 
-        # crear el boton volver
-        self.boton_Volver = QPushButton("Volver")
-        self.boton_Volver.setFixedWidth(100)
-        self.boton_Volver.setFixedHeight(40)
-        self.boton_Volver.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
-                                        'border-radius:10px;')
-        self.boton_Volver.clicked.connect(self.accion_botonVolver)
-
 
 
         self.boton_registrar = QPushButton("Registrar")
@@ -269,30 +289,19 @@ class Ingreso_visitantes(QMainWindow):
         self.botonHistorial.clicked.connect(self.accion_botonHistorial)
 
         # Agregamos objetos a layout hor1----
-        self.horizontal1.addWidget(self.boton_Volver)
         self.horizontal1.addWidget(self.boton_registrar)
         self.horizontal1.addWidget(self.botonHistorial)
         self.vertical.addLayout(self.horizontal1)
 
+        self.vertical.addSpacing(30)
 
-        # layout horizontal2
-        self.horizontal2 = QHBoxLayout()
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
 
-        self.horizontal2.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal2)
 
         # Layout que se usa para el fondo de la ventana
         self.fondo.setLayout(self.vertical)
 
     # funcion para volver
-    def accion_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.ventanaAnterior.show()
 

@@ -17,10 +17,10 @@ class Visitantes_tabular(QMainWindow):
 
         self.Anterior = anterior
         # creacion de la ventana
-        self.setWindowTitle("Lista de residentes")
+        self.setWindowTitle("Lista de Visitantes")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 800
-        self.alto = 600
+        self.alto = 550
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -96,14 +96,38 @@ class Visitantes_tabular(QMainWindow):
 
         # ---- Fin toolbar------
 
-        # hacemos los labels informativos
-        self.letrero1 = QLabel()
-        self.letrero1.setText("Lista de Residentes")
-        self.letrero1.setFont(QFont("VAG_ROUNDED.ttf", 20))
-        self.letrero1.setStyleSheet('color: black;'
-                                    'background-color: transparent;')
+        # creacion de layout horizontal para la distribucion
+        self.horizontal = QHBoxLayout()
+
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("Lista de Visitantes")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
         self.letrero1.setAlignment(Qt.AlignCenter)
-        self.vertical.addWidget(self.letrero1)
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal.addWidget(self.botonanterior)
+        self.horizontal.addWidget(self.letrero1)
+        self.horizontal.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal)
 
         self.vertical.addSpacing(100)
 
@@ -176,44 +200,10 @@ class Visitantes_tabular(QMainWindow):
 
         self.vertical.addStretch()
 
-        # creacion layout horizontal botones
-        self.horizontal = QHBoxLayout()
-
-        # Boton volver
-
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setFixedHeight(40)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 5px;'
-                                       'border-radius:10px;')
-
-        self.botonVolver.clicked.connect(self.metodo_botonVolver)
-
-        # Se agrega el boton al layout vertical
-
-        self.horizontal.addWidget(self.botonVolver)
-        self.vertical.addLayout(self.horizontal)
-
-        self.vertical.addSpacing(30)
-
-        # layout horizontal para el icono sendero verde
-        self.horizontal2 = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal2.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal2)
 
         self.fondo.setLayout(self.vertical)
 
-    def metodo_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 

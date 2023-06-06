@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QVBoxLayout, QTabWidget, QLabel, QHBoxLayout, \
     QLineEdit, QPushButton, QMessageBox, QFormLayout, QApplication, QGridLayout
@@ -17,7 +17,7 @@ class Modulo_parqueadero(QMainWindow):
 
         # hacemos la ventana
         # caracteristicas de la ventana
-        self.setWindowTitle("Sofos R.P.H")
+        self.setWindowTitle("Parqueadero")
         self.ancho = 900
         self.alto = 700
         self.resize(self.ancho, self.alto)
@@ -45,23 +45,50 @@ class Modulo_parqueadero(QMainWindow):
         # Definimos el layout que vamos a usar
         self.vertical = QVBoxLayout()
 
-        self.horizontal3 = QHBoxLayout()
-        self.horizontal3.setContentsMargins(300, 0, 0, 0)
-        # titulo
-        self.titulo = QLabel(self)
-        self.titulo.setText("Parqueadero")
-        self.titulo.setFont(QFont('VAG_ROUNDED.ttf', 20))
-        self.titulo.setAlignment(Qt.AlignCenter)
-        self.titulo.setStyleSheet('background-color: transparent; color: black; padding: 10px;')
-        self.horizontal3.addWidget(self.titulo)
+        self.horizontal1 = QHBoxLayout()
+        self.horizontal1.setContentsMargins(0, 0, 50, 0)
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("Parqueadero")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
+
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-left: 100px;')
+
+
+
 
         self.labelPorcentaje = QLabel()
         self.labelPorcentaje.setStyleSheet('background-color: transparent;'
-                                           'color: black;')
+                                           'color: black;'
+                                           'margin-left: 50px;')
         self.labelPorcentaje.setFont(QFont('fonts/VAG_ROUNDED.ttf', 12))
 
-        self.horizontal3.addWidget(self.labelPorcentaje)
-        self.vertical.addLayout(self.horizontal3)
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal1.addSpacing(30)
+
+        self.horizontal1.addWidget(self.botonanterior)
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.labelPorcentaje)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal1)
 
         self.grid = QGridLayout()
 
@@ -87,43 +114,11 @@ class Modulo_parqueadero(QMainWindow):
 
         self.vertical.addSpacing(30)
 
-        # creacion layout horizontal botones
-        self.horizontal = QHBoxLayout()
-
-        # Boton volver
-
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setFixedHeight(40)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 5px;'
-                                       'border-radius:10px;')
-
-        self.botonVolver.clicked.connect(self.metodo_botonVolver)
-
-        self.horizontal.addWidget(self.botonVolver)
-        self.vertical.addLayout(self.horizontal)
-        self.vertical.addSpacing(30)
-
-        # layout horizontal para el icono sendero verde
-        self.horizontal2 = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal2.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal2)
-
         self.loadButtonStates()
         self.actualizarEtiquetaPorcentaje()
         self.fondo.setLayout(self.vertical)
 
-    def metodo_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.ventanaAnterior.show()
 

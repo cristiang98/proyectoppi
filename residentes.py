@@ -1,8 +1,8 @@
 import sys
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QFormLayout, QApplication, QLineEdit, \
     QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QMessageBox
 
@@ -21,7 +21,7 @@ class Residentes(QMainWindow):
         self.setWindowTitle("Formulario de registro")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 800
-        self.alto = 600
+        self.alto = 550
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -39,19 +39,43 @@ class Residentes(QMainWindow):
                                  '')
 
         self.setCentralWidget(self.fondo)
-
-        # creacion de layout horizontal para la distribucion
-
         self.vertical = QVBoxLayout()
 
-        self.titulo = QLabel()
-        self.titulo.setText("Registro de residentes o\n propietarios")
-        self.titulo.setFont(QFont('VAG_ROUNDED.ttf', 20))
-        self.titulo.setStyleSheet('background-color: transparent;')
-        self.titulo.setAlignment(Qt.AlignCenter)
-        self.vertical.addWidget(self.titulo)
+        # creacion de layout horizontal para la distribucion
+        self.horizontal = QHBoxLayout()
 
-        self.vertical.addSpacing(40)
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("Registro de residentes o\n propietarios")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
+        self.letrero1.setAlignment(Qt.AlignCenter)
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal.addWidget(self.botonanterior)
+        self.horizontal.addWidget(self.letrero1)
+        self.horizontal.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal)
+
+        self.vertical.addSpacing(30)
+
 
         # -----creacion del formulario---------
 
@@ -206,17 +230,6 @@ class Residentes(QMainWindow):
 
         # botones volver y registrar
 
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setFixedHeight(40)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 5px;'
-                                       'border-radius:10px'
-                                       )
-
-        self.botonVolver.clicked.connect(self.accion_botonVolver)
-
         self.botonRegistrar = QPushButton("Registrar")
         self.botonRegistrar.setFixedWidth(100)
         self.botonRegistrar.setFixedHeight(40)
@@ -237,7 +250,6 @@ class Residentes(QMainWindow):
                                            )
         self.botonResidentes.clicked.connect(self.accion_botonResidentes)
 
-        self.horizontal.addWidget(self.botonVolver)
         self.horizontal.addWidget(self.botonRegistrar)
         self.horizontal.addWidget(self.botonResidentes)
 
@@ -245,22 +257,9 @@ class Residentes(QMainWindow):
 
         self.vertical.addSpacing(30)
 
-        # layout horizonat1 icono senderoverde
-        self.horizontal = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal)
-
         self.fondo.setLayout(self.vertical)
 
-    def accion_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 
