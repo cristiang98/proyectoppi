@@ -4,9 +4,10 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QFormLayout, QApplication, QLineEdit, \
-    QPushButton, QDialog, QDialogButtonBox, QVBoxLayout
+    QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QMessageBox
 
 from consulta_datos import Consulta_datos
+from lista_residente import Residente
 from residente_tabular import Residente_tabular
 from usuarios import Usuarios
 
@@ -54,8 +55,10 @@ class Residentes(QMainWindow):
 
         # -----creacion del formulario---------
 
+        self.horizontalForm = QHBoxLayout()
+
         self.formulario = QFormLayout()
-        self.formulario.setContentsMargins(150, 0, 90, 0)
+        self.formulario.setContentsMargins(100, 0, 0, 0)
 
         # labels
 
@@ -79,74 +82,127 @@ class Residentes(QMainWindow):
         self.labelCorreo.setFont(QFont('VAG_ROUNDED.ttf', 12))
         self.labelCorreo.setStyleSheet('background-color: transparent;')
 
-        self.labelApartamento = QLabel()
-        self.labelApartamento.setText("Ingrese el número de apartamento*")
-        self.labelApartamento.setFont(QFont('VAG_ROUNDED.ttf', 12))
-        self.labelApartamento.setStyleSheet('background-color: transparent;')
-
-        self.labelPlaca = QLabel()
-        self.labelPlaca.setText("Ingrese el número de placa*")
-        self.labelPlaca.setFont(QFont('VAG_ROUNDED.ttf', 12))
-        self.labelPlaca.setStyleSheet('background-color: transparent;')
-
-        self.labelCelda = QLabel()
-        self.labelCelda.setText("¿Cuenta con parqueadero privado?*")
-        self.labelCelda.setFont(QFont('VAG_ROUNDED.ttf', 12))
-        self.labelCelda.setStyleSheet('background-color: transparent;')
-
-        # -----EDITS------
-
         self.editNombrecompleto = QLineEdit()
         self.editNombrecompleto.setFixedWidth(170)
         self.editNombrecompleto.setFixedHeight(25)
+        self.editNombrecompleto.setPlaceholderText("Nombre y Apellido")
+        self.editNombrecompleto.setAlignment(Qt.AlignCenter)
         self.editNombrecompleto.setStyleSheet('background-color: white;')
 
         self.editCedula = QLineEdit()
         self.editCedula.setFixedWidth(170)
         self.editCedula.setFixedHeight(25)
+        self.editCedula.setPlaceholderText("Cédula")
+        self.editCedula.setAlignment(Qt.AlignCenter)
         self.editCedula.setStyleSheet('background-color: white;')
 
         self.editCelular = QLineEdit()
         self.editCelular.setFixedWidth(170)
         self.editCelular.setFixedHeight(25)
+        self.editCelular.setPlaceholderText("Num Celular")
+        self.editCelular.setAlignment(Qt.AlignCenter)
         self.editCelular.setStyleSheet('background-color: white;')
 
         self.editCorreo = QLineEdit()
         self.editCorreo.setFixedWidth(170)
         self.editCorreo.setFixedHeight(25)
+        self.editCorreo.setPlaceholderText("example@gmail.com")
+        self.editCorreo.setAlignment(Qt.AlignCenter)
         self.editCorreo.setStyleSheet('background-color: white;')
+
+        self.formulario.addRow(self.labelNombrecompleto)
+        self.formulario.addRow(self.editNombrecompleto)
+
+        self.formulario.addRow(self.labelCedula)
+        self.formulario.addRow(self.editCedula)
+
+        self.formulario.addRow(self.labelCelular)
+        self.formulario.addRow(self.editCelular)
+
+        self.formulario.addRow(self.labelCorreo)
+        self.formulario.addRow(self.editCorreo)
+
+        self.horizontalForm.addLayout(self.formulario)
+
+        #  -------------fin form-----------
+
+        self.formulario2 = QFormLayout()
+        self.formulario2.setContentsMargins(50, 0, 0, 0)
+
+        self.labelApartamento = QLabel()
+        self.labelApartamento.setText("Número de apartamento*")
+        self.labelApartamento.setFont(QFont('VAG_ROUNDED.ttf', 12))
+        self.labelApartamento.setStyleSheet('background-color: transparent;')
+
+        self.labelPlaca = QLabel()
+        self.labelPlaca.setText("Número de placa*")
+        self.labelPlaca.setFont(QFont('VAG_ROUNDED.ttf', 12))
+        self.labelPlaca.setStyleSheet('background-color: transparent;')
+
+        self.labelVehiculo = QLabel()
+        self.labelVehiculo.setText("¿Cuenta con Vehículo?*")
+        self.labelVehiculo.setFont(QFont('VAG_ROUNDED.ttf', 12))
+        self.labelVehiculo.setStyleSheet('background-color: transparent;')
+
+        self.labelCelda = QLabel()
+        self.labelCelda.setText("Celda que Ocupa*")
+        self.labelCelda.setFont(QFont('VAG_ROUNDED.ttf', 12))
+        self.labelCelda.setStyleSheet('background-color: transparent;')
+
+        # -----EDITS------
 
         self.editApartamento = QLineEdit()
         self.editApartamento.setFixedWidth(170)
         self.editApartamento.setFixedHeight(25)
+        self.editApartamento.setPlaceholderText("APTO")
+        self.editApartamento.setAlignment(Qt.AlignCenter)
         self.editApartamento.setStyleSheet('background-color: white;')
 
         self.editPlaca = QLineEdit()
         self.editPlaca.setFixedWidth(170)
         self.editPlaca.setFixedHeight(25)
+        self.editPlaca.setPlaceholderText("AAA 000")
+        self.editPlaca.setAlignment(Qt.AlignCenter)
         self.editPlaca.setStyleSheet('background-color: white;')
+
+        self.editVehiculo = QLineEdit()
+        self.editVehiculo.setFixedWidth(170)
+        self.editVehiculo.setFixedHeight(25)
+        self.editVehiculo.setPlaceholderText("Si o No")
+        self.editVehiculo.setAlignment(Qt.AlignCenter)
+        self.editVehiculo.setStyleSheet('background-color: white;')
 
         self.editCelda = QLineEdit()
         self.editCelda.setFixedWidth(170)
         self.editCelda.setFixedHeight(25)
+        self.editCelda.setMaxLength(2)
+        self.editCelda.setPlaceholderText("0")
+        self.editCelda.setAlignment(Qt.AlignCenter)
         self.editCelda.setStyleSheet('background-color: white;')
 
         # agregamos al formulario
 
-        self.formulario.addRow(self.labelNombrecompleto, self.editNombrecompleto)
-        self.formulario.addRow(self.labelCedula, self.editCedula)
-        self.formulario.addRow(self.labelCelular, self.editCelular)
-        self.formulario.addRow(self.labelCorreo, self.editCorreo)
-        self.formulario.addRow(self.labelApartamento, self.editApartamento)
-        self.formulario.addRow(self.labelPlaca, self.editPlaca)
-        self.formulario.addRow(self.labelCelda, self.editCelda)
+        self.formulario2.addRow(self.labelApartamento)
+        self.formulario2.addRow(self.editApartamento)
 
-        self.vertical.addLayout(self.formulario)
+        self.formulario2.addRow(self.labelVehiculo)
+        self.formulario2.addRow(self.editVehiculo)
+
+        self.formulario2.addRow(self.labelPlaca)
+        self.formulario2.addRow(self.editPlaca)
+
+        self.formulario2.addRow(self.labelCelda)
+        self.formulario2.addRow(self.editCelda)
+
+        self.horizontalForm.addLayout(self.formulario2)
+
+        self.vertical.addLayout(self.horizontalForm)
         self.vertical.addSpacing(60)
 
         # -------------layout horizontal-----------
 
         self.horizontal = QHBoxLayout()
+        self.horizontal.setContentsMargins(200, 0, 200, 0)
 
         # botones volver y registrar
 
@@ -194,7 +250,8 @@ class Residentes(QMainWindow):
 
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)
@@ -202,31 +259,6 @@ class Residentes(QMainWindow):
         self.vertical.addLayout(self.horizontal)
 
         self.fondo.setLayout(self.vertical)
-
-        # creamos ventana de dialogo
-        self.ventanaDialogo = QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint)
-        self.ventanaDialogo.resize(300, 150)
-
-        # crear boton para aceptar
-        self.botonAceptar = QDialogButtonBox.Ok
-        self.opciones = QDialogButtonBox(self.botonAceptar)
-        self.opciones.accepted.connect(self.ventanaDialogo.accept)
-
-        # titulo
-        self.ventanaDialogo.setWindowTitle("Formulario de registro")
-
-        # configuracion modal
-        self.ventanaDialogo.setWindowModality(Qt.ApplicationModal)
-
-        # crear layout vertical
-        self.vertical = QVBoxLayout()
-
-        self.mensaje = QLabel("")
-        self.mensaje.setStyleSheet('background-color: #008B45; color: #FFFFFF; padding: 10 px;')
-
-        self.vertical.addWidget(self.mensaje)
-        self.vertical.addWidget(self.opciones)
-        self.ventanaDialogo.setLayout(self.vertical)
 
     def accion_botonVolver(self):
         self.hide()
@@ -238,6 +270,7 @@ class Residentes(QMainWindow):
         self.editCelular.setText("")
         self.editCorreo.setText("")
         self.editApartamento.setText("")
+        self.editVehiculo.setText("")
         self.editPlaca.setText("")
         self.editCelda.setText("")
 
@@ -252,16 +285,95 @@ class Residentes(QMainWindow):
                 or self.editCelular.text() == ''
                 or self.editCorreo.text() == ''
                 or self.editApartamento.text() == ''
+                or self.editVehiculo.text() == ''
                 or self.editPlaca.text() == ''
                 or self.editCelda.text() == ''
         ):
-            self.datosCorrectos = False
-            self.mensaje.setText("Debe ingresar todos los campos")
-            self.ventanaDialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Debe ingresar todos los campos.'
+            )
+
+        if not (self.editNombrecompleto.text().replace(' ', '').isalpha() and
+                self.editVehiculo.text().replace(' ', '').isalpha()
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'El nombre y el vehículo solo deben contener letras.'
+            )
+
+        if (
+                not self.editCedula.text().isdigit() or
+                not self.editCelular.text().isdigit() or
+                not self.editApartamento.text().isdigit() or
+                not self.editCelda.text().isdigit()
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Cédula, Celular, Apto y Celda solo deben contener números.'
+            )
 
         if self.datosCorrectos:
             # si los datos estan correctos
 
+            self.file = open('datos/residente.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                # obtenemos del string una lista con 11 datos separados por;
+                lista = linea.split(";")
+
+                # paramos el bucle si ya no encuentra mas registros en el archivo
+                if linea == '':
+                    break
+
+                u = Residente(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7]
+                )
+
+                # metemos el objeto en la lista de usuarios
+                usuarios.append(u)
+
+                if (u.apartamento == self.editApartamento.text()
+                ):
+                    return QMessageBox.warning(
+                        self,
+                        'Warning',
+                        'El apartamento se encuentra registrado.'
+                    )
+
+                if (u.placa == self.editPlaca.text()
+                ):
+                    return QMessageBox.warning(
+                        self,
+                        'Warning',
+                        'La placa del vehículo se encuentra registrada.'
+                    )
+
+                if (u.celda == self.editCelda.text()
+                ):
+                    return QMessageBox.warning(
+                        self,
+                        'Warning',
+                        'La celda se encuentra ocupada.'
+                    )
+
+            # cerramos ael archivo txt
+            self.file.close()
+
+            existeResidente = False
+            placa = self.editPlaca.text().replace(" ", "")
             # Abrimos el archivo en modo agregar
             self.file = open('datos/residente.txt', 'ab')
 
@@ -271,7 +383,8 @@ class Residentes(QMainWindow):
                                   self.editCelular.text() + ";" +
                                   self.editCorreo.text() + ";" +
                                   self.editApartamento.text() + ";" +
-                                  self.editPlaca.text() + ";" +
+                                  self.editVehiculo.text() + ";" +
+                                  placa + ";" +
                                   self.editCelda.text() + ";" + "\n", encoding='UTF-8'))
             self.file.close()
 

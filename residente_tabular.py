@@ -62,7 +62,8 @@ class Residente_tabular(QMainWindow):
                 lista[3],
                 lista[4],
                 lista[5],
-                lista[6]
+                lista[6],
+                lista[7]
             )
 
             self.usuarios.append(u)
@@ -110,23 +111,25 @@ class Residente_tabular(QMainWindow):
 
         # para crear la tabla para que se vean de forma tabular
         self.tabla = QTableWidget()
-        self.tabla.setColumnCount(7)
+        self.tabla.setColumnCount(8)
 
         # definimos los numeros de colimnas que tendra la tabla
 
-        self.tabla.setColumnWidth(0, 150)
+        self.tabla.setColumnWidth(0, 200)
         self.tabla.setColumnWidth(1, 150)
         self.tabla.setColumnWidth(2, 150)
-        self.tabla.setColumnWidth(3, 150)
-        self.tabla.setColumnWidth(4, 150)
-        self.tabla.setColumnWidth(5, 150)
-        self.tabla.setColumnWidth(6, 150)
+        self.tabla.setColumnWidth(3, 210)
+        self.tabla.setColumnWidth(4, 100)
+        self.tabla.setColumnWidth(5, 100)
+        self.tabla.setColumnWidth(6, 100)
+        self.tabla.setColumnWidth(7, 100)
 
         self.tabla.setHorizontalHeaderLabels(["Nombre",
                                               "Cédula",
                                               "Celular",
                                               "Correo",
                                               "Apartamento",
+                                              "Vehiculo",
                                               "Placa",
                                               "Celda"
                                               ])
@@ -135,15 +138,14 @@ class Residente_tabular(QMainWindow):
 
         for u in self.usuarios:
             self.tabla.setItem(self.contador, 0, QTableWidgetItem(u.nombreCompleto))
-            # evitar que se deje modificar
-            self.tabla.item(self.contador, 0).setFlags(Qt.ItemIsEnabled)
             self.tabla.setItem(self.contador, 1, QTableWidgetItem(u.cedula))
+            self.tabla.item(self.contador, 1).setFlags(Qt.ItemIsEnabled)
             self.tabla.setItem(self.contador, 2, QTableWidgetItem(u.celular))
             self.tabla.setItem(self.contador, 3, QTableWidgetItem(u.correo))
-            self.tabla.item(self.contador, 3).setFlags(Qt.ItemIsEnabled)
             self.tabla.setItem(self.contador, 4, QTableWidgetItem(u.apartamento))
-            self.tabla.setItem(self.contador, 5, QTableWidgetItem(u.placa))
-            self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.celda))
+            self.tabla.setItem(self.contador, 5, QTableWidgetItem(u.vehiculo3))
+            self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.placa))
+            self.tabla.setItem(self.contador, 7, QTableWidgetItem(u.celda))
 
             self.contador += 1
 
@@ -179,7 +181,8 @@ class Residente_tabular(QMainWindow):
 
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)
@@ -214,7 +217,8 @@ class Residente_tabular(QMainWindow):
                     self.tabla.item(filaActual, 3).text() != '' and
                     self.tabla.item(filaActual, 4).text() != '' and
                     self.tabla.item(filaActual, 5).text() != '' and
-                    self.tabla.item(filaActual, 6).text() != ''
+                    self.tabla.item(filaActual, 6).text() != '' and
+                    self.tabla.item(filaActual, 7).text() != ''
             ):
                 self.file = open('datos/residente.txt', 'rb')
 
@@ -234,7 +238,8 @@ class Residente_tabular(QMainWindow):
                         lista[3],
                         lista[4],
                         lista[5],
-                        lista[6]
+                        lista[6],
+                        lista[7]
                     )
 
                     usuarios.append(u)
@@ -257,6 +262,7 @@ class Residente_tabular(QMainWindow):
                                           u.celular + ';' +
                                           u.correo + ';' +
                                           u.apartamento + ';' +
+                                          u.vehiculo3 + ';' +
                                           u.placa + ';' +
                                           u.celda + ';' + '\n', encoding='UTF-8'))
                 self.file.close()
@@ -290,6 +296,7 @@ class Residente_tabular(QMainWindow):
         self.tabla.setItem(ultimafila, 4, QTableWidgetItem(''))
         self.tabla.setItem(ultimafila, 5, QTableWidgetItem(''))
         self.tabla.setItem(ultimafila, 6, QTableWidgetItem(''))
+        self.tabla.setItem(ultimafila, 7, QTableWidgetItem(''))
 
     def accion_editar(self):
 
@@ -321,7 +328,8 @@ class Residente_tabular(QMainWindow):
                     self.tabla.item(filaActual, 3).text() != '' and
                     self.tabla.item(filaActual, 4).text() != '' and
                     self.tabla.item(filaActual, 5).text() != '' and
-                    self.tabla.item(filaActual, 6).text() != ''
+                    self.tabla.item(filaActual, 6).text() != '' and
+                    self.tabla.item(filaActual, 7).text() != ''
             ):
 
                 datosVacios = False
@@ -344,7 +352,8 @@ class Residente_tabular(QMainWindow):
                         lista[3],
                         lista[4],
                         lista[5],
-                        lista[6]
+                        lista[6],
+                        lista[7]
                     )
 
                     usuarios.append(u)
@@ -363,6 +372,7 @@ class Residente_tabular(QMainWindow):
                             u.celular == self.tabla.item(filaActual, 2).text() and
                             u.correo == self.tabla.item(filaActual, 3).text() and
                             u.apartamento == self.tabla.item(filaActual, 4).text() and
+                            u.vehiculo3 == self.tabla.item(filaActual, 4).text() and
                             u.placa == self.tabla.item(filaActual, 5).text() and
                             u.celda == self.tabla.item(filaActual, 6).text()
                     ):
@@ -389,6 +399,7 @@ class Residente_tabular(QMainWindow):
                             u.celular = self.tabla.item(filaActual, 2).text()
                             u.correo = self.tabla.item(filaActual, 3).text()
                             u.apartamento = self.tabla.item(filaActual, 4).text()
+                            u.vehiculo3 = self.tabla.item(filaActual, 4).text()
                             u.placa = self.tabla.item(filaActual, 5).text()
                             u.celda = self.tabla.item(filaActual, 6).text()
 
@@ -401,6 +412,7 @@ class Residente_tabular(QMainWindow):
                                     u.celular + ';' +
                                     u.correo + ';' +
                                     u.apartamento + ';' +
+                                    u.vehiculo3 + ';' +
                                     u.placa + ';' +
                                     u.celda + ';' + '\n', encoding='UTF-8'
                                 ))
@@ -424,7 +436,9 @@ class Residente_tabular(QMainWindow):
                             self.tabla.item(filaActual, 2).text() + ';' +
                             self.tabla.item(filaActual, 3).text() + ';' +
                             self.tabla.item(filaActual, 4).text() + ';' +
-                            self.tabla.item(filaActual, 6).text() + ';' + '\n', encoding='UTF-8'))
+                            self.tabla.item(filaActual, 5).text() + ';' +
+                            self.tabla.item(filaActual, 6).text() + ';' +
+                            self.tabla.item(filaActual, 7).text() + ';' + '\n', encoding='UTF-8'))
 
                         self.file.seek(0, 2)
                         self.file.close()

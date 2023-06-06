@@ -118,14 +118,14 @@ class Visitantes_tabular(QMainWindow):
         # definimos los numeros de colimnas que tendra la tabla
 
         self.tabla.setColumnWidth(0, 150)
-        self.tabla.setColumnWidth(1, 170)
+        self.tabla.setColumnWidth(1, 200)
         self.tabla.setColumnWidth(2, 150)
-        self.tabla.setColumnWidth(3, 170)
-        self.tabla.setColumnWidth(4, 150)
-        self.tabla.setColumnWidth(5, 150)
-        self.tabla.setColumnWidth(6, 150)
-        self.tabla.setColumnWidth(7, 150)
-        self.tabla.setColumnWidth(8, 150)
+        self.tabla.setColumnWidth(3, 200)
+        self.tabla.setColumnWidth(4, 100)
+        self.tabla.setColumnWidth(5, 100)
+        self.tabla.setColumnWidth(6, 100)
+        self.tabla.setColumnWidth(7, 100)
+        self.tabla.setColumnWidth(8, 100)
 
         self.tabla.setHorizontalHeaderLabels(["Apartamento",
                                               "Nombre del Residente",
@@ -203,7 +203,8 @@ class Visitantes_tabular(QMainWindow):
 
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)

@@ -73,6 +73,8 @@ class Verificacion_admin(QMainWindow):
 
         # layout horizontal
         self.horizontal = QHBoxLayout()
+        self.horizontal.setContentsMargins(160, 0, 160, 0)
+
         # boton volver, boton ingresar
 
         self.botonVolver = QPushButton("Volver")
@@ -103,7 +105,8 @@ class Verificacion_admin(QMainWindow):
         self.horizontal2 = QHBoxLayout()
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         # esta linena es para correr a la derecha el icono

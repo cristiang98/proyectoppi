@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QVBoxLayout, QTabWidget, QLabel, QHBoxLayout, \
     QLineEdit, QPushButton, QMessageBox, QFormLayout, QApplication
@@ -22,7 +22,7 @@ class Ingreso_visitantes(QMainWindow):
         # hacemos la ventana
         # caracteristicas de la ventana
         self.setWindowTitle("Sofos R.P.H")
-        self.ancho = 750
+        self.ancho = 800
         self.alto = 600
         self.resize(self.ancho, self.alto)
         self.setWindowIcon(QIcon('imagenes/sophos.jpeg'))
@@ -50,17 +50,19 @@ class Ingreso_visitantes(QMainWindow):
         self.vertical = QVBoxLayout()
 
         # titulo
-        self.titulo = QLabel(self)
+        self.titulo = QLabel()
         self.titulo.setText("Ingreso de Visitantes")
         self.titulo.setFont(QFont('VAG_ROUNDED.ttf', 20))
         self.titulo.setAlignment(Qt.AlignCenter)
         self.titulo.setStyleSheet('background-color: transparent; color: black; padding: 10px;')
         self.vertical.addWidget(self.titulo)
-        self.vertical.addSpacing(30)
+
+
+        self.horizontal = QHBoxLayout()
 
         # ------ layout form1 ----
         self.formulario1 = QFormLayout()
-        self.formulario1.setContentsMargins(160, 0, 0, 50)
+        self.formulario1.setContentsMargins(130, 0, 0, 0)
 
         # Label numero apartamento
         self.numero_apartamento = QLabel()
@@ -118,6 +120,34 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_nombreVisitante.setPlaceholderText("Nombre")
         self.campo_nombreVisitante.setAlignment(Qt.AlignCenter)
         self.campo_nombreVisitante.setStyleSheet('background-color: white;')
+
+        # Crear boton ingresar
+        self.boton_ingresar = QPushButton(icon=QIcon('imagenes/buscar1.png'))
+        self.boton_ingresar.setFixedSize(30, 30)
+        self.boton_ingresar.setIconSize(QSize(25, 25))
+        self.boton_ingresar.setStyleSheet('background-color: transparent;')
+        self.boton_ingresar.clicked.connect(self.accion_Buscar)
+
+        # agregamos objetos a form1
+        self.formulario1.addRow(self.numero_apartamento)
+        self.formulario1.addRow(self.campo_apartamento,self.boton_ingresar)
+
+
+        self.formulario1.addRow(self.nombreResidente)
+        self.formulario1.addRow(self.campo_nombreResidente)
+
+        self.formulario1.addRow(self.celularResidente)
+        self.formulario1.addRow(self.campo_celularResidente)
+
+        self.formulario1.addRow(self.nombreVisitante)
+        self.formulario1.addRow(self.campo_nombreVisitante)
+        self.horizontal.addLayout(self.formulario1)
+
+        # ------ fin form1 ---------
+
+        # ----- form 2 ----------
+        self.formulario2 = QFormLayout()
+        self.formulario2.setContentsMargins(90, 0, 0, 30)
 
         self.vehiculo = QLabel()
         self.vehiculo.setFixedWidth(250)
@@ -184,45 +214,35 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_celdaVisitante = QLineEdit()
         self.campo_celdaVisitante.setFixedWidth(170)
         self.campo_celdaVisitante.setFixedHeight(30)
-        self.campo_celdaVisitante.setMaxLength(8)
-        self.campo_celdaVisitante.setPlaceholderText("00")
+        self.campo_celdaVisitante.setMaxLength(2)
+        self.campo_celdaVisitante.setPlaceholderText("0")
         self.campo_celdaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_celdaVisitante.setStyleSheet('background-color: white;')
 
+        self.formulario2.addRow(self.vehiculo)
+        self.formulario2.addRow(self.campo_vehiculo)
+
+        self.formulario2.addRow(self.placa)
+        self.formulario2.addRow(self.campo_placa)
+
+        self.formulario2.addRow(self.fechaVisitante)
+        self.formulario2.addRow(self.campo_fechaVisitante)
+
+        self.formulario2.addRow(self.horaVisitante)
+        self.formulario2.addRow(self.campo_horaVisitante)
+
+        self.formulario2.addRow(self.celdaVisitante)
+        self.formulario2.addRow(self.campo_celdaVisitante)
+
+        self.horizontal.addLayout(self.formulario2)
+
+        self.vertical.addLayout(self.horizontal)
 
 
-        # agregamos objetos a form1
-        self.formulario1.addRow(self.numero_apartamento,self.campo_apartamento)
-        #self.formulario1.addRow(self.campo_apartamento)
-
-        self.formulario1.addRow(self.nombreResidente, self.campo_nombreResidente)
-        #self.formulario1.addRow(self.campo_nombreResidente)
-
-        self.formulario1.addRow(self.celularResidente, self.campo_celularResidente)
-        #self.formulario1.addRow(self.campo_celularResidente)
-
-        self.formulario1.addRow(self.nombreVisitante, self.campo_nombreVisitante)
-        #self.formulario1.addRow(self.campo_nombreVisitante)
-
-        self.formulario1.addRow(self.vehiculo, self.campo_vehiculo)
-        #self.formulario1.addRow(self.campo_vehiculo)
-
-        self.formulario1.addRow(self.placa, self.campo_placa)
-        #self.formulario1.addRow(self.campo_placa)
-
-        self.formulario1.addRow(self.fechaVisitante, self.campo_fechaVisitante)
-        #self.formulario1.addRow(self.campo_fechaVisitante)
-
-        self.formulario1.addRow(self.horaVisitante, self.campo_horaVisitante)
-        #self.formulario1.addRow(self.campo_horaVisitante)
-
-        self.formulario1.addRow(self.celdaVisitante, self.campo_celdaVisitante)
-        #self.formulario1.addRow(self.campo_celdaVisitante)
-
-        self.vertical.addLayout(self.formulario1)
 
         # -------- layout horizontal1 ----------
         self.horizontal1 = QHBoxLayout()
+        self.horizontal1.setContentsMargins(200, 0, 200, 0)
 
         # crear el boton volver
         self.boton_Volver = QPushButton("Volver")
@@ -232,13 +252,7 @@ class Ingreso_visitantes(QMainWindow):
                                         'border-radius:10px;')
         self.boton_Volver.clicked.connect(self.accion_botonVolver)
 
-        # Crear boton ingresar
-        self.boton_ingresar = QPushButton("Buscar")
-        self.boton_ingresar.setFixedWidth(100)
-        self.boton_ingresar.setFixedHeight(40)
-        self.boton_ingresar.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
-                                          'border-radius:10px;')
-        self.boton_ingresar.clicked.connect(self.accion_Buscar)
+
 
         self.boton_registrar = QPushButton("Registrar")
         self.boton_registrar.setFixedWidth(100)
@@ -251,24 +265,22 @@ class Ingreso_visitantes(QMainWindow):
         self.botonHistorial.setFixedWidth(100)
         self.botonHistorial.setFixedHeight(40)
         self.botonHistorial.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
-                                           'border-radius:10px;')
+                                          'border-radius:10px;')
         self.botonHistorial.clicked.connect(self.accion_botonHistorial)
 
         # Agregamos objetos a layout hor1----
         self.horizontal1.addWidget(self.boton_Volver)
-        self.horizontal1.addWidget(self.boton_ingresar)
         self.horizontal1.addWidget(self.boton_registrar)
         self.horizontal1.addWidget(self.botonHistorial)
         self.vertical.addLayout(self.horizontal1)
 
-        # spacing
-        self.vertical.addSpacing(25)
 
         # layout horizontal2
         self.horizontal2 = QHBoxLayout()
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)
@@ -348,7 +360,8 @@ class Ingreso_visitantes(QMainWindow):
                     lista[3],
                     lista[4],
                     lista[5],
-                    lista[6]
+                    lista[6],
+                    lista[7]
                 )
 
                 # metemos el objeto en la lista de usuarios
@@ -445,4 +458,3 @@ class Ingreso_visitantes(QMainWindow):
         self.file.close()
 
         self.accionLimpiar()
-

@@ -93,25 +93,28 @@ class Menu_admin(QMainWindow):
         # ----------Creacion de layout horizontal2 --------
 
         self.horizontal2 = QHBoxLayout()
-        self.horizontal2.setContentsMargins(70, 0, 0, 0)
+        self.horizontal2.setContentsMargins(15, 0, 30, 0)
 
         # crear label para ventanaregisto
         self.label_registro = QLabel()
-        self.label_registro.setText("Ingreso de\nvisitantes.")
+        self.label_registro.setText("Ingreso de\nVisitantes.")
         self.label_registro.setFont(QFont('VAG_ROUNDED.ttf', 10))
         self.label_registro.setStyleSheet('background-color: transparent;')
+        self.label_registro.setAlignment(Qt.AlignCenter)
 
         # crear label para ventana parqueadero
         self.label_parqueadero = QLabel()
-        self.label_parqueadero.setText("Ocupación de\nparqueaderos.")
+        self.label_parqueadero.setText("  Ocupación de\n   Parqueaderos.")
         self.label_parqueadero.setFont(QFont('VAG_ROUNDED.ttf', 10))
         self.label_parqueadero.setStyleSheet('background-color: transparent;')
+        self.label_parqueadero.setAlignment(Qt.AlignCenter)
 
         self.label_residentes = QLabel()
-        self.label_residentes.setText("Registro de los\n"
-                                      "residentes.")
+        self.label_residentes.setText("Registro de los\nResidentes.")
+
         self.label_residentes.setFont(QFont('fonts/VAG_ROUNDED.ttf', 10))
         self.label_residentes.setStyleSheet('background-color: transparent;')
+        self.label_residentes.setAlignment(Qt.AlignCenter)
 
         # Agreamos objetos al layout horizontal2
         self.horizontal2.addWidget(self.label_registro)
@@ -123,6 +126,7 @@ class Menu_admin(QMainWindow):
         # ------ layout horizontal3------
 
         self.horizontal3 = QHBoxLayout()
+        self.horizontal3.setContentsMargins(160, 0, 160, 0)
 
         self.boton_Volver = QPushButton("Cerrar Sesión")
         self.boton_Volver.setFixedWidth(100)
@@ -150,7 +154,8 @@ class Menu_admin(QMainWindow):
 
         # icono de sendero verde
         self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.jpg')
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
         self.icon_sendero.setPixmap(self.imagen2)
         self.icon_sendero.setScaledContents(True)
         self.icon_sendero.setFixedSize(50, 50)
