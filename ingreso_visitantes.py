@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QVBoxLayout, Q
 from lista_residente import Residente
 from residentes import Residentes
 from visitantes_tabular import Visitantes_tabular
+from modulo_parqueadero import Modulo_parqueadero
 
 
 # from ingreso_datos import Ingreso_datos
@@ -233,6 +234,18 @@ class Ingreso_visitantes(QMainWindow):
 
         self.formulario2.addRow(self.celdaVisitante)
         self.formulario2.addRow(self.campo_celdaVisitante)
+        self.campo_celdaVisitante.deleteLater()
+
+
+        self.boton_parqueadero = QPushButton("Asignar Parqueadero")
+        self.boton_parqueadero.setFixedWidth(150)
+        self.boton_parqueadero.setFixedHeight(40)
+        self.boton_parqueadero.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
+                                        'border-radius:10px;')
+
+        self.boton_parqueadero.clicked.connect(self.accion_boton_parqueadero)
+        self.formulario2.addRow(self.boton_parqueadero)
+
 
         self.horizontal.addLayout(self.formulario2)
 
@@ -290,6 +303,22 @@ class Ingreso_visitantes(QMainWindow):
 
         # Layout que se usa para el fondo de la ventana
         self.fondo.setLayout(self.vertical)
+    def accion_boton_parqueadero(self):
+
+        self.campo_celdaVisitante = QLineEdit()
+        self.campo_celdaVisitante.setFixedWidth(170)
+        self.campo_celdaVisitante.setFixedHeight(30)
+        self.campo_celdaVisitante.setMaxLength(2)
+        self.campo_celdaVisitante.setPlaceholderText("0")
+        self.campo_celdaVisitante.setAlignment(Qt.AlignCenter)
+        self.campo_celdaVisitante.setStyleSheet('background-color: white;')
+
+        self.boton_parqueadero.deleteLater()
+        self.formulario2.addRow(self.campo_celdaVisitante)
+        self.hide()
+        self.modulo_parqueadero = Modulo_parqueadero(self)
+        self.modulo_parqueadero.show()
+
 
     # funcion para volver
     def accion_botonVolver(self):

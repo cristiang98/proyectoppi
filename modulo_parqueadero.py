@@ -78,6 +78,8 @@ class Modulo_parqueadero(QMainWindow):
                 self.boton.setFixedWidth(110)
                 self.boton.setFixedHeight(25)
                 self.boton.setCheckable(True)
+
+
                 self.boton.clicked.connect(self.changeColor)
                 self.grid.addWidget(self.boton, i, j)
                 self.botones.append(self.boton)
@@ -155,6 +157,7 @@ class Modulo_parqueadero(QMainWindow):
         button = self.sender()
         if button.isChecked():
             button.setStyleSheet("background-color: red;")
+            print(self.boton.text())
         else:
             button.setStyleSheet("background-color: green;")
 
