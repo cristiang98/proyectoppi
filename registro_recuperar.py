@@ -1,8 +1,8 @@
 import sys
 
 from PyQt5 import QtGui, QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QFormLayout, QApplication, QLineEdit, \
     QPushButton, QDialog, QDialogButtonBox, QVBoxLayout, QMessageBox
 
@@ -19,8 +19,8 @@ class Registro_recuperar(QMainWindow):
         # creacion de la ventana
         self.setWindowTitle("Formulario de registro")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
-        self.ancho = 900
-        self.alto = 650
+        self.ancho = 800
+        self.alto = 750
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -40,36 +40,54 @@ class Registro_recuperar(QMainWindow):
         self.setCentralWidget(self.fondo)
 
         # creacion de layout horizontal para la distribucion
-        self.horizontal = QHBoxLayout()
+        self.vertical = QVBoxLayout()
 
-        self.horizontal.setContentsMargins(30, 30, 30, 30)
+        self.horizontal1 = QHBoxLayout()
+        self.horizontal1.setContentsMargins(0, 0, 50, 0)
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:30px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("Registro de Colaboradores")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-left: 140px;')
+
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal1.addWidget(self.botonanterior)
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal1)
+
+        self.vertical.addSpacing(30)
+
+        self.horizontal = QHBoxLayout()
 
         # ---------Creacion del layout izquierdo---------
         self.layoutIzq_form = QFormLayout()
+        self.layoutIzq_form.setContentsMargins(60, 0, 0, 0)
 
         # hacemos los labels informativos
-        self.letrero1 = QLabel()
-        self.letrero1.setText("Información del cliente")
-        self.letrero1.setFont(QFont("Arial", 20))
-        self.letrero1.setStyleSheet('color: black;'
-                                    'background-color:transparent;')
-
         self.letrero2 = QLabel()
-        self.letrero2.setFixedWidth(355)
-        self.letrero2.setText("Por favor ingrese la información del cliente"
-                              "\nen el formulario de abajo. los campos marcados"
-                              "\ncon asterisco son obligatorios."
-                              )
-        self.letrero2.setFont(QFont("Arial", 10))
-        self.letrero2.setStyleSheet('color: black; margin-bottom: 40px;'
-                                    'margin-top: 25px;'
-                                    'padding-bottom: 10;'
-                                    'border: 2px solid black;'
-                                    'border-left: none;'
-                                    'border-right: none;'
-                                    'border-top: none;'
-                                    'background-color: transparent;'
-                                    )
+        self.letrero2.setText("Información del\nColaborador")
+        self.letrero2.setFont(QFont("Arial", 20))
+        self.letrero2.setStyleSheet('color: black;'
+                                    'background-color:transparent;')
 
         # labels y campos
 
@@ -97,6 +115,14 @@ class Registro_recuperar(QMainWindow):
         self.label_correo.setText("Correo Electrónico*")
         self.label_correo.setStyleSheet('background-color: transparent;')
 
+        self.label_telefono = QLabel()
+        self.label_telefono.setText("Teléfono*")
+        self.label_telefono.setStyleSheet('background-color: transparent;')
+
+        self.label_direccion = QLabel()
+        self.label_direccion.setText("Dirección*")
+        self.label_direccion.setStyleSheet('background-color: transparent;')
+
         self.nombreCompleto = QLineEdit()
         self.nombreCompleto.setFixedWidth(250)
         self.nombreCompleto.setStyleSheet('background-color: white;')
@@ -108,10 +134,12 @@ class Registro_recuperar(QMainWindow):
         self.contrasena = QLineEdit()
         self.contrasena.setFixedWidth(250)
         self.contrasena.setEchoMode(QLineEdit.Password)
+        self.contrasena.setMaxLength(4)
         self.contrasena.setStyleSheet('background-color: white;')
 
         self.confirmar_contrasena = QLineEdit()
         self.confirmar_contrasena.setFixedWidth(250)
+        self.confirmar_contrasena.setMaxLength(4)
         self.confirmar_contrasena.setEchoMode(QLineEdit.Password)
         self.confirmar_contrasena.setStyleSheet('background-color: white;')
 
@@ -123,65 +151,80 @@ class Registro_recuperar(QMainWindow):
         self.correo = QLineEdit()
         self.correo.setFixedWidth(250)
         self.correo.setStyleSheet('background-color: white;')
+
+        self.telefono = QLineEdit()
+        self.telefono.setFixedWidth(250)
+        self.telefono.setMaxLength(15)
+        self.telefono.setStyleSheet('background-color: white;')
+
+        self.direccion = QLineEdit()
+        self.direccion.setFixedWidth(250)
+        self.direccion.setMaxLength(20)
+        self.direccion.setStyleSheet('background-color: white;')
+
+        # Crear boton ingresar
+        self.boton_ingresar = QPushButton(icon=QIcon('imagenes/buscar1.png'))
+        self.boton_ingresar.setFixedSize(30, 30)
+        self.boton_ingresar.setIconSize(QSize(25, 25))
+        self.boton_ingresar.setStyleSheet('background-color: transparent;')
+        self.boton_ingresar.clicked.connect(self.accionBuscar)
+
         # Creacion de botones limpiar y registrar
 
         self.botonregistrar = QPushButton("Registrar")
-        self.botonregistrar.setFixedWidth(90)
+        self.botonregistrar.setFixedWidth(160)
         self.botonregistrar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
-                                          'margin-top: 40px;'
+                                          'margin-top: 10px;'
                                           'border-radius:10px;'
+                                          'margin-left: 70px;'
                                           )
 
         self.botonregistrar.clicked.connect(self.accionRegistrar)
 
-        self.botonlimpiar = QPushButton("Limpiar")
-        self.botonlimpiar.setFixedWidth(140)
-        self.botonlimpiar.setStyleSheet('background-color: #2F4F4F;'
-                                        'color: #FFFFFF;'
-                                        'padding: 10px;'
-                                        'margin-top: 40px;'
-                                        'border-radius:10px;'
-                                        'margin-left:50px;'
-                                        )
-        self.botonlimpiar.clicked.connect(self.accionLimpiar)
-
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(90)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 10px;'
-                                       'margin-top: 40px;'
-                                       'border-radius:10px;'
-                                       )
-        self.botonVolver.clicked.connect(self.accion_botonVolver)
 
         # Se agrega todo al layout formulario izquierdo
-        self.layoutIzq_form.addRow(self.letrero1)
         self.layoutIzq_form.addRow(self.letrero2)
-        self.layoutIzq_form.addRow(self.label_nombreCompleto, self.nombreCompleto)
-        self.layoutIzq_form.addRow(self.label_usuario, self.usuario)
-        self.layoutIzq_form.addRow(self.label_contrasena, self.contrasena)
-        self.layoutIzq_form.addRow(self.label_confirmarContrasena, self.confirmar_contrasena)
-        self.layoutIzq_form.addRow(self.label_documento, self.documento)
-        self.layoutIzq_form.addRow(self.label_correo, self.correo)
-        self.layoutIzq_form.addRow(self.botonregistrar, self.botonlimpiar)
-        self.layoutIzq_form.addRow(self.botonVolver)
+        self.layoutIzq_form.addRow(self.label_nombreCompleto)
+        self.layoutIzq_form.addRow(self.nombreCompleto)
+
+        self.layoutIzq_form.addRow(self.label_usuario)
+        self.layoutIzq_form.addRow(self.usuario)
+
+        self.layoutIzq_form.addRow(self.label_contrasena)
+        self.layoutIzq_form.addRow(self.contrasena)
+
+        self.layoutIzq_form.addRow(self.label_confirmarContrasena)
+        self.layoutIzq_form.addRow(self.confirmar_contrasena)
+
+        self.layoutIzq_form.addRow(self.label_documento)
+        self.layoutIzq_form.addRow(self.documento, self.boton_ingresar)
+
+        self.layoutIzq_form.addRow(self.label_correo)
+        self.layoutIzq_form.addRow(self.correo)
+
+        self.layoutIzq_form.addRow(self.label_telefono)
+        self.layoutIzq_form.addRow(self.telefono)
+
+        self.layoutIzq_form.addRow(self.label_direccion)
+        self.layoutIzq_form.addRow(self.direccion)
+
+        self.layoutIzq_form.addRow(self.botonregistrar)
+
+
 
         # Agregamos layout formulario al layout horizontal
         self.horizontal.addLayout(self.layoutIzq_form)
+        self.vertical.addLayout(self.horizontal)
 
         # --------- Layout vertical--------
-
-        self.vertical = QVBoxLayout()
-
 
 
 
         # ---------Layout formulario lado derecho------------
         self.layoutDer_form = QFormLayout()
-        self.layoutDer_form.setContentsMargins(100, 0, 0, 0)
+        self.layoutDer_form.setContentsMargins(80, 0, 0, 0)
 
         # letreros de informacion derecho
         self.letrero3 = QLabel()
@@ -191,24 +234,6 @@ class Registro_recuperar(QMainWindow):
         self.letrero3.setStyleSheet('color: black;'
                                     'background-color: transparent;')
 
-        self.letrero4 = QLabel()
-        self.letrero4.setFixedWidth(355)
-        self.letrero4.setText("Por favor ingrese la información para recuperar"
-                              "\nla contraseña. Los campos marcados"
-                              "\ncon asterisco son obligatorios."
-                              )
-        self.letrero4.setFont(QFont("Arial", 10))
-        self.letrero4.setStyleSheet('background-color: transparent;'
-                                    'color: black;'
-                                    'margin-bottom: 25px;'
-                                    'margin-top: 15px;'
-                                    'padding-bottom: 10;'
-                                    'border: 2px solid black;'
-                                    'border-left: none;'
-                                    'border-right: none;'
-                                    'border-top: none;'
-                                    ''
-                                    )
 
         # Labels y campos lado derecho (preguntas y respuestas)
 
@@ -258,41 +283,32 @@ class Registro_recuperar(QMainWindow):
 
         # Creacion de boton buscar y recuperar
 
-        self.botonBuscar = QPushButton("Buscar")
-        self.botonBuscar.setFixedWidth(90)
-        self.botonBuscar.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 10px;'
-                                       'margin-top: 10px;'
-                                       'border-radius:10px;'
-                                       )
-        self.botonBuscar.clicked.connect(self.accionBuscar)
+
 
         self.botonRecuperar = QPushButton("Recuperar")
-        self.botonRecuperar.setFixedWidth(140)
+        self.botonRecuperar.setFixedWidth(110)
         self.botonRecuperar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 10px;'
-                                          'margin-left: 50px;'
+                                          'margin-left: 20px;'
                                           'border-radius:10px;'
                                           )
         self.botonRecuperar.clicked.connect(self.accionRecuperar)
 
-        self.botonContinuar = QPushButton("Continuar")
+        self.botonContinuar = QPushButton("Mostrar")
         self.botonContinuar.setFixedWidth(90)
         self.botonContinuar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 10px;'
-                                          
+
                                           'border-radius:10px;'
                                           )
         self.botonContinuar.clicked.connect(self.accion_botonContinuar)
 
         # Se agrega al layout derecho
         self.layoutDer_form.addRow(self.letrero3)
-        self.layoutDer_form.addRow(self.letrero4)
 
         self.layoutDer_form.addRow(self.pregunta1)
         self.layoutDer_form.addRow(self.respuesta1)
@@ -312,13 +328,14 @@ class Registro_recuperar(QMainWindow):
         self.layoutDer_form.addRow(self.pregunta6)
         self.layoutDer_form.addRow(self.respuesta6)
 
-        self.layoutDer_form.addRow(self.botonBuscar, self.botonRecuperar)
-        self.layoutDer_form.addRow(self.botonContinuar)
+        self.layoutDer_form.addRow(self.botonRecuperar, self.botonContinuar)
+
 
         self.horizontal.addLayout(self.layoutDer_form)
+        self.vertical.addLayout(self.horizontal)
 
         # --------Layout que almacena toda la ventana----------
-        self.fondo.setLayout(self.horizontal)
+        self.fondo.setLayout(self.vertical)
 
         # creamos ventana de dialogo
         self.ventanaDialogo = QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint)
@@ -356,6 +373,8 @@ class Registro_recuperar(QMainWindow):
         self.confirmar_contrasena.setText("")
         self.documento.setText("")
         self.correo.setText("")
+        self.telefono.setText("")
+        self.direccion.setText("")
         self.respuesta1.setText("")
         self.respuesta2.setText("")
         self.respuesta3.setText("")
@@ -367,8 +386,6 @@ class Registro_recuperar(QMainWindow):
 
         # datos correctos
         self.datosCorrectos = True
-
-
 
         if not self.usuario.text().isalpha():
             return QMessageBox.warning(
@@ -417,6 +434,8 @@ class Registro_recuperar(QMainWindow):
                 or self.contrasena.text() == ''
                 or self.documento.text() == ''
                 or self.correo.text() == ''
+                or self.telefono.text() == ''
+                or self.direccion.text() == ''
                 or self.respuesta1.text() == ''
                 or self.respuesta2.text() == ''
                 or self.respuesta3.text() == ''
@@ -441,6 +460,8 @@ class Registro_recuperar(QMainWindow):
                                   self.contrasena.text() + ";" +
                                   self.documento.text() + ";" +
                                   self.correo.text() + ";" +
+                                  self.telefono.text() + ";" +
+                                  self.direccion.text() + ";" +
                                   self.respuesta1.text() + ";" +
                                   self.respuesta2.text() + ";" +
                                   self.respuesta3.text() + ";" +
@@ -449,8 +470,6 @@ class Registro_recuperar(QMainWindow):
                                   self.respuesta6.text() + ";" + "\n", encoding='UTF-8'))
             self.file.close()
 
-
-
             self.file = open('datos/usuarios.txt', 'rb')
             while self.file:
                 linea = self.file.readline().decode('UTF-8')
@@ -458,6 +477,8 @@ class Registro_recuperar(QMainWindow):
                 if linea == '':
                     break
             self.file.close()
+
+        self.accionLimpiar()
 
     def accionBuscar(self):
 
@@ -518,6 +539,8 @@ class Registro_recuperar(QMainWindow):
                     lista[8],
                     lista[9],
                     lista[10],
+                    lista[11],
+                    lista[12]
                 )
 
                 # metemos el objeto en la lista de usuarios
@@ -627,6 +650,8 @@ class Registro_recuperar(QMainWindow):
                     lista[8],
                     lista[9],
                     lista[10],
+                    lista[11],
+                    lista[12]
                 )
                 usuarios.append(u)
             self.file.close()
@@ -673,7 +698,7 @@ class Registro_recuperar(QMainWindow):
 
                 self.ventanaDialogo.exec_()
 
-    def accion_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 

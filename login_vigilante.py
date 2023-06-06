@@ -233,6 +233,8 @@ class Login_vigilante(QMainWindow):
                     lista[8],
                     lista[9],
                     lista[10],
+                    lista[11],
+                    lista[12]
                 )
 
                 # metemos el objeto en la lista de usuarios
