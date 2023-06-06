@@ -66,116 +66,159 @@ class Ingreso_visitantes(QMainWindow):
         self.numero_apartamento = QLabel()
         self.numero_apartamento.setFixedWidth(250)
         self.numero_apartamento.setText("Ingrese Apartamento:")
-        self.numero_apartamento.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.numero_apartamento.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.numero_apartamento.setStyleSheet('background-color: transparent;')
 
         # QlineEdit del numero de apartamento
         self.campo_apartamento = QLineEdit()
-        self.campo_apartamento.setFixedWidth(100)
+        self.campo_apartamento.setFixedWidth(170)
         self.campo_apartamento.setFixedHeight(30)
         self.campo_apartamento.setMaxLength(4)
         self.campo_apartamento.setPlaceholderText("APTO")
+        self.campo_apartamento.setAlignment(Qt.AlignCenter)
         self.campo_apartamento.setStyleSheet('background-color: white;')
 
         self.nombreResidente = QLabel()
         self.nombreResidente.setFixedWidth(250)
         self.nombreResidente.setText("Nombre del Residente:")
-        self.nombreResidente.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.nombreResidente.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.nombreResidente.setStyleSheet('background-color: transparent;')
 
         self.campo_nombreResidente = QLineEdit()
-        self.campo_nombreResidente.setFixedWidth(100)
+        self.campo_nombreResidente.setFixedWidth(170)
         self.campo_nombreResidente.setFixedHeight(30)
         self.campo_nombreResidente.setPlaceholderText("Nombre Residente")
         self.campo_nombreResidente.setReadOnly(True)
+        self.campo_nombreResidente.setAlignment(Qt.AlignCenter)
         self.campo_nombreResidente.setStyleSheet('background-color: white;')
 
         self.celularResidente = QLabel()
         self.celularResidente.setFixedWidth(250)
         self.celularResidente.setText("Celular del Residente:")
-        self.celularResidente.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.celularResidente.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.celularResidente.setStyleSheet('background-color: transparent;')
 
         self.campo_celularResidente = QLineEdit()
-        self.campo_celularResidente.setFixedWidth(100)
+        self.campo_celularResidente.setFixedWidth(170)
         self.campo_celularResidente.setFixedHeight(30)
         self.campo_celularResidente.setPlaceholderText("Celular")
         self.campo_celularResidente.setReadOnly(True)
+        self.campo_celularResidente.setAlignment(Qt.AlignCenter)
         self.campo_celularResidente.setStyleSheet('background-color: white;')
 
         self.nombreVisitante = QLabel()
         self.nombreVisitante.setFixedWidth(250)
         self.nombreVisitante.setText("Nombre del Visitante:")
-        self.nombreVisitante.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.nombreVisitante.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.nombreVisitante.setStyleSheet('background-color: transparent;')
 
         self.campo_nombreVisitante = QLineEdit()
-        self.campo_nombreVisitante.setFixedWidth(100)
+        self.campo_nombreVisitante.setFixedWidth(170)
         self.campo_nombreVisitante.setFixedHeight(30)
         self.campo_nombreVisitante.setPlaceholderText("Nombre")
+        self.campo_nombreVisitante.setAlignment(Qt.AlignCenter)
         self.campo_nombreVisitante.setStyleSheet('background-color: white;')
 
         self.vehiculo = QLabel()
         self.vehiculo.setFixedWidth(250)
-        self.vehiculo.setText("Ingresa con Vehiculo?:")
-        self.vehiculo.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.vehiculo.setText("¿Ingresa con Vehiculo?:")
+        self.vehiculo.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.vehiculo.setStyleSheet('background-color: transparent;')
 
         self.campo_vehiculo = QLineEdit()
-        self.campo_vehiculo.setFixedWidth(100)
+        self.campo_vehiculo.setFixedWidth(170)
         self.campo_vehiculo.setFixedHeight(30)
         self.campo_vehiculo.setMaxLength(2)
         self.campo_vehiculo.setPlaceholderText("Si o No")
+        self.campo_vehiculo.setAlignment(Qt.AlignCenter)
         self.campo_vehiculo.setStyleSheet('background-color: white;')
 
         self.placa = QLabel()
         self.placa.setFixedWidth(250)
         self.placa.setText("Placa del Vehiculo:")
-        self.placa.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.placa.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.placa.setStyleSheet('background-color: transparent;')
 
         self.campo_placa = QLineEdit()
-        self.campo_placa.setFixedWidth(100)
+        self.campo_placa.setFixedWidth(170)
         self.campo_placa.setFixedHeight(30)
         self.campo_placa.setMaxLength(7)
-        self.campo_placa.setPlaceholderText("aaa 000")
+        self.campo_placa.setPlaceholderText("AAA 000")
+        self.campo_placa.setAlignment(Qt.AlignCenter)
         self.campo_placa.setStyleSheet('background-color: white;')
 
         self.fechaVisitante = QLabel()
         self.fechaVisitante.setFixedWidth(250)
         self.fechaVisitante.setText("Fecha de Ingreso:")
-        self.fechaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.fechaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.fechaVisitante.setStyleSheet('background-color: transparent;')
 
         self.campo_fechaVisitante = QLineEdit()
-        self.campo_fechaVisitante.setFixedWidth(100)
+        self.campo_fechaVisitante.setFixedWidth(170)
         self.campo_fechaVisitante.setFixedHeight(30)
         self.campo_fechaVisitante.setMaxLength(8)
         self.campo_fechaVisitante.setPlaceholderText("DD/MM/AA")
+        self.campo_fechaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_fechaVisitante.setStyleSheet('background-color: white;')
 
         self.horaVisitante = QLabel()
         self.horaVisitante.setFixedWidth(250)
-        self.horaVisitante.setText("Hora en la que ingresa:")
-        self.horaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 15))
+        self.horaVisitante.setText("Hora de ingreso:")
+        self.horaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 13))
         self.horaVisitante.setStyleSheet('background-color: transparent;')
 
         self.campo_horaVisitante = QLineEdit()
-        self.campo_horaVisitante.setFixedWidth(100)
+        self.campo_horaVisitante.setFixedWidth(170)
         self.campo_horaVisitante.setFixedHeight(30)
         self.campo_horaVisitante.setMaxLength(8)
         self.campo_horaVisitante.setPlaceholderText("00:00")
+        self.campo_horaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_horaVisitante.setStyleSheet('background-color: white;')
 
+        self.celdaVisitante = QLabel()
+        self.celdaVisitante.setFixedWidth(250)
+        self.celdaVisitante.setText("Celda:")
+        self.celdaVisitante.setFont(QFont('VAG_ROUNDED.ttf', 13))
+        self.celdaVisitante.setStyleSheet('background-color: transparent;')
+
+        self.campo_celdaVisitante = QLineEdit()
+        self.campo_celdaVisitante.setFixedWidth(170)
+        self.campo_celdaVisitante.setFixedHeight(30)
+        self.campo_celdaVisitante.setMaxLength(8)
+        self.campo_celdaVisitante.setPlaceholderText("00")
+        self.campo_celdaVisitante.setAlignment(Qt.AlignCenter)
+        self.campo_celdaVisitante.setStyleSheet('background-color: white;')
+
+
+
         # agregamos objetos a form1
-        self.formulario1.addRow(self.numero_apartamento, self.campo_apartamento)
+        self.formulario1.addRow(self.numero_apartamento,self.campo_apartamento)
+        #self.formulario1.addRow(self.campo_apartamento)
+
         self.formulario1.addRow(self.nombreResidente, self.campo_nombreResidente)
+        #self.formulario1.addRow(self.campo_nombreResidente)
+
         self.formulario1.addRow(self.celularResidente, self.campo_celularResidente)
+        #self.formulario1.addRow(self.campo_celularResidente)
+
         self.formulario1.addRow(self.nombreVisitante, self.campo_nombreVisitante)
+        #self.formulario1.addRow(self.campo_nombreVisitante)
+
         self.formulario1.addRow(self.vehiculo, self.campo_vehiculo)
+        #self.formulario1.addRow(self.campo_vehiculo)
+
         self.formulario1.addRow(self.placa, self.campo_placa)
+        #self.formulario1.addRow(self.campo_placa)
+
         self.formulario1.addRow(self.fechaVisitante, self.campo_fechaVisitante)
+        #self.formulario1.addRow(self.campo_fechaVisitante)
+
         self.formulario1.addRow(self.horaVisitante, self.campo_horaVisitante)
+        #self.formulario1.addRow(self.campo_horaVisitante)
+
+        self.formulario1.addRow(self.celdaVisitante, self.campo_celdaVisitante)
+        #self.formulario1.addRow(self.campo_celdaVisitante)
+
         self.vertical.addLayout(self.formulario1)
 
         # -------- layout horizontal1 ----------
@@ -258,6 +301,7 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_placa.setText("")
         self.campo_fechaVisitante.setText("")
         self.campo_horaVisitante.setText("")
+        self.campo_celdaVisitante.setText("")
 
     def accion_Buscar(self):
         self.datosCorrectos = True
@@ -351,7 +395,8 @@ class Ingreso_visitantes(QMainWindow):
                 or self.campo_celularResidente.text() == ''
                 or self.campo_nombreResidente.text() == ''
                 or self.campo_vehiculo.text() == ''
-                or self.campo_placa.text() == ''):
+                or self.campo_placa.text() == ''
+                or self.campo_celdaVisitante.text() == ''):
             return QMessageBox.warning(
                 self,
                 'Warning',
@@ -371,7 +416,24 @@ class Ingreso_visitantes(QMainWindow):
                                   self.campo_vehiculo.text() + ";" +
                                   self.campo_placa.text() + ";" +
                                   self.campo_fechaVisitante.text() + ";" +
-                                  self.campo_horaVisitante.text() + ";" + '\n', encoding='UTF-8'))
+                                  self.campo_horaVisitante.text() + ";" +
+                                  self.campo_celdaVisitante.text() + ";" + '\n', encoding='UTF-8'))
+            self.file.close()
+
+        if self.datosCorrectos:
+            # Abrimos el archivo en modo agregar
+            self.file = open('datos/baseDatos.txt', 'ab')
+
+            # trae el texto de los Qline y los concatena
+            self.file.write(bytes(self.campo_apartamento.text() + ";" +
+                                  self.campo_nombreResidente.text() + ";" +
+                                  self.campo_celularResidente.text() + ";" +
+                                  self.campo_nombreVisitante.text() + ";" +
+                                  self.campo_vehiculo.text() + ";" +
+                                  self.campo_placa.text() + ";" +
+                                  self.campo_fechaVisitante.text() + ";" +
+                                  self.campo_horaVisitante.text() + ";" +
+                                  self.campo_celdaVisitante.text() + ";" + '\n', encoding='UTF-8'))
             self.file.close()
 
         self.file = open('datos/visitantes.txt', 'rb')
@@ -383,3 +445,4 @@ class Ingreso_visitantes(QMainWindow):
         self.file.close()
 
         self.accionLimpiar()
+

@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QHBoxLayout, QApplication, QVBoxLayout, QFormLayout, \
-    QPushButton, QDialogButtonBox, QDialog, QLineEdit
+    QPushButton, QDialogButtonBox, QDialog, QLineEdit, QMessageBox
 
 from login_admin import Login_admin
 
@@ -61,6 +61,7 @@ class Verificacion_admin(QMainWindow):
         self.campo_verificar = QLineEdit()
         self.campo_verificar.setFixedWidth(100)
         self.campo_verificar.setFixedHeight(25)
+        self.campo_verificar.setMaxLength(4)
         self.campo_verificar.setEchoMode(QLineEdit.EchoMode.Password)
         self.campo_verificar.setStyleSheet('background-color: white;')
 
@@ -118,46 +119,22 @@ class Verificacion_admin(QMainWindow):
         self.Anterior.show()
 
     def accion_botonIngresar(self):
-        # creamos ventana de dialogo
-        self.ventanaDialogo = QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint)
-        self.ventanaDialogo.resize(300, 150)
-
-        # crear boton para aceptar
-        self.botonAceptar = QDialogButtonBox.Ok
-        self.opciones = QDialogButtonBox(self.botonAceptar)
-        self.opciones.accepted.connect(self.ventanaDialogo.accept)
-
-        # titulo
-        self.ventanaDialogo.setWindowTitle("Verificación de Administrador")
-
-        # configuracion modal
-        self.ventanaDialogo.setWindowModality(Qt.ApplicationModal)
-
-        # crear layout vertical
-        self.vertical = QVBoxLayout()
-
-        self.mensaje = QLabel("")
-        self.mensaje.setStyleSheet('background-color: #000000; '
-                                   'color: #FFFFFF; '
-                                   'padding: 10px;'
-                                   'border-radius:10px;')
-
-        self.vertical.addWidget(self.mensaje)
-        self.vertical.addWidget(self.opciones)
-        self.ventanaDialogo.setLayout(self.vertical)
-
-        # declaracion de verdadero
         self.datos_Correctos = True
 
-        """if self.campo_verificar.text().isalpha():
-            self.datos_Correctos = False
-            self.mensaje.setText("Solo números en el campo.")
-            self.ventanaDialogo.exec_()
+        if self.campo_verificar.text() == '':
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Por favor introduzca su pin.'
+            )
 
-        if not (self.campo_verificar.text() == "1234"):
-            self.datos_Correctos = False
-            self.mensaje.setText("Código inválido.")
-            self.ventanaDialogo.exec_()"""
+        if self.campo_verificar.text() != '1998':
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Ingrese el pin correcto si desea continuar.'
+            )
+
 
         if self.datos_Correctos:
             self.hide()

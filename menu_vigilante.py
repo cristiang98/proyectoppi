@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QFormLayout, QP
     QWidget, QVBoxLayout, QAction, QSpacerItem, QSizePolicy, QApplication
 
 from ingreso_visitantes import Ingreso_visitantes
+from modulo_parqueadero import Modulo_parqueadero
 
 
 class Menu_vigilante(QMainWindow):
@@ -151,7 +152,7 @@ class Menu_vigilante(QMainWindow):
 
 
     def accion_ventanaParqueadero(self):
-        """self.hide()
-        self.toolbar2 = Toolbar2(self)
-        self.toolbar2.show()"""
-        pass
+        self.hide()
+        self.modulo_parqueadero = Modulo_parqueadero(self)
+        self.modulo_parqueadero.show()
+

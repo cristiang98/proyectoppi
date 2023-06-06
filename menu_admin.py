@@ -1,11 +1,14 @@
-import sys
+import os
+import subprocess
 
+import openpyxl
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon, QFont
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QLabel, QFormLayout, QPushButton, QHBoxLayout, QToolBar, \
     QWidget, QVBoxLayout, QAction, QSpacerItem, QSizePolicy, QApplication
 
 from ingreso_visitantes import Ingreso_visitantes
+from modulo_parqueadero import Modulo_parqueadero
 from residentes import Residentes
 
 
@@ -15,7 +18,7 @@ class Menu_admin(QMainWindow):
 
         self.ventanaAnterior = anterior
 
-        #hacemos la ventana
+        # hacemos la ventana
         # caracteristicas de la ventana
         self.setWindowTitle("Sofos R.P.H")
 
@@ -129,7 +132,15 @@ class Menu_admin(QMainWindow):
 
         self.boton_Volver.clicked.connect(self.accion_botonVolver)
 
+        self.excel = QPushButton("Excel")
+        self.excel.setFixedWidth(100)
+        self.excel.setFixedHeight(40)
+        self.excel.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
+                                 'border-radius:10px')
+        self.excel.clicked.connect(self.accion_excel)
+
         self.horizontal3.addWidget(self.boton_Volver)
+        self.horizontal3.addWidget(self.excel)
         self.vertical.addLayout(self.horizontal3)
 
         # .----- layout horizontal 4 ---------
@@ -161,17 +172,40 @@ class Menu_admin(QMainWindow):
         self.ingreso_visitantes = Ingreso_visitantes(self)
         self.ingreso_visitantes.show()
 
-
     def accion_ventanaParqueadero(self):
-        """self.hide()
-        self.toolbar2 = Toolbar2(self)
-        self.toolbar2.show()"""
-        pass
+        self.hide()
+        self.modulo_parqueadero = Modulo_parqueadero(self)
+        self.modulo_parqueadero.show()
 
     def accion_ventanaResidentes(self):
         self.hide()
         self.residentes = Residentes(self)
         self.residentes.show()
 
+    def accion_excel(self):
+        archivoTexto = 'datos/baseDatos.txt'
 
+        try:
+            # Obtener la ruta absoluta del archivo de texto
+            rutaAbsoluta = os.path.abspath(archivoTexto)
 
+            # Crear un nuevo archivo de Excel
+            libro = openpyxl.Workbook()
+            hoja = libro.active
+
+            # Leer el archivo de texto y guardar los datos en el archivo de Excel
+            with open(rutaAbsoluta, 'r') as archivo:
+                fila = 1
+                for linea in archivo:
+                    datos = linea.strip().split(';')
+                    hoja.append(datos)
+                    fila += 1
+
+            # Guardar el archivo de Excel
+            rutaExcel = os.path.splitext(rutaAbsoluta)[0] + '.xlsx'
+            libro.save(rutaExcel)
+
+            # Abrir el archivo en Excel
+            os.startfile(rutaExcel)
+        except OSError:
+            print("Error al abrir el archivo de Excel.")
