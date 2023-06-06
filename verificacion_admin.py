@@ -89,6 +89,7 @@ class Verificacion_admin(QMainWindow):
         self.campo_verificar.setFixedHeight(25)
         self.campo_verificar.setMaxLength(4)
         self.campo_verificar.setEchoMode(QLineEdit.EchoMode.Password)
+        self.campo_verificar.returnPressed.connect(self.accion_botonIngresar)
         self.campo_verificar.setStyleSheet('background-color: white;')
 
         # _________Agregamos los objetos al layout formulario--------------

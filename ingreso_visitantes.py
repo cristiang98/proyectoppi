@@ -512,5 +512,6 @@ class Ingreso_visitantes(QMainWindow):
         self.boton_parqueadero.setFixedHeight(40)
         self.boton_parqueadero.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
                                              'border-radius:10px;')
+        self.boton_parqueadero.clicked.connect(self.accion_boton_parqueadero)
         self.formulario2.addRow(self.boton_parqueadero)
 

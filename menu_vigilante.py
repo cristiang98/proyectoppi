@@ -113,19 +113,21 @@ class Menu_vigilante(QMainWindow):
         # ----------Creacion de layout horizontal2 --------
 
         self.horizontal2 = QHBoxLayout()
-        self.horizontal2.setContentsMargins(145, 0, 0, 0)
+        self.horizontal2.setContentsMargins(35, 0, 60, 0)
 
         # crear label para ventanaregisto
         self.label_registro = QLabel()
         self.label_registro.setText("Ingreso de\nvisitantes.")
         self.label_registro.setFont(QFont('VAG_ROUNDED.ttf', 10))
         self.label_registro.setStyleSheet('background-color: transparent;')
+        self.label_registro.setAlignment(Qt.AlignCenter)
 
         # crear label para ventana parqueadero
         self.label_parqueadero = QLabel()
         self.label_parqueadero.setText("Ocupación de\nparqueaderos.")
         self.label_parqueadero.setFont(QFont('VAG_ROUNDED.ttf', 10))
         self.label_parqueadero.setStyleSheet('background-color: transparent;')
+        self.label_parqueadero.setAlignment(Qt.AlignCenter)
 
 
         # Agreamos objetos al layout horizontal2
