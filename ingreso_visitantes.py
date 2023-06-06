@@ -1,5 +1,4 @@
 import datetime
-import sys
 
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QPixmap, QFont, QIcon
@@ -8,7 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QVBoxLayout, Q
 
 from lista_residente import Residente
 from modulo_parqueadero import Modulo_parqueadero
-from residentes import Residentes
+from visitante import Visitante
 from visitantes_tabular import Visitantes_tabular
 
 
@@ -87,7 +86,6 @@ class Ingreso_visitantes(QMainWindow):
 
         self.vertical.addSpacing(30)
 
-
         self.horizontal = QHBoxLayout()
 
         # ------ layout form1 ----
@@ -147,6 +145,7 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_nombreVisitante = QLineEdit()
         self.campo_nombreVisitante.setFixedWidth(170)
         self.campo_nombreVisitante.setFixedHeight(30)
+        self.campo_nombreVisitante.setMaxLength(25)
         self.campo_nombreVisitante.setPlaceholderText("Nombre")
         self.campo_nombreVisitante.setAlignment(Qt.AlignCenter)
         self.campo_nombreVisitante.setStyleSheet('background-color: white;')
@@ -160,8 +159,7 @@ class Ingreso_visitantes(QMainWindow):
 
         # agregamos objetos a form1
         self.formulario1.addRow(self.numero_apartamento)
-        self.formulario1.addRow(self.campo_apartamento,self.boton_ingresar)
-
+        self.formulario1.addRow(self.campo_apartamento, self.boton_ingresar)
 
         self.formulario1.addRow(self.nombreResidente)
         self.formulario1.addRow(self.campo_nombreResidente)
@@ -255,15 +253,12 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_celdaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_celdaVisitante.setStyleSheet('background-color: white;')
 
-        self.boton_parqueadero = QPushButton("Asignar Parqueadero")
-        self.boton_parqueadero.setFixedWidth(150)
-        self.boton_parqueadero.setFixedHeight(40)
-        self.boton_parqueadero.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
-                                             'border-radius:10px;')
+        self.boton_parqueadero = QPushButton(icon=QIcon('imagenes/transparencia2.png'))
+        self.boton_parqueadero.setFixedSize(30, 30)
+        self.boton_parqueadero.setIconSize(QSize(25, 25))
+        self.boton_parqueadero.setStyleSheet('background-color: transparent;')
 
         self.boton_parqueadero.clicked.connect(self.accion_boton_parqueadero)
-
-
 
         self.formulario2.addRow(self.vehiculo)
         self.formulario2.addRow(self.campo_vehiculo)
@@ -278,22 +273,18 @@ class Ingreso_visitantes(QMainWindow):
         self.formulario2.addRow(self.campo_horaVisitante)
 
         self.formulario2.addRow(self.celdaVisitante)
-        self.formulario2.addRow(self.campo_celdaVisitante)
-        self.campo_celdaVisitante.deleteLater()
+        self.formulario2.addRow(self.campo_celdaVisitante, self.boton_parqueadero)
+        # self.campo_celdaVisitante.deleteLater()
 
-        self.formulario2.addRow(self.boton_parqueadero)
+        # self.formulario2.addRow(self.boton_parqueadero)
 
         self.horizontal.addLayout(self.formulario2)
 
         self.vertical.addLayout(self.horizontal)
 
-
-
         # -------- layout horizontal1 ----------
         self.horizontal1 = QHBoxLayout()
         self.horizontal1.setContentsMargins(200, 0, 200, 0)
-
-
 
         self.boton_registrar = QPushButton("Registrar")
         self.boton_registrar.setFixedWidth(100)
@@ -316,8 +307,6 @@ class Ingreso_visitantes(QMainWindow):
 
         self.vertical.addSpacing(30)
 
-
-
         # Layout que se usa para el fondo de la ventana
         self.fondo.setLayout(self.vertical)
 
@@ -328,7 +317,7 @@ class Ingreso_visitantes(QMainWindow):
 
     def accion_boton_parqueadero(self):
 
-        self.campo_celdaVisitante = QLineEdit()
+        """self.campo_celdaVisitante = QLineEdit()
         self.campo_celdaVisitante.setFixedWidth(170)
         self.campo_celdaVisitante.setFixedHeight(30)
         self.campo_celdaVisitante.setMaxLength(2)
@@ -337,11 +326,10 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_celdaVisitante.setStyleSheet('background-color: white;')
 
         self.boton_parqueadero.deleteLater()
-        self.formulario2.addRow(self.campo_celdaVisitante)
+        self.formulario2.addRow(self.campo_celdaVisitante)"""
         self.hide()
         self.modulo_parqueadero = Modulo_parqueadero(self)
         self.modulo_parqueadero.show()
-
 
     def accion_botonHistorial(self):
         self.hide()
@@ -360,6 +348,7 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_placa.setText("")
         self.campo_fechaVisitante.setText("")
         self.campo_horaVisitante.setText("")
+        self.campo_celdaVisitante.setText("")
 
     def accion_Buscar(self):
         self.datosCorrectos = True
@@ -453,17 +442,65 @@ class Ingreso_visitantes(QMainWindow):
                 or self.campo_nombreVisitante.text() == ''
                 or self.campo_celularResidente.text() == ''
                 or self.campo_nombreResidente.text() == ''
-                or self.campo_vehiculo.text() == ''
-                or self.campo_placa.text() == ''
-                or self.campo_celdaVisitante.text() == ''):
+                or self.campo_vehiculo.text() == ''):
             return QMessageBox.warning(
                 self,
                 'Warning',
                 'Debe ingresar todos los campos.'
             )
 
+        if self.campo_vehiculo.text().strip().lower() not in ['si', 'no']:
+            QMessageBox.warning(
+                self,
+                'Warning',
+                'En ingresa con vehículo\nsolo escribir "si" o "no".'
+            )
+            return
+
+        if not self.campo_placa.text().replace(' ', '').isalnum():
+            QMessageBox.warning(
+                self,
+                "Advertencia",
+                "En placa de vehículo.\nSolo se permiten letras, números y espacios"
+            )
+            return
+
         # si los datos estan correctos
         if self.datosCorrectos:
+
+            self.file = open('datos/visitantes.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                lista = linea.split(';')
+
+                if linea == '':
+                    break
+
+                u = Visitante(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7],
+                    lista[8]
+                )
+
+                usuarios.append(u)
+
+                if (u.celda == self.campo_celdaVisitante.text()):
+                    return QMessageBox.warning(
+                        self,
+                        'Warning',
+                        'La celda se encuentra ocupada.'
+                    )
+
+            self.file.close()
+
             placa = self.campo_placa.text().replace(" ", "")
             # Abrimos el archivo en modo agregar
             self.file = open('datos/visitantes.txt', 'ab')
@@ -506,12 +543,18 @@ class Ingreso_visitantes(QMainWindow):
         self.file.close()
 
         self.accionLimpiar()
-        self.campo_celdaVisitante.deleteLater()
+
+        self.campo_fechaVisitante.setInputMask('99/99/9999')
+        self.campo_fechaVisitante.setText(datetime.date.today().strftime('%d/%m/%Y'))
+
+        self.campo_horaVisitante.setInputMask('99:99:99')
+        self.campo_horaVisitante.setText(datetime.datetime.now().strftime('%H:%M:%S'))
+
+        """self.campo_celdaVisitante.deleteLater()
         self.boton_parqueadero = QPushButton("Asignar Parqueadero")
         self.boton_parqueadero.setFixedWidth(150)
         self.boton_parqueadero.setFixedHeight(40)
         self.boton_parqueadero.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
                                              'border-radius:10px;')
         self.boton_parqueadero.clicked.connect(self.accion_boton_parqueadero)
-        self.formulario2.addRow(self.boton_parqueadero)
-
+        self.formulario2.addRow(self.boton_parqueadero)"""
