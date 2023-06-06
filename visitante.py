@@ -1,5 +1,5 @@
 class Visitante:
-    def __init__(self, editApartamento, editNombrecompleto, editCelular, editNombrevisitante, editVehiculo, editPlaca, editFecha, editHora ):
+    def __init__(self, editApartamento, editNombrecompleto, editCelular, editNombrevisitante, editVehiculo, editPlaca, editFecha, editHora,editCelda ):
         self.apartamento = editApartamento
         self.nombreCompleto = editNombrecompleto
         self.celular = editCelular
@@ -8,6 +8,7 @@ class Visitante:
         self.placa = editPlaca
         self.fecha = editFecha
         self.hora = editHora
+        self.celda = editCelda
 
 
 
