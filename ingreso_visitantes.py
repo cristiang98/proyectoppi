@@ -1,3 +1,4 @@
+import datetime
 import sys
 
 from PyQt5.QtCore import Qt, QSize
@@ -6,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QVBoxLayout, Q
     QLineEdit, QPushButton, QMessageBox, QFormLayout, QApplication
 
 from lista_residente import Residente
+from modulo_parqueadero import Modulo_parqueadero
 from residentes import Residentes
 from visitantes_tabular import Visitantes_tabular
 
@@ -216,6 +218,9 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_fechaVisitante.setFixedHeight(30)
         self.campo_fechaVisitante.setMaxLength(8)
         self.campo_fechaVisitante.setPlaceholderText("DD/MM/AA")
+        self.campo_fechaVisitante.setInputMask('99/99/9999')
+        self.campo_fechaVisitante.setText(datetime.date.today().strftime('%d/%m/%Y'))
+        self.campo_fechaVisitante.setReadOnly(True)
         self.campo_fechaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_fechaVisitante.setStyleSheet('background-color: white;')
 
@@ -230,6 +235,9 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_horaVisitante.setFixedHeight(30)
         self.campo_horaVisitante.setMaxLength(8)
         self.campo_horaVisitante.setPlaceholderText("00:00")
+        self.campo_horaVisitante.setInputMask('99:99:99')
+        self.campo_horaVisitante.setText(datetime.datetime.now().strftime('%H:%M:%S'))
+        self.campo_horaVisitante.setReadOnly(True)
         self.campo_horaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_horaVisitante.setStyleSheet('background-color: white;')
 
@@ -242,10 +250,20 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_celdaVisitante = QLineEdit()
         self.campo_celdaVisitante.setFixedWidth(170)
         self.campo_celdaVisitante.setFixedHeight(30)
-        self.campo_celdaVisitante.setMaxLength(2)
+        self.campo_celdaVisitante.setMaxLength(3)
         self.campo_celdaVisitante.setPlaceholderText("0")
         self.campo_celdaVisitante.setAlignment(Qt.AlignCenter)
         self.campo_celdaVisitante.setStyleSheet('background-color: white;')
+
+        self.boton_parqueadero = QPushButton("Asignar Parqueadero")
+        self.boton_parqueadero.setFixedWidth(150)
+        self.boton_parqueadero.setFixedHeight(40)
+        self.boton_parqueadero.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
+                                             'border-radius:10px;')
+
+        self.boton_parqueadero.clicked.connect(self.accion_boton_parqueadero)
+
+
 
         self.formulario2.addRow(self.vehiculo)
         self.formulario2.addRow(self.campo_vehiculo)
@@ -261,6 +279,9 @@ class Ingreso_visitantes(QMainWindow):
 
         self.formulario2.addRow(self.celdaVisitante)
         self.formulario2.addRow(self.campo_celdaVisitante)
+        self.campo_celdaVisitante.deleteLater()
+
+        self.formulario2.addRow(self.boton_parqueadero)
 
         self.horizontal.addLayout(self.formulario2)
 
@@ -305,6 +326,23 @@ class Ingreso_visitantes(QMainWindow):
         self.hide()
         self.ventanaAnterior.show()
 
+    def accion_boton_parqueadero(self):
+
+        self.campo_celdaVisitante = QLineEdit()
+        self.campo_celdaVisitante.setFixedWidth(170)
+        self.campo_celdaVisitante.setFixedHeight(30)
+        self.campo_celdaVisitante.setMaxLength(2)
+        self.campo_celdaVisitante.setPlaceholderText("0")
+        self.campo_celdaVisitante.setAlignment(Qt.AlignCenter)
+        self.campo_celdaVisitante.setStyleSheet('background-color: white;')
+
+        self.boton_parqueadero.deleteLater()
+        self.formulario2.addRow(self.campo_celdaVisitante)
+        self.hide()
+        self.modulo_parqueadero = Modulo_parqueadero(self)
+        self.modulo_parqueadero.show()
+
+
     def accion_botonHistorial(self):
         self.hide()
         self.visitantes_tabular = Visitantes_tabular(self)
@@ -322,7 +360,6 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_placa.setText("")
         self.campo_fechaVisitante.setText("")
         self.campo_horaVisitante.setText("")
-        self.campo_celdaVisitante.setText("")
 
     def accion_Buscar(self):
         self.datosCorrectos = True
@@ -427,6 +464,7 @@ class Ingreso_visitantes(QMainWindow):
 
         # si los datos estan correctos
         if self.datosCorrectos:
+            placa = self.campo_placa.text().replace(" ", "")
             # Abrimos el archivo en modo agregar
             self.file = open('datos/visitantes.txt', 'ab')
 
@@ -436,13 +474,14 @@ class Ingreso_visitantes(QMainWindow):
                                   self.campo_celularResidente.text() + ";" +
                                   self.campo_nombreVisitante.text() + ";" +
                                   self.campo_vehiculo.text() + ";" +
-                                  self.campo_placa.text() + ";" +
+                                  placa + ";" +
                                   self.campo_fechaVisitante.text() + ";" +
                                   self.campo_horaVisitante.text() + ";" +
                                   self.campo_celdaVisitante.text() + ";" + '\n', encoding='UTF-8'))
             self.file.close()
 
         if self.datosCorrectos:
+            placa = self.campo_placa.text().replace(" ", "")
             # Abrimos el archivo en modo agregar
             self.file = open('datos/baseDatos.txt', 'ab')
 
@@ -452,7 +491,7 @@ class Ingreso_visitantes(QMainWindow):
                                   self.campo_celularResidente.text() + ";" +
                                   self.campo_nombreVisitante.text() + ";" +
                                   self.campo_vehiculo.text() + ";" +
-                                  self.campo_placa.text() + ";" +
+                                  placa + ";" +
                                   self.campo_fechaVisitante.text() + ";" +
                                   self.campo_horaVisitante.text() + ";" +
                                   self.campo_celdaVisitante.text() + ";" + '\n', encoding='UTF-8'))
@@ -467,3 +506,11 @@ class Ingreso_visitantes(QMainWindow):
         self.file.close()
 
         self.accionLimpiar()
+        self.campo_celdaVisitante.deleteLater()
+        self.boton_parqueadero = QPushButton("Asignar Parqueadero")
+        self.boton_parqueadero.setFixedWidth(150)
+        self.boton_parqueadero.setFixedHeight(40)
+        self.boton_parqueadero.setStyleSheet('background-color: #2F4F4F; color: #FFFFFF; padding: 10px;'
+                                             'border-radius:10px;')
+        self.formulario2.addRow(self.boton_parqueadero)
+
