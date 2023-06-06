@@ -199,7 +199,7 @@ class Residentes(QMainWindow):
         self.editCelda = QLineEdit()
         self.editCelda.setFixedWidth(170)
         self.editCelda.setFixedHeight(25)
-        self.editCelda.setMaxLength(2)
+        self.editCelda.setMaxLength(3)
         self.editCelda.setPlaceholderText("0")
         self.editCelda.setAlignment(Qt.AlignCenter)
         self.editCelda.setStyleSheet('background-color: white;')

@@ -446,3 +446,4 @@ class Residente_tabular(QMainWindow):
                     'Warning',
                     'Debe ingresar todos los datos en el registro'
                 )
+

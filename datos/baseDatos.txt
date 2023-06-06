@@ -1,0 +1,7 @@
+101;cristian gallego grisales;3117077453;diego lopez;si;rnr379;01/05/23;10:55;4;
+101;cristian gallego grisales;3117077453;hector;si;psp551;61/42/12;10:59;10;
+101;cristian gallego grisales;3117077453;knkn;si;fff996;648;844884;15;
+101;cristian gallego grisales;3117077453;fff;si;sss548;448;484;14;
+101;cristian gallego grisales;3117077453;igigfj;si;sds789;1488;484;20;
+101;cristian gallego grisales;3117077453;Hector;no;0;1;1;18;
+101;cristian gallego grisales;3117077453;hector;no;1;1;1;1;
