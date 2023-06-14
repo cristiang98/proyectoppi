@@ -169,19 +169,6 @@ class Registro_recuperar(QMainWindow):
         self.boton_ingresar.setStyleSheet('background-color: transparent;')
         self.boton_ingresar.clicked.connect(self.accionBuscar)
 
-        # Creacion de botones limpiar y registrar
-
-        self.botonregistrar = QPushButton("Registrar")
-        self.botonregistrar.setFixedWidth(160)
-        self.botonregistrar.setStyleSheet('background-color: #2F4F4F;'
-                                          'color: #FFFFFF;'
-                                          'padding: 10px;'
-                                          'margin-top: 10px;'
-                                          'border-radius:10px;'
-                                          'margin-left: 70px;'
-                                          )
-
-        self.botonregistrar.clicked.connect(self.accionRegistrar)
 
 
         # Se agrega todo al layout formulario izquierdo
@@ -210,17 +197,11 @@ class Registro_recuperar(QMainWindow):
         self.layoutIzq_form.addRow(self.label_direccion)
         self.layoutIzq_form.addRow(self.direccion)
 
-        self.layoutIzq_form.addRow(self.botonregistrar)
-
-
-
         # Agregamos layout formulario al layout horizontal
         self.horizontal.addLayout(self.layoutIzq_form)
         self.vertical.addLayout(self.horizontal)
 
-        # --------- Layout vertical--------
-
-
+        # --------- Layout horixontal--------
 
         # ---------Layout formulario lado derecho------------
         self.layoutDer_form = QFormLayout()
@@ -233,7 +214,6 @@ class Registro_recuperar(QMainWindow):
         self.letrero3.setFont(QFont("Arial", 20))
         self.letrero3.setStyleSheet('color: black;'
                                     'background-color: transparent;')
-
 
         # Labels y campos lado derecho (preguntas y respuestas)
 
@@ -283,20 +263,18 @@ class Registro_recuperar(QMainWindow):
 
         # Creacion de boton buscar y recuperar
 
-
-
         self.botonRecuperar = QPushButton("Recuperar")
-        self.botonRecuperar.setFixedWidth(110)
+        self.botonRecuperar.setFixedWidth(160)
         self.botonRecuperar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 10px;'
-                                          'margin-left: 20px;'
+                                          'margin-left: 70px;'
                                           'border-radius:10px;'
                                           )
         self.botonRecuperar.clicked.connect(self.accionRecuperar)
 
-        self.botonContinuar = QPushButton("Mostrar")
+        """self.botonContinuar = QPushButton("Mostrar")
         self.botonContinuar.setFixedWidth(90)
         self.botonContinuar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
@@ -305,7 +283,7 @@ class Registro_recuperar(QMainWindow):
 
                                           'border-radius:10px;'
                                           )
-        self.botonContinuar.clicked.connect(self.accion_botonContinuar)
+        self.botonContinuar.clicked.connect(self.accion_botonContinuar)"""
 
         # Se agrega al layout derecho
         self.layoutDer_form.addRow(self.letrero3)
@@ -328,44 +306,50 @@ class Registro_recuperar(QMainWindow):
         self.layoutDer_form.addRow(self.pregunta6)
         self.layoutDer_form.addRow(self.respuesta6)
 
-        self.layoutDer_form.addRow(self.botonRecuperar, self.botonContinuar)
-
+        self.layoutDer_form.addRow(self.botonRecuperar)
 
         self.horizontal.addLayout(self.layoutDer_form)
         self.vertical.addLayout(self.horizontal)
 
+        # ----------- horizontal1 ------
+
+        self.horizontal2 = QHBoxLayout()
+        self.horizontal2.setContentsMargins(20, 0, 440, 50)
+
+        # Creacion de botones limpiar y registrar
+
+        self.botonregistrar = QPushButton("Registrar")
+        self.botonregistrar.setFixedWidth(90)
+        self.botonregistrar.setStyleSheet('background-color: #2F4F4F;'
+                                          'color: #FFFFFF;'
+                                          'padding: 10px;'
+                                          ''
+                                          'border-radius:10px;'
+                                          ''
+                                          )
+
+        self.botonregistrar.clicked.connect(self.accionRegistrar)
+
+        self.botonActualizar = QPushButton("Editar")
+        self.botonActualizar.setFixedWidth(90)
+        self.botonActualizar.setStyleSheet('background-color: #2F4F4F;'
+                                           'color: #FFFFFF;'
+                                           'padding: 10px;'
+                                           ''
+                                           'border-radius:10px;'
+                                           ''
+                                           )
+
+        self.botonActualizar.clicked.connect(self.accion_editar)
+
+        self.horizontal2.addWidget(self.botonregistrar)
+        self.horizontal2.addWidget(self.botonActualizar)
+        self.vertical.addLayout(self.horizontal2)
+
         # --------Layout que almacena toda la ventana----------
         self.fondo.setLayout(self.vertical)
 
-        # creamos ventana de dialogo
-        self.ventanaDialogo = QDialog(None, QtCore.Qt.WindowSystemMenuHint | QtCore.Qt.WindowTitleHint)
-        self.ventanaDialogo.resize(300, 150)
-
-        # crear boton para aceptar
-        self.botonAceptar = QDialogButtonBox.Ok
-        self.opciones = QDialogButtonBox(self.botonAceptar)
-        self.opciones.accepted.connect(self.ventanaDialogo.accept)
-
-        # titulo
-        self.ventanaDialogo.setWindowTitle("Formulario de registro")
-
-        # configuracion modal
-        self.ventanaDialogo.setWindowModality(Qt.ApplicationModal)
-
-        # crear layout vertical
-        self.vertical = QVBoxLayout()
-
-        self.mensaje = QLabel("")
-        self.mensaje.setStyleSheet('background-color: #008B45; color: #FFFFFF; padding: 10 px;')
-
-        self.vertical.addWidget(self.mensaje)
-        self.vertical.addWidget(self.opciones)
-        self.ventanaDialogo.setLayout(self.vertical)
-
     def accionLimpiar(self):
-
-        # datos correctos
-        self.datosCorrectos = True
 
         self.nombreCompleto.setText("")
         self.usuario.setText("")
@@ -451,6 +435,51 @@ class Registro_recuperar(QMainWindow):
 
         # si los datos estan correctos
         if self.datosCorrectos:
+
+            self.file = open('datos/usuarios.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                lista = linea.split(';')
+
+                if linea == '':
+                    break
+
+                u = Usuarios(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7],
+                    lista[8],
+                    lista[9],
+                    lista[10],
+                    lista[11],
+                    lista[12]
+                )
+
+                usuarios.append(u)
+
+                if u.documento == self.documento.text():
+                    return QMessageBox.warning(
+                        self,
+                        'Warning',
+                        'El documento ya existe.'
+                    )
+
+                if u.usuario == self.usuario.text():
+                    return QMessageBox.warning(
+                        self,
+                        'Warning',
+                        'El usuario no esta disponible.'
+                    )
+
+            self.file.close()
+
             # Abrimos el archivo en modo agregar
             self.file = open('datos/usuarios.txt', 'ab')
 
@@ -468,6 +497,7 @@ class Registro_recuperar(QMainWindow):
                                   self.respuesta4.text() + ";" +
                                   self.respuesta5.text() + ";" +
                                   self.respuesta6.text() + ";" + "\n", encoding='UTF-8'))
+
             self.file.close()
 
             self.file = open('datos/usuarios.txt', 'rb')
@@ -480,13 +510,182 @@ class Registro_recuperar(QMainWindow):
 
         self.accionLimpiar()
 
+    def accion_editar(self):
+        boton = QMessageBox.question(
+            self,
+            'Confirmation',
+            '¿Seguro que quiere ingresar este nuevo registro?',
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if boton == QMessageBox.StandardButton.Yes:
+            self.accionLimpiar()
+            if (
+                    self.nombreCompleto.text() == '' or
+                    self.usuario.text() == '' or
+                    self.contrasena.text() == '' or
+                    self.documento.text() == '' or
+                    self.correo.text() == '' or
+                    self.telefono.text() == '' or
+                    self.direccion.text() == '' or
+                    self.respuesta1.text() == '' or
+                    self.respuesta2.text() == '' or
+                    self.respuesta3.text() == '' or
+                    self.respuesta4.text() == '' or
+                    self.respuesta5.text() == '' or
+                    self.respuesta6.text() == ''
+            ):
+                QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Debe ingresar todos los campos.'
+                )
+                return
+
+            self.file = open('datos/usuarios.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                lista = linea.split(';')
+
+                if linea == '':
+                    break
+
+                u = Usuarios(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7],
+                    lista[8],
+                    lista[9],
+                    lista[10],
+                    lista[11],
+                    lista[12]
+                )
+
+                usuarios.append(u)
+
+            self.file.close()
+
+            # Variables controladoras si existe registro y si se va a editar
+            existeRegistro = False
+            existeDocumento = False
+
+            for u in usuarios:
+                if (
+                        u.nombreCompleto == self.nombreCompleto.text() and
+                        u.usuario == self.usuario.text() and
+                        u.contrasena == self.contrasena.text() and
+                        u.documento == self.documento.text() and
+                        u.correo == self.correo.text() and
+                        u.telefono == self.telefono.text() and
+                        u.direccion == self.direccion.text() and
+                        u.respuesta1 == self.respuesta1.text() and
+                        u.respuesta2 == self.respuesta2.text() and
+                        u.respuesta3 == self.respuesta3.text() and
+                        u.respuesta4 == self.respuesta4.text() and
+                        u.respuesta5 == self.respuesta5.text() and
+                        u.respuesta6 == self.respuesta6.text()
+                ):
+                    existeRegistro = True
+                    break
+
+            if existeRegistro:
+                QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Registro duplicado, no se puede registrar'
+                )
+                return
+
+            for u in usuarios:
+                if u.documento == self.documento.text():
+                    existeDocumento = True
+                    u.nombreCompleto = self.nombreCompleto.text()
+                    u.usuario = self.usuario.text()
+                    u.contrasena = self.contrasena.text()
+                    u.documento = self.documento.text()
+                    u.correo = self.correo.text()
+                    u.telefono = self.telefono.text()
+                    u.direccion = self.direccion.text()
+                    u.respuesta1 = self.respuesta1.text()
+                    u.respuesta2 = self.respuesta2.text()
+                    u.respuesta3 = self.respuesta3.text()
+                    u.respuesta4 = self.respuesta4.text()
+                    u.respuesta5 = self.respuesta5.text()
+                    u.respuesta6 = self.respuesta6.text()
+
+                    self.file = open('datos/usuarios.txt', 'wb')
+                    for u in usuarios:
+                        self.file.write(
+                            bytes(
+                                u.nombreCompleto + ';' +
+                                u.usuario + ';' +
+                                u.contrasena + ';' +
+                                u.documento + ';' +
+                                u.correo + ';' +
+                                u.telefono + ';' +
+                                u.direccion + ';' +
+                                u.respuesta1 + ';' +
+                                u.respuesta2 + ';' +
+                                u.respuesta3 + ';' +
+                                u.respuesta4 + ';' +
+                                u.respuesta5 + ';' +
+                                u.respuesta6 + ';' + '\n', encoding='UTF-8'
+                            )
+                        )
+                    self.file.close()
+
+                    QMessageBox.question(
+                        self,
+                        'Confirmation',
+                        'Los datos del registro se han editado exitosamente.',
+                        QMessageBox.StandardButton.Ok
+                    )
+                    return
+
+
+            if not existeDocumento:
+                self.file = open('datos/usuarios.txt', 'ab')
+                self.file.write(
+                    bytes(
+                        u.nombreCompleto + ';' +
+                        u.usuario + ';' +
+                        u.contrasena + ';' +
+                        u.documento + ';' +
+                        u.correo + ';' +
+                        u.telefono + ';' +
+                        u.direccion + ';' +
+                        u.respuesta1 + ';' +
+                        u.respuesta2 + ';' +
+                        u.respuesta3 + ';' +
+                        u.respuesta4 + ';' +
+                        u.respuesta5 + ';' +
+                        u.respuesta6 + ';' + '\n', encoding='UTF-8'
+                    )
+                )
+                self.file.close()
+
+            QMessageBox.question(
+                self,
+                'Confirmation',
+                'Los datos del registro se han ingresado correctamente.',
+                QMessageBox.StandardButton.Ok
+
+            )
+
+
+
+
     def accionBuscar(self):
 
         # datos correctos
         self.datosCorrectos = True
-
-        # ttulo ventana
-        self.ventanaDialogo.setWindowTitle("Buscar preguntas de validación")
 
         # condicionales de campos
         # ingresa el documento
@@ -494,20 +693,22 @@ class Registro_recuperar(QMainWindow):
                 self.documento.text() == ''
 
         ):
-            self.datosCorrectos = False
-            self.mensaje.setText("si va a buscar preguntas "
-                                 "para recuperar la contraseña.\n"
-                                 "Debe primero,ingresar el documento")
-            self.ventanaDialogo.exec_()
-
-        # documento es numerico
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                "si va a buscar preguntas "
+                "para recuperar la contraseña.\n"
+                "Debe primero,ingresar el documento"
+            )
 
         if (
                 not self.documento.text().isnumeric()
         ):
-            self.datosCorrectos = False
-            self.mensaje.setText("Ingrese solo numeros en el documento")
-            self.ventanaDialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Ingrese solo numeros en el documento'
+            )
 
             self.documento.setText('')
 
@@ -561,9 +762,17 @@ class Registro_recuperar(QMainWindow):
 
                 if u.documento == self.documento.text():
                     # aqui mostramos las preguntas del formulario
+                    self.nombreCompleto.setText(u.nombreCompleto)
+                    self.usuario.setText(u.usuario)
+                    self.correo.setText(u.correo)
+                    self.telefono.setText(u.telefono)
+                    self.direccion.setText(u.direccion)
                     self.respuesta1.setText(u.respuesta1)
                     self.respuesta2.setText(u.respuesta2)
                     self.respuesta3.setText(u.respuesta3)
+                    self.respuesta4.setText(u.respuesta4)
+                    self.respuesta5.setText(u.respuesta5)
+                    self.respuesta6.setText(u.respuesta6)
 
                     # indicamos que existen
                     existeDocumento = True
@@ -584,21 +793,21 @@ class Registro_recuperar(QMainWindow):
 
         self.datosCorrectos = True
 
-        self.ventanaDialogo.setWindowTitle("Recuperar contraseña")
 
         if (
                 self.respuesta1.text() == '' or
                 self.respuesta2.text() == '' or
                 self.respuesta3.text() == ''
         ):
-            self.datosCorrectos = False
 
-            self.mensaje.setText("Para recuperar la contraseña debe:"
-                                 "\nbuscar las preguntas de verificación."
-                                 "\n\nPrimero ingrese su documento y luego"
-                                 "\npresione el boton 'buscar'.")
-
-            self.ventanaDialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                "Para recuperar la contraseña debe:"
+                "\nbuscar las preguntas de verificación."
+                "\n\nPrimero ingrese su documento y luego"
+                "\npresione el boton 'buscar'."
+            )
 
         # Validamos si se buscaron las preguntas pero no se ingresaron las respuestas
         if (
@@ -609,12 +818,13 @@ class Registro_recuperar(QMainWindow):
                 self.respuesta3.text() != '' and
                 self.respuesta6.text() == ''
         ):
-            self.datosCorrectos = False
 
-            self.mensaje.setText("Para recuperar la contraseña debe:"
-                                 "\nIngresar las respuestas a cada pregunta.")
-
-            self.ventanaDialogo.exec_()
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                "Para recuperar la contraseña debe:"
+                "\nIngresar las respuestas a cada pregunta."
+            )
 
         # condicional si son correctos
         if (
@@ -688,15 +898,23 @@ class Registro_recuperar(QMainWindow):
                 # limpiamos los campos
                 self.accionLimpiar()
 
-                self.mensaje.setText(f"Contraseña: {passw}")
-                self.ventanaDialogo.exec_()
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    f"Contraseña: {passw}"
+                )
+
 
             else:
-                self.mensaje.setText("Las respuesta son incorrectas"
-                                     "\npara estas preguntas de recuperación."
-                                     "\n\nVuelva a intentarlo.")
 
-                self.ventanaDialogo.exec_()
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    "Las respuesta son incorrectas"
+                    "\npara estas preguntas de recuperación."
+                    "\n\nVuelva a intentarlo."
+
+                )
 
     def accion_botonAnterior(self):
         self.hide()
