@@ -94,6 +94,24 @@ class Consulta_datos_tabular(QMainWindow):
         self.editar.triggered.connect(self.accion_editar)
         self.toolbar.addAction(self.editar)
 
+        # toolbar buscar
+        self.actualizar = QAction(QIcon('imagenes/actualizar1.png'), "&Actualizar", self)
+        self.actualizar.triggered.connect(self.reiniciar_scroll)
+        self.toolbar.addAction(self.actualizar)
+
+        self.labelApto = QLabel("Apartamento: ")
+        self.labelApto.setStyleSheet('margin-left: 420px;')
+        self.toolbar.addWidget(self.labelApto)
+
+        self.campo_apartamento = QLineEdit()
+        self.campo_apartamento.setFixedWidth(100)
+        self.toolbar.addWidget(self.campo_apartamento)
+
+        # toolbar buscar
+        self.buscar = QAction(QIcon('imagenes/buscar1.png'), "&Buscar", self)
+#        self.buscar.triggered.connect(self.accion_buscar)
+        self.toolbar.addAction(self.buscar)
+
         # ---- Fin toolbar------
 
         self.horizontal1 = QHBoxLayout()
@@ -514,3 +532,32 @@ class Consulta_datos_tabular(QMainWindow):
                     'Warning',
                     'Debe ingresar todos los datos en el registro'
                 )
+
+    def reiniciar_scroll(self):
+
+        # Limpiar la tabla
+        self.tabla.clearContents()
+
+        # Obtener todos los visitantes
+        visitantes = self.usuarios
+
+        # Actualizar la tabla con los datos de todos los visitantes
+        self.tabla.setRowCount(len(visitantes))
+
+        for row, visitante in enumerate(visitantes):
+            self.tabla.setItem(row, 0, QTableWidgetItem(visitante.nombreCompleto))
+            self.tabla.setItem(row, 1, QTableWidgetItem(visitante.usuario))
+            self.tabla.setItem(row, 2, QTableWidgetItem(visitante.contrasena))
+            self.tabla.setItem(row, 3, QTableWidgetItem(visitante.documento))
+            self.tabla.setItem(row, 4, QTableWidgetItem(visitante.correo))
+            self.tabla.setItem(row, 5, QTableWidgetItem(visitante.telefono))
+            self.tabla.setItem(row, 6, QTableWidgetItem(visitante.direccion))
+            self.tabla.setItem(row, 7, QTableWidgetItem(visitante.respuesta1))
+            self.tabla.setItem(row, 8, QTableWidgetItem(visitante.respuesta2))
+            self.tabla.setItem(row, 9, QTableWidgetItem(visitante.respuesta3))
+            self.tabla.setItem(row, 10, QTableWidgetItem(visitante.respuesta4))
+            self.tabla.setItem(row, 11, QTableWidgetItem(visitante.respuesta5))
+            self.tabla.setItem(row, 12, QTableWidgetItem(visitante.respuesta6))
+
+
+        self.tabla.resizeColumnsToContents()

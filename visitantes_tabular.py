@@ -85,14 +85,34 @@ class Visitantes_tabular(QMainWindow):
         self.toolbar.addAction(self.delete)
 
         # toolbar agregar
-        self.agregar = QAction(QIcon('imagenes/agregar.png'), "&agregar", self)
+        self.agregar = QAction(QIcon('imagenes/agregar.png'), "&Agregar", self)
         self.agregar.triggered.connect(self.accion_agregar)
         self.toolbar.addAction(self.agregar)
 
         # toolbar editar
-        self.editar = QAction(QIcon('imagenes/editar.png'), "&editar", self)
+        self.editar = QAction(QIcon('imagenes/editar.png'), "&Editar", self)
         self.editar.triggered.connect(self.accion_editar)
         self.toolbar.addAction(self.editar)
+
+        # toolbar buscar
+        self.actualizar = QAction(QIcon('imagenes/actualizar1.png'), "&Actualizar", self)
+        self.actualizar.triggered.connect(self.reiniciar_scroll)
+        self.toolbar.addAction(self.actualizar)
+
+        self.labelApto = QLabel("Apartamento: ")
+        self.labelApto.setStyleSheet('margin-left: 420px;')
+        self.toolbar.addWidget(self.labelApto)
+
+        self.campo_apartamento = QLineEdit()
+        self.campo_apartamento.setFixedWidth(100)
+        self.toolbar.addWidget(self.campo_apartamento)
+
+        # toolbar buscar
+        self.buscar = QAction(QIcon('imagenes/buscar1.png'), "&Buscar", self)
+        self.buscar.triggered.connect(self.accion_buscar)
+        self.toolbar.addAction(self.buscar)
+
+
 
         # ---- Fin toolbar------
 
@@ -176,13 +196,13 @@ class Visitantes_tabular(QMainWindow):
             self.tabla.item(self.contador, 2).setFlags(Qt.ItemIsEnabled)
 
             self.tabla.setItem(self.contador, 3, QTableWidgetItem(u.nomVisitante))
-            #self.tabla.item(self.contador, 3).setFlags(Qt.ItemIsEnabled)
+            # self.tabla.item(self.contador, 3).setFlags(Qt.ItemIsEnabled)
 
             self.tabla.setItem(self.contador, 4, QTableWidgetItem(u.vehiculo2))
-            #self.tabla.item(self.contador, 4).setFlags(Qt.ItemIsEnabled)
+            # self.tabla.item(self.contador, 4).setFlags(Qt.ItemIsEnabled)
 
             self.tabla.setItem(self.contador, 5, QTableWidgetItem(u.placa))
-            #self.tabla.item(self.contador, 5).setFlags(Qt.ItemIsEnabled)
+            # self.tabla.item(self.contador, 5).setFlags(Qt.ItemIsEnabled)
 
             self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.fecha))
             self.tabla.item(self.contador, 6).setFlags(Qt.ItemIsEnabled)
@@ -191,7 +211,7 @@ class Visitantes_tabular(QMainWindow):
             self.tabla.item(self.contador, 7).setFlags(Qt.ItemIsEnabled)
 
             self.tabla.setItem(self.contador, 8, QTableWidgetItem(u.celda))
-            #self.tabla.item(self.contador, 8).setFlags(Qt.ItemIsEnabled)
+            # self.tabla.item(self.contador, 8).setFlags(Qt.ItemIsEnabled)
 
             self.contador += 1
 
@@ -199,7 +219,6 @@ class Visitantes_tabular(QMainWindow):
         self.vertical.addWidget(self.scrollArea)
 
         self.vertical.addStretch()
-
 
         self.fondo.setLayout(self.vertical)
 
@@ -388,8 +407,6 @@ class Visitantes_tabular(QMainWindow):
                 existeRegistro = False
                 existeDocumento = False
 
-
-
                 if not existeRegistro:
 
                     for u in usuarios:
@@ -460,3 +477,124 @@ class Visitantes_tabular(QMainWindow):
                     'Warning',
                     'Debe ingresar todos los datos en el registro'
                 )
+
+    def accion_buscar(self):
+        self.datosCorrectos = True
+        existeDocumento = False
+
+        if (
+                self.campo_apartamento.text() == ''
+
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'No ingresó nada en número de apartamento'
+            )
+
+        if (
+                not self.campo_apartamento.text().isnumeric()
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Ingrese solo números en apartamento'
+            )
+
+        if (
+                self.datosCorrectos
+        ):
+
+            self.file = open('datos/residente.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                # obtenemos del string una lista con 11 datos separados por;
+                lista = linea.split(";")
+
+                # paramos el bucle si ya no encuentra mas registros en el archivo
+                if linea == '':
+                    break
+
+                u = Residente(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7]
+                )
+
+                # metemos el objeto en la lista de usuarios
+                usuarios.append(u)
+
+            # cerramos ael archivo txt
+            self.file.close()
+
+
+
+            # buscamos en la lista de usuarios si existe la cedula
+
+            apartamento = self.campo_apartamento.text()
+
+            # Limpiar la tabla
+            self.tabla.clearContents()
+
+            # Obtener los visitantes del apartamento ingresado
+            visitantes_apartamento = [v for v in self.usuarios if v.apartamento == apartamento]
+
+            # Actualizar la tabla con los datos del apartamento ingresado
+            self.tabla.setRowCount(len(visitantes_apartamento))
+
+            for row, visitante in enumerate(visitantes_apartamento):
+                self.tabla.setItem(row, 0, QTableWidgetItem(visitante.apartamento))
+                self.tabla.setItem(row, 1, QTableWidgetItem(visitante.nombreCompleto))
+                self.tabla.setItem(row, 2, QTableWidgetItem(visitante.celular))
+                self.tabla.setItem(row, 3, QTableWidgetItem(visitante.nomVisitante))
+                self.tabla.setItem(row, 4, QTableWidgetItem(visitante.vehiculo2))
+                self.tabla.setItem(row, 5, QTableWidgetItem(visitante.placa))
+                self.tabla.setItem(row, 6, QTableWidgetItem(visitante.fecha))
+                self.tabla.setItem(row, 7, QTableWidgetItem(visitante.hora))
+                self.tabla.setItem(row, 8, QTableWidgetItem(visitante.celda))
+
+            self.tabla.resizeColumnsToContents()
+
+            # Verificar si se encontraron visitantes para el apartamento
+            if len(visitantes_apartamento) > 0:
+                existeDocumento = True
+
+            if not existeDocumento:
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'No existe apartamento registrado'
+                )
+            self.campo_apartamento.setText("")
+
+    def reiniciar_scroll(self):
+
+        # Limpiar la tabla
+        self.tabla.clearContents()
+
+        # Obtener todos los visitantes
+        visitantes = self.usuarios
+
+        # Actualizar la tabla con los datos de todos los visitantes
+        self.tabla.setRowCount(len(visitantes))
+
+        for row, visitante in enumerate(visitantes):
+            self.tabla.setItem(row, 0, QTableWidgetItem(visitante.apartamento))
+            self.tabla.setItem(row, 1, QTableWidgetItem(visitante.nombreCompleto))
+            self.tabla.setItem(row, 2, QTableWidgetItem(visitante.celular))
+            self.tabla.setItem(row, 3, QTableWidgetItem(visitante.nomVisitante))
+            self.tabla.setItem(row, 4, QTableWidgetItem(visitante.vehiculo2))
+            self.tabla.setItem(row, 5, QTableWidgetItem(visitante.placa))
+            self.tabla.setItem(row, 6, QTableWidgetItem(visitante.fecha))
+            self.tabla.setItem(row, 7, QTableWidgetItem(visitante.hora))
+            self.tabla.setItem(row, 8, QTableWidgetItem(visitante.celda))
+
+        self.tabla.resizeColumnsToContents()
+

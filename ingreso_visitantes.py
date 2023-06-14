@@ -10,9 +10,7 @@ from modulo_parqueadero import Modulo_parqueadero
 from visitante import Visitante
 from visitantes_tabular import Visitantes_tabular
 
-
 # from ingreso_datos import Ingreso_datos
-
 
 class Ingreso_visitantes(QMainWindow):
     def __init__(self, anterior):
@@ -232,7 +230,6 @@ class Ingreso_visitantes(QMainWindow):
         self.campo_horaVisitante.setFixedWidth(170)
         self.campo_horaVisitante.setFixedHeight(30)
         self.campo_horaVisitante.setMaxLength(8)
-        self.campo_horaVisitante.setPlaceholderText("00:00")
         self.campo_horaVisitante.setInputMask('99:99:99')
         self.campo_horaVisitante.setText(datetime.datetime.now().strftime('%H:%M:%S'))
         self.campo_horaVisitante.setReadOnly(True)
@@ -441,8 +438,7 @@ class Ingreso_visitantes(QMainWindow):
                 self.campo_apartamento.text() == ''
                 or self.campo_nombreVisitante.text() == ''
                 or self.campo_celularResidente.text() == ''
-                or self.campo_nombreResidente.text() == ''
-                or self.campo_vehiculo.text() == ''):
+                or self.campo_nombreResidente.text() == ''):
             return QMessageBox.warning(
                 self,
                 'Warning',
@@ -457,11 +453,11 @@ class Ingreso_visitantes(QMainWindow):
             )
             return
 
-        if not self.campo_placa.text().replace(' ', '').isalnum():
+        if self.campo_placa.text().strip() and not self.campo_placa.text().replace(' ', '').isalnum():
             QMessageBox.warning(
                 self,
                 "Advertencia",
-                "En placa de vehículo.\nSolo se permiten letras, números y espacios"
+                "En placa de vehículo. Solo se permiten letras, números y espacios"
             )
             return
 
@@ -492,7 +488,7 @@ class Ingreso_visitantes(QMainWindow):
 
                 usuarios.append(u)
 
-                if (u.celda == self.campo_celdaVisitante.text()):
+                if self.campo_celdaVisitante.text().strip() and u.celda == self.campo_celdaVisitante.text():
                     return QMessageBox.warning(
                         self,
                         'Warning',

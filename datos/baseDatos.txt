@@ -18,3 +18,9 @@
 101;cristian gallego grisales;3117077453;cristian;lo;aaa122;06/06/2023;17:15:37;1;
 101;cristian gallego grisales;3117077453;cristian;si;pep569;06/06/2023;17:23:14;2;
 101;cristian gallego grisales;3117077453;cristian;si;dwd156;06/06/2023;17:23:37;3;
+101;cristian gallego grisales;3117077453;cristian;si;aaa598;13/06/2023;20:36:02;1;
+102;Diego lopez;9874168;cristian;no;jfiei;13/06/2023;20:43:47;;
+102;Diego lopez;9874168;hector;no;;13/06/2023;21:11:46;;
+101;cristian gallego grisales;3117077453;ricardo;no;;13/06/2023;21:11:58;;
+102;Diego lopez;9874168;david;no;;13/06/2023;21:50:04;;
+101;cristian gallego grisales;3117077453;maria;si;psq789;13/06/2023;21:57:28;2;
