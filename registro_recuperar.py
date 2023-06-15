@@ -1,3 +1,4 @@
+import codecs
 import sys
 
 from PyQt5 import QtGui, QtCore
@@ -169,8 +170,6 @@ class Registro_recuperar(QMainWindow):
         self.boton_ingresar.setStyleSheet('background-color: transparent;')
         self.boton_ingresar.clicked.connect(self.accionBuscar)
 
-
-
         # Se agrega todo al layout formulario izquierdo
         self.layoutIzq_form.addRow(self.letrero2)
         self.layoutIzq_form.addRow(self.label_nombreCompleto)
@@ -264,26 +263,26 @@ class Registro_recuperar(QMainWindow):
         # Creacion de boton buscar y recuperar
 
         self.botonRecuperar = QPushButton("Recuperar")
-        self.botonRecuperar.setFixedWidth(160)
+        self.botonRecuperar.setFixedWidth(115)
         self.botonRecuperar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 10px;'
-                                          'margin-left: 70px;'
+                                          'margin-left: 25px;'
                                           'border-radius:10px;'
                                           )
         self.botonRecuperar.clicked.connect(self.accionRecuperar)
 
-        """self.botonContinuar = QPushButton("Mostrar")
-        self.botonContinuar.setFixedWidth(90)
+        self.botonContinuar = QPushButton("Borrar")
+        self.botonContinuar.setFixedWidth(100)
         self.botonContinuar.setStyleSheet('background-color: #2F4F4F;'
                                           'color: #FFFFFF;'
                                           'padding: 10px;'
                                           'margin-top: 10px;'
-
+                                          'margin-left:10px;'
                                           'border-radius:10px;'
                                           )
-        self.botonContinuar.clicked.connect(self.accion_botonContinuar)"""
+        self.botonContinuar.clicked.connect(self.accion_delete)
 
         # Se agrega al layout derecho
         self.layoutDer_form.addRow(self.letrero3)
@@ -306,7 +305,7 @@ class Registro_recuperar(QMainWindow):
         self.layoutDer_form.addRow(self.pregunta6)
         self.layoutDer_form.addRow(self.respuesta6)
 
-        self.layoutDer_form.addRow(self.botonRecuperar)
+        self.layoutDer_form.addRow(self.botonRecuperar, self.botonContinuar)
 
         self.horizontal.addLayout(self.layoutDer_form)
         self.vertical.addLayout(self.horizontal)
@@ -314,7 +313,7 @@ class Registro_recuperar(QMainWindow):
         # ----------- horizontal1 ------
 
         self.horizontal2 = QHBoxLayout()
-        self.horizontal2.setContentsMargins(20, 0, 440, 50)
+        self.horizontal2.setContentsMargins(65, 0, 485, 50)
 
         # Creacion de botones limpiar y registrar
 
@@ -519,7 +518,7 @@ class Registro_recuperar(QMainWindow):
         )
 
         if boton == QMessageBox.StandardButton.Yes:
-            self.accionLimpiar()
+
             if (
                     self.nombreCompleto.text() == '' or
                     self.usuario.text() == '' or
@@ -542,35 +541,39 @@ class Registro_recuperar(QMainWindow):
                 )
                 return
 
-            self.file = open('datos/usuarios.txt', 'rb')
+            # Verificar si las contraseñas son iguales
+            if self.contrasena.text() != self.confirmar_contrasena.text():
+                QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Las contraseñas no coinciden.'
+                )
+                return
+
             usuarios = []
 
-            while self.file:
-                linea = self.file.readline().decode('UTF-8')
-                lista = linea.split(';')
-
-                if linea == '':
-                    break
-
-                u = Usuarios(
-                    lista[0],
-                    lista[1],
-                    lista[2],
-                    lista[3],
-                    lista[4],
-                    lista[5],
-                    lista[6],
-                    lista[7],
-                    lista[8],
-                    lista[9],
-                    lista[10],
-                    lista[11],
-                    lista[12]
-                )
-
-                usuarios.append(u)
-
-            self.file.close()
+            # Al leer el archivo, utiliza el módulo 'codecs' para abrirlo con codificación UTF-8
+            with codecs.open('datos/usuarios.txt', 'r', 'utf-8') as file:
+                for linea in file:
+                    linea = linea.strip()
+                    if linea:
+                        datos = linea.split(';')
+                        u = Usuarios(
+                            datos[0],
+                            datos[1],
+                            datos[2],
+                            datos[3],
+                            datos[4],
+                            datos[5],
+                            datos[6],
+                            datos[7],
+                            datos[8],
+                            datos[9],
+                            datos[10],
+                            datos[11],
+                            datos[12]
+                        )
+                        usuarios.append(u)
 
             # Variables controladoras si existe registro y si se va a editar
             existeRegistro = False
@@ -603,8 +606,11 @@ class Registro_recuperar(QMainWindow):
                 )
                 return
 
+            # Obtén el documento actual
+            documento_actual = self.documento.text()
+
             for u in usuarios:
-                if u.documento == self.documento.text():
+                if u.documento == documento_actual:
                     existeDocumento = True
                     u.nombreCompleto = self.nombreCompleto.text()
                     u.usuario = self.usuario.text()
@@ -620,67 +626,20 @@ class Registro_recuperar(QMainWindow):
                     u.respuesta5 = self.respuesta5.text()
                     u.respuesta6 = self.respuesta6.text()
 
-                    self.file = open('datos/usuarios.txt', 'wb')
-                    for u in usuarios:
-                        self.file.write(
-                            bytes(
-                                u.nombreCompleto + ';' +
-                                u.usuario + ';' +
-                                u.contrasena + ';' +
-                                u.documento + ';' +
-                                u.correo + ';' +
-                                u.telefono + ';' +
-                                u.direccion + ';' +
-                                u.respuesta1 + ';' +
-                                u.respuesta2 + ';' +
-                                u.respuesta3 + ';' +
-                                u.respuesta4 + ';' +
-                                u.respuesta5 + ';' +
-                                u.respuesta6 + ';' + '\n', encoding='UTF-8'
-                            )
-                        )
-                    self.file.close()
-
-                    QMessageBox.question(
-                        self,
-                        'Confirmation',
-                        'Los datos del registro se han editado exitosamente.',
-                        QMessageBox.StandardButton.Ok
-                    )
-                    return
-
-
-            if not existeDocumento:
-                self.file = open('datos/usuarios.txt', 'ab')
-                self.file.write(
-                    bytes(
-                        u.nombreCompleto + ';' +
-                        u.usuario + ';' +
-                        u.contrasena + ';' +
-                        u.documento + ';' +
-                        u.correo + ';' +
-                        u.telefono + ';' +
-                        u.direccion + ';' +
-                        u.respuesta1 + ';' +
-                        u.respuesta2 + ';' +
-                        u.respuesta3 + ';' +
-                        u.respuesta4 + ';' +
-                        u.respuesta5 + ';' +
-                        u.respuesta6 + ';' + '\n', encoding='UTF-8'
-                    )
-                )
-                self.file.close()
+            # Al escribir en el archivo, utiliza el módulo 'codecs' para abrirlo con codificación UTF-8
+            with codecs.open('datos/usuarios.txt', 'w', 'utf-8') as file:
+                for u in usuarios:
+                    linea = f"{u.nombreCompleto};{u.usuario};{u.contrasena};{u.documento};{u.correo};{u.telefono};{u.direccion};{u.respuesta1};{u.respuesta2};{u.respuesta3};{u.respuesta4};{u.respuesta5};{u.respuesta6}"
+                    file.write(linea + '\n')
 
             QMessageBox.question(
                 self,
                 'Confirmation',
-                'Los datos del registro se han ingresado correctamente.',
+                'Los datos del registro se han editado exitosamente.',
                 QMessageBox.StandardButton.Ok
-
             )
-
-
-
+            self.accionLimpiar()
+            return
 
     def accionBuscar(self):
 
@@ -789,17 +748,109 @@ class Registro_recuperar(QMainWindow):
                     'No existe usuario registrado'
                 )
 
+    def accion_delete(self):
+
+        boton = QMessageBox.question(
+            self,
+            'Confirmation',
+            '¿Estas seguro de borrar este registro?',
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if boton == QMessageBox.StandardButton.Yes:
+
+            if (
+                    self.nombreCompleto.text() != '' and
+                    self.usuario.text() != '' and
+                    self.contrasena.text() != '' and
+                    self.documento.text() != '' and
+                    self.correo.text() != '' and
+                    self.telefono.text() != '' and
+                    self.direccion.text() != '' and
+                    self.respuesta1.text() != '' and
+                    self.respuesta2.text() != '' and
+                    self.respuesta3.text() != '' and
+                    self.respuesta4.text() != '' and
+                    self.respuesta5.text() != '' and
+                    self.respuesta6.text() != ''
+            ):
+                self.file = open('datos/usuarios.txt', 'rb')
+
+                usuarios = []
+
+                while self.file:
+                    linea = self.file.readline().decode('UTF-8')
+                    lista = linea.split(';')
+
+                    if linea == '':
+                        break
+
+                    u = Usuarios(
+                        lista[0],
+                        lista[1],
+                        lista[2],
+                        lista[3],
+                        lista[4],
+                        lista[5],
+                        lista[6],
+                        lista[7],
+                        lista[8],
+                        lista[9],
+                        lista[10],
+                        lista[11],
+                        lista[12]
+                    )
+
+                    usuarios.append(u)
+
+                self.file.close()
+
+                for u in usuarios:
+
+                    if (
+                            u.documento == self.documento.text()
+                    ):
+                        usuarios.remove(u)
+                        break
+
+                self.file = open('datos/usuarios.txt', 'wb')
+
+                for u in usuarios:
+                    self.file.write(bytes(u.nombreCompleto + ';' +
+                                          u.usuario + ';' +
+                                          u.contrasena + ';' +
+                                          u.documento + ';' +
+                                          u.correo + ';' +
+                                          u.telefono + ';' +
+                                          u.direccion + ';' +
+                                          u.respuesta1 + ';' +
+                                          u.respuesta2 + ';' +
+                                          u.respuesta3 + ';' +
+                                          u.respuesta4 + ';' +
+                                          u.respuesta5 + ';' +
+                                          u.respuesta6 + ';' + '\n', encoding='UTF-8'))
+                self.file.close()
+
+                # hacemos que la tabla no se vea en el registro
+
+                return QMessageBox.question(
+                    self,
+                    'confirmation',
+                    'El registro ha sido eliminado exitosamente.',
+                    QMessageBox.StandardButton.Yes
+                )
+                self.accionLimpiar()
+
+
     def accionRecuperar(self):
 
         self.datosCorrectos = True
-
 
         if (
                 self.respuesta1.text() == '' or
                 self.respuesta2.text() == '' or
                 self.respuesta3.text() == ''
         ):
-
             return QMessageBox.warning(
                 self,
                 'Warning',
@@ -818,7 +869,6 @@ class Registro_recuperar(QMainWindow):
                 self.respuesta3.text() != '' and
                 self.respuesta6.text() == ''
         ):
-
             return QMessageBox.warning(
                 self,
                 'Warning',
