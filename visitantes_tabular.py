@@ -587,13 +587,26 @@ class Visitantes_tabular(QMainWindow):
 
         for row, visitante in enumerate(visitantes):
             self.tabla.setItem(row, 0, QTableWidgetItem(visitante.apartamento))
+            self.tabla.item(row, 0).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(row, 1, QTableWidgetItem(visitante.nombreCompleto))
+            self.tabla.item(row, 1).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(row, 2, QTableWidgetItem(visitante.celular))
+            self.tabla.item(row, 2).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(row, 3, QTableWidgetItem(visitante.nomVisitante))
+
             self.tabla.setItem(row, 4, QTableWidgetItem(visitante.vehiculo2))
+
             self.tabla.setItem(row, 5, QTableWidgetItem(visitante.placa))
+
             self.tabla.setItem(row, 6, QTableWidgetItem(visitante.fecha))
+            self.tabla.item(row, 6).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(row, 7, QTableWidgetItem(visitante.hora))
+            self.tabla.item(row, 7).setFlags(Qt.ItemIsEnabled)
+
             self.tabla.setItem(row, 8, QTableWidgetItem(visitante.celda))
 
         self.tabla.resizeColumnsToContents()

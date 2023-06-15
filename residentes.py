@@ -1,3 +1,4 @@
+import codecs
 import sys
 
 from PyQt5 import QtGui, QtCore
@@ -76,7 +77,6 @@ class Residentes(QMainWindow):
 
         self.vertical.addSpacing(30)
 
-
         # -----creacion del formulario---------
 
         self.horizontalForm = QHBoxLayout()
@@ -128,7 +128,7 @@ class Residentes(QMainWindow):
         self.editCelular.setStyleSheet('background-color: white;')
 
         self.editCorreo = QLineEdit()
-        self.editCorreo.setFixedWidth(170)
+        self.editCorreo.setFixedWidth(180)
         self.editCorreo.setFixedHeight(25)
         self.editCorreo.setPlaceholderText("example@gmail.com")
         self.editCorreo.setAlignment(Qt.AlignCenter)
@@ -159,17 +159,17 @@ class Residentes(QMainWindow):
         self.labelApartamento.setStyleSheet('background-color: transparent;')
 
         self.labelPlaca = QLabel()
-        self.labelPlaca.setText("Número de placa*")
+        self.labelPlaca.setText("Número de placa")
         self.labelPlaca.setFont(QFont('VAG_ROUNDED.ttf', 12))
         self.labelPlaca.setStyleSheet('background-color: transparent;')
 
         self.labelVehiculo = QLabel()
-        self.labelVehiculo.setText("¿Cuenta con Vehículo?*")
+        self.labelVehiculo.setText("¿Cuenta con Vehículo?")
         self.labelVehiculo.setFont(QFont('VAG_ROUNDED.ttf', 12))
         self.labelVehiculo.setStyleSheet('background-color: transparent;')
 
         self.labelCelda = QLabel()
-        self.labelCelda.setText("Celda que Ocupa*")
+        self.labelCelda.setText("Celda que Ocupa")
         self.labelCelda.setFont(QFont('VAG_ROUNDED.ttf', 12))
         self.labelCelda.setStyleSheet('background-color: transparent;')
 
@@ -181,6 +181,13 @@ class Residentes(QMainWindow):
         self.editApartamento.setPlaceholderText("APTO")
         self.editApartamento.setAlignment(Qt.AlignCenter)
         self.editApartamento.setStyleSheet('background-color: white;')
+
+        # Crear boton ingresar
+        self.boton_ingresar = QPushButton(icon=QIcon('imagenes/buscar1.png'))
+        self.boton_ingresar.setFixedSize(30, 30)
+        self.boton_ingresar.setIconSize(QSize(25, 25))
+        self.boton_ingresar.setStyleSheet('background-color: transparent;')
+        self.boton_ingresar.clicked.connect(self.accionBuscar)
 
         self.editPlaca = QLineEdit()
         self.editPlaca.setFixedWidth(170)
@@ -207,7 +214,7 @@ class Residentes(QMainWindow):
         # agregamos al formulario
 
         self.formulario2.addRow(self.labelApartamento)
-        self.formulario2.addRow(self.editApartamento)
+        self.formulario2.addRow(self.editApartamento, self.boton_ingresar)
 
         self.formulario2.addRow(self.labelVehiculo)
         self.formulario2.addRow(self.editVehiculo)
@@ -226,9 +233,9 @@ class Residentes(QMainWindow):
         # -------------layout horizontal-----------
 
         self.horizontal = QHBoxLayout()
-        self.horizontal.setContentsMargins(200, 0, 200, 0)
+        self.horizontal.setContentsMargins(100, 0, 100, 0)
 
-        # botones volver y registrar
+        # botones volver, registrar, editar y borrar
 
         self.botonRegistrar = QPushButton("Registrar")
         self.botonRegistrar.setFixedWidth(100)
@@ -239,6 +246,26 @@ class Residentes(QMainWindow):
                                           'border-radius:10px'
                                           )
         self.botonRegistrar.clicked.connect(self.accion_botonRegistrar)
+
+        self.botonEditar = QPushButton("Editar")
+        self.botonEditar.setFixedWidth(100)
+        self.botonEditar.setFixedHeight(40)
+        self.botonEditar.setStyleSheet('background-color: #2F4F4F;'
+                                       'color: #FFFFFF;'
+                                       'padding: 5px;'
+                                       'border-radius:10px'
+                                       )
+        self.botonEditar.clicked.connect(self.accion_editar)
+
+        self.botonBorrar = QPushButton("Borrar")
+        self.botonBorrar.setFixedWidth(100)
+        self.botonBorrar.setFixedHeight(40)
+        self.botonBorrar.setStyleSheet('background-color: #2F4F4F;'
+                                       'color: #FFFFFF;'
+                                       'padding: 5px;'
+                                       'border-radius:10px'
+                                       )
+        self.botonBorrar.clicked.connect(self.accion_delete)
 
         self.botonResidentes = QPushButton("Residentes")
         self.botonResidentes.setFixedWidth(100)
@@ -251,6 +278,8 @@ class Residentes(QMainWindow):
         self.botonResidentes.clicked.connect(self.accion_botonResidentes)
 
         self.horizontal.addWidget(self.botonRegistrar)
+        self.horizontal.addWidget(self.botonEditar)
+        self.horizontal.addWidget(self.botonBorrar)
         self.horizontal.addWidget(self.botonResidentes)
 
         self.vertical.addLayout(self.horizontal)
@@ -273,6 +302,90 @@ class Residentes(QMainWindow):
         self.editPlaca.setText("")
         self.editCelda.setText("")
 
+    def accionBuscar(self):
+
+        # datos correctos
+        self.datosCorrectos = True
+
+        # condicionales de campos
+
+        if (
+                not self.editApartamento.text().isnumeric()
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Ingrese solo números en apartamento.'
+            )
+
+        if (
+                self.datosCorrectos
+        ):
+
+            self.file = open('datos/residente.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                # obtenemos del string una lista con 11 datos separados por;
+                lista = linea.split(";")
+
+                # paramos el bucle si ya no encuentra mas registros en el archivo
+                if linea == '':
+                    break
+
+                u = Residente(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7]
+                )
+
+                # metemos el objeto en la lista de usuarios
+                usuarios.append(u)
+
+            # cerramos ael archivo txt
+            self.file.close()
+
+            # en este punto tenemos la lista de usuarios con todos los usuarios
+
+            existeDocumento = False
+
+            # buscamos en la lista de usuarios si existe la cedula
+
+            for u in usuarios:
+                """comparamos el documento ingresado:
+                si correspopnde con el documento, es el usuario correcto:"""
+
+                if u.apartamento == self.editApartamento.text():
+                    # aqui mostramos las preguntas del formulario
+                    self.editNombrecompleto.setText(u.nombreCompleto)
+                    self.editCedula.setText(u.cedula)
+                    self.editCelular.setText(u.celular)
+                    self.editCorreo.setText(u.correo)
+                    self.editVehiculo.setText(u.vehiculo3)
+                    self.editPlaca.setText(u.placa)
+                    self.editCelda.setText(u.celda)
+
+                    # indicamos que existen
+                    existeDocumento = True
+
+                    break
+
+            # si no existe usuario con este documento
+            if (
+                    not existeDocumento
+            ):
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'No existe apartamento registrado.'
+                )
+
     def accion_botonRegistrar(self):
 
         # datos correctos
@@ -284,9 +397,6 @@ class Residentes(QMainWindow):
                 or self.editCelular.text() == ''
                 or self.editCorreo.text() == ''
                 or self.editApartamento.text() == ''
-                or self.editVehiculo.text() == ''
-                or self.editPlaca.text() == ''
-                or self.editCelda.text() == ''
         ):
             return QMessageBox.warning(
                 self,
@@ -396,6 +506,206 @@ class Residentes(QMainWindow):
             self.file.close()
 
         self.limpiar()
+
+    def accion_editar(self):
+        boton = QMessageBox.question(
+            self,
+            'Confirmation',
+            '¿Seguro que quiere ingresar este nuevo registro?',
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if boton == QMessageBox.StandardButton.Yes:
+
+            if (
+                    self.editNombrecompleto.text() == '' or
+                    self.editCedula.text() == '' or
+                    self.editCelular.text() == '' or
+                    self.editCorreo.text() == '' or
+                    self.editApartamento.text() == '' or
+                    self.editVehiculo.text() == ''
+            ):
+                QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Debe ingresar todos los campos.'
+                )
+                return
+
+            if not (self.editNombrecompleto.text().replace(' ', '').isalpha() and
+                    self.editVehiculo.text().replace(' ', '').isalpha()
+            ):
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'El nombre y el vehículo solo deben contener letras.'
+                )
+
+            if (
+                    not self.editCedula.text().isdigit() or
+                    not self.editCelular.text().isdigit() or
+                    not self.editApartamento.text().isdigit() or
+                    not self.editCelda.text().isdigit()
+            ):
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Cédula, Celular, Apto y Celda solo deben contener números.'
+                )
+
+            usuarios = []
+
+            # Al leer el archivo, utiliza el módulo 'codecs' para abrirlo con codificación UTF-8
+            with codecs.open('datos/residente.txt', 'r', 'utf-8') as file:
+                for linea in file:
+                    linea = linea.strip()
+                    if linea:
+                        datos = linea.split(';')
+                        u = Residente(
+                            datos[0],
+                            datos[1],
+                            datos[2],
+                            datos[3],
+                            datos[4],
+                            datos[5],
+                            datos[6],
+                            datos[7]
+                        )
+                        usuarios.append(u)
+
+            # Variables controladoras si existe registro y si se va a editar
+            existeRegistro = False
+            existeDocumento = False
+
+            for u in usuarios:
+                if (
+                        u.nombreCompleto == self.editNombrecompleto.text() and
+                        u.cedula == self.editCedula.text() and
+                        u.celular == self.editCelular.text() and
+                        u.correo == self.editCorreo.text() and
+                        u.apartamento == self.editApartamento.text() and
+                        u.vehiculo3 == self.editVehiculo.text() and
+                        u.placa == self.editPlaca.text() and
+                        u.celda == self.editCelda.text()
+                ):
+                    existeRegistro = True
+                    break
+
+            if existeRegistro:
+                QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'Registro duplicado, no se puede registrar'
+                )
+                return
+
+            # Obtén el apartamento actual
+            apartamento_actual = self.editApartamento.text()
+
+            for u in usuarios:
+                if u.apartamento == apartamento_actual:
+                    existeDocumento = True
+                    u.nombreCompleto = self.editNombrecompleto.text()
+                    u.cedula = self.editCedula.text()
+                    u.celular = self.editCelular.text()
+                    u.correo = self.editCorreo.text()
+                    u.apartamento = self.editApartamento.text()
+                    u.vehiculo3 = self.editVehiculo.text()
+                    u.placa = self.editPlaca.text()
+                    u.celda = self.editCelda.text()
+
+            # Al escribir en el archivo, utiliza el módulo 'codecs' para abrirlo con codificación UTF-8
+            with codecs.open('datos/residente.txt', 'w', 'utf-8') as file:
+                for u in usuarios:
+                    linea = f"{u.nombreCompleto};{u.cedula};{u.celular};{u.correo};{u.apartamento};{u.vehiculo3};{u.placa};{u.celda}"
+                    file.write(linea + '\n')
+
+            QMessageBox.question(
+                self,
+                'Confirmation',
+                'Los datos del registro se han editado exitosamente.',
+                QMessageBox.StandardButton.Ok
+            )
+            self.limpiar()
+            return
+
+    def accion_delete(self):
+
+        boton = QMessageBox.question(
+            self,
+            'Confirmation',
+            '¿Estas seguro de borrar este registro?',
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if boton == QMessageBox.StandardButton.Yes:
+
+            if (
+                    self.editNombrecompleto.text() != '' and
+                    self.editCedula.text() != '' and
+                    self.editCelular.text() != '' and
+                    self.editCorreo.text() != '' and
+                    self.editApartamento.text() != '' and
+                    self.editVehiculo.text() != '' and
+                    self.editPlaca.text() != '' and
+                    self.editCelda.text() != ''
+            ):
+                self.file = open('datos/residente.txt', 'rb')
+
+                usuarios = []
+
+                while self.file:
+                    linea = self.file.readline().decode('UTF-8')
+                    lista = linea.split(';')
+
+                    if linea == '':
+                        break
+
+                    u = Residente(
+                        lista[0],
+                        lista[1],
+                        lista[2],
+                        lista[3],
+                        lista[4],
+                        lista[5],
+                        lista[6],
+                        lista[7]
+                    )
+
+                    usuarios.append(u)
+
+                self.file.close()
+
+                for u in usuarios:
+
+                    if (
+                            u.apartamento == self.editApartamento.text()
+                    ):
+                        usuarios.remove(u)
+                        break
+
+                self.file = open('datos/residente.txt', 'wb')
+
+                for u in usuarios:
+                    self.file.write(bytes(u.nombreCompleto + ';' +
+                                          u.cedula + ';' +
+                                          u.celular + ';' +
+                                          u.correo + ';' +
+                                          u.apartamento + ';' +
+                                          u.vehiculo3 + ';' +
+                                          u.placa + ';' +
+                                          u.celda + ';' + '\n', encoding='UTF-8'))
+                self.file.close()
+                self.limpiar()
+
+                # hacemos que la tabla no se vea en el registro
+
+                return QMessageBox.question(
+                    self,
+                    'confirmation',
+                    'El registro ha sido eliminado exitosamente.',
+                    QMessageBox.StandardButton.Yes
+                )
 
     def accion_botonResidentes(self):
         self.hide()
