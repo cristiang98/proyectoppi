@@ -341,7 +341,14 @@ class Visitantes_tabular(QMainWindow):
 
     def accion_editar(self):
 
-        filaActual = self.tabla.currentRow()
+        return QMessageBox.warning(
+            self,
+            "Warning",
+            "El botón esta inhabilitado."
+        )
+
+
+        """filaActual = self.tabla.currentRow()
 
         if filaActual < 0:
             return QMessageBox.warning(
@@ -476,7 +483,7 @@ class Visitantes_tabular(QMainWindow):
                     self,
                     'Warning',
                     'Debe ingresar todos los datos en el registro'
-                )
+                )"""
 
     def accion_buscar(self):
         self.datosCorrectos = True

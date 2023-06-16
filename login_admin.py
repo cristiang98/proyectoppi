@@ -87,7 +87,7 @@ class Login_admin(QMainWindow):
         self.usuario.setFont(QFont("VAG_ROUNDED.ttf", 15))
         self.usuario.setStyleSheet('background-color: transparent;'
                                    'margin-top:20px;'
-                                   'margin-left:65px;')
+                                   'margin-left:75px;')
 
         # hacemos el campo para el usuario
         self.campo1 = QLineEdit()
@@ -103,7 +103,7 @@ class Login_admin(QMainWindow):
         self.contraseña.setFont(QFont("VAG_ROUNDED.ttf", 15))
         self.contraseña.setStyleSheet('background-color: transparent;'
                                       'margin-top:10px;'
-                                      'margin-left:50px;')
+                                      'margin-left:58px;')
 
         # campo de la contraseña
         self.campo2 = QLineEdit()

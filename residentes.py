@@ -544,13 +544,12 @@ class Residentes(QMainWindow):
             if (
                     not self.editCedula.text().isdigit() or
                     not self.editCelular.text().isdigit() or
-                    not self.editApartamento.text().isdigit() or
-                    not self.editCelda.text().isdigit()
+                    not self.editApartamento.text().isdigit()
             ):
                 return QMessageBox.warning(
                     self,
                     'Warning',
-                    'Cédula, Celular, Apto y Celda solo deben contener números.'
+                    'Cédula, Celular y Apto solo deben contener números.'
                 )
 
             usuarios = []

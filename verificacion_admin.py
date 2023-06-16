@@ -73,7 +73,7 @@ class Verificacion_admin(QMainWindow):
         # layout formulario
 
         self.formulario = QFormLayout()
-        self.formulario.setContentsMargins(50, 30, 0, 0)
+        self.formulario.setContentsMargins(65, 30, 0, 0)
 
         # label y campo
 
