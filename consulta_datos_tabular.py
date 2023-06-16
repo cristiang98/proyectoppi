@@ -20,7 +20,7 @@ class Consulta_datos_tabular(QMainWindow):
         self.setWindowTitle("Usuarios Registrados")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 900
-        self.alto = 600
+        self.alto = 400
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -63,7 +63,9 @@ class Consulta_datos_tabular(QMainWindow):
                 lista[7],
                 lista[8],
                 lista[9],
-                lista[10]
+                lista[10],
+                lista[11],
+                lista[12]
             )
 
             self.usuarios.append(u)
@@ -92,18 +94,59 @@ class Consulta_datos_tabular(QMainWindow):
         self.editar.triggered.connect(self.accion_editar)
         self.toolbar.addAction(self.editar)
 
+        # toolbar buscar
+        self.actualizar = QAction(QIcon('imagenes/actualizar1.png'), "&Actualizar", self)
+        self.actualizar.triggered.connect(self.reiniciar_scroll)
+        self.toolbar.addAction(self.actualizar)
+
+        self.labelApto = QLabel("Apartamento: ")
+        self.labelApto.setStyleSheet('margin-left: 420px;')
+        self.toolbar.addWidget(self.labelApto)
+
+        self.campo_apartamento = QLineEdit()
+        self.campo_apartamento.setFixedWidth(100)
+        self.toolbar.addWidget(self.campo_apartamento)
+
+        # toolbar buscar
+        self.buscar = QAction(QIcon('imagenes/buscar1.png'), "&Buscar", self)
+#        self.buscar.triggered.connect(self.accion_buscar)
+        self.toolbar.addAction(self.buscar)
+
         # ---- Fin toolbar------
 
-        # hacemos los labels informativos
-        self.letrero1 = QLabel()
-        self.letrero1.setAlignment(Qt.AlignCenter)
-        self.letrero1.setText("Usuario registrado")
-        self.letrero1.setFont(QFont("Arial", 20))
-        self.letrero1.setStyleSheet('color: black;'
-                                    'background-color: transparent;')
+        self.horizontal1 = QHBoxLayout()
+        self.horizontal1.setContentsMargins(0, 0, 50, 0)
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:30px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
 
-        self.vertical.addWidget(self.letrero1)
-        self.vertical.addStretch()
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
+        self.letrero1.setText("Registro de Colaboradores")
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-left: 140px;')
+
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal1.addWidget(self.botonanterior)
+        self.horizontal1.addWidget(self.letrero1)
+        self.horizontal1.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal1)
+
+        self.vertical.addSpacing(30)
 
         self.scrollArea = QScrollArea()
         self.scrollArea.setWidgetResizable(True)
@@ -111,7 +154,7 @@ class Consulta_datos_tabular(QMainWindow):
 
         # para crear la tabla para que se vean de forma tabular
         self.tabla = QTableWidget()
-        self.tabla.setColumnCount(11)
+        self.tabla.setColumnCount(13)
 
         # definimos los numeros de colimnas que tendra la tabla
 
@@ -126,12 +169,16 @@ class Consulta_datos_tabular(QMainWindow):
         self.tabla.setColumnWidth(8, 150)
         self.tabla.setColumnWidth(9, 150)
         self.tabla.setColumnWidth(10, 150)
+        self.tabla.setColumnWidth(11, 150)
+        self.tabla.setColumnWidth(12, 150)
 
         self.tabla.setHorizontalHeaderLabels(["Nombre",
                                               "Usuario",
                                               "Contraseña",
                                               "Documento",
                                               "Correo",
+                                              "teléfono",
+                                              "dirección",
                                               "Pregunta 1",
                                               "Pregunta 2",
                                               "Pregunta 3",
@@ -152,57 +199,25 @@ class Consulta_datos_tabular(QMainWindow):
             # evitar que se deje modificar
             self.tabla.item(self.contador, 3).setFlags(Qt.ItemIsEnabled)
             self.tabla.setItem(self.contador, 4, QTableWidgetItem(u.correo))
-            self.tabla.setItem(self.contador, 5, QTableWidgetItem(u.respuesta1))
-            self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.respuesta2))
-            self.tabla.setItem(self.contador, 7, QTableWidgetItem(u.respuesta3))
-            self.tabla.setItem(self.contador, 8, QTableWidgetItem(u.respuesta4))
-            self.tabla.setItem(self.contador, 9, QTableWidgetItem(u.respuesta5))
-            self.tabla.setItem(self.contador, 10, QTableWidgetItem(u.respuesta6))
+            self.tabla.setItem(self.contador, 5, QTableWidgetItem(u.telefono))
+            self.tabla.setItem(self.contador, 6, QTableWidgetItem(u.direccion))
+            self.tabla.setItem(self.contador, 7, QTableWidgetItem(u.respuesta1))
+            self.tabla.setItem(self.contador, 8, QTableWidgetItem(u.respuesta2))
+            self.tabla.setItem(self.contador, 9, QTableWidgetItem(u.respuesta3))
+            self.tabla.setItem(self.contador, 10, QTableWidgetItem(u.respuesta4))
+            self.tabla.setItem(self.contador, 11, QTableWidgetItem(u.respuesta5))
+            self.tabla.setItem(self.contador, 12, QTableWidgetItem(u.respuesta6))
 
             self.contador += 1
 
         self.scrollArea.setWidget(self.tabla)
         self.vertical.addWidget(self.scrollArea)
 
-        self.vertical.addStretch()
-
-        # Boton volver
-
-        self.horizontal = QHBoxLayout()
-
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setFixedHeight(40)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 5px;'
-                                       'border-radius: 10px;')
-
-        self.botonVolver.clicked.connect(self.metodo_botonVolver)
-
-        # Se agrega el boton al layout vertical
-
-        self.horizontal.addWidget(self.botonVolver)
-        self.vertical.addLayout(self.horizontal)
-
         self.vertical.addSpacing(30)
-
-        # layout horizonat1 icono senderoverde
-        self.horizontal2 = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal2.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal2)
 
         self.fondo.setLayout(self.vertical)
 
-    def metodo_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 
@@ -232,7 +247,9 @@ class Consulta_datos_tabular(QMainWindow):
                     self.tabla.item(filaActual, 7).text() != '' and
                     self.tabla.item(filaActual, 8).text() != '' and
                     self.tabla.item(filaActual, 9).text() != '' and
-                    self.tabla.item(filaActual, 10).text() != ''
+                    self.tabla.item(filaActual, 10).text() != '' and
+                    self.tabla.item(filaActual, 11).text() != '' and
+                    self.tabla.item(filaActual, 12).text() != ''
             ):
                 self.file = open('datos/usuarios.txt', 'rb')
 
@@ -256,7 +273,9 @@ class Consulta_datos_tabular(QMainWindow):
                         lista[7],
                         lista[8],
                         lista[9],
-                        lista[10]
+                        lista[10],
+                        lista[11],
+                        lista[12]
                     )
 
                     usuarios.append(u)
@@ -279,6 +298,8 @@ class Consulta_datos_tabular(QMainWindow):
                                           u.contrasena + ';' +
                                           u.documento + ';' +
                                           u.correo + ';' +
+                                          u.telefono + ';' +
+                                          u.direccion + ';' +
                                           u.respuesta1 + ';' +
                                           u.respuesta2 + ';' +
                                           u.respuesta3 + ';' +
@@ -320,6 +341,8 @@ class Consulta_datos_tabular(QMainWindow):
         self.tabla.setItem(ultimafila, 8, QTableWidgetItem(''))
         self.tabla.setItem(ultimafila, 9, QTableWidgetItem(''))
         self.tabla.setItem(ultimafila, 10, QTableWidgetItem(''))
+        self.tabla.setItem(ultimafila, 11, QTableWidgetItem(''))
+        self.tabla.setItem(ultimafila, 12, QTableWidgetItem(''))
 
     def accion_editar(self):
 
@@ -355,7 +378,9 @@ class Consulta_datos_tabular(QMainWindow):
                     self.tabla.item(filaActual, 7).text() != '' and
                     self.tabla.item(filaActual, 8).text() != '' and
                     self.tabla.item(filaActual, 9).text() != '' and
-                    self.tabla.item(filaActual, 10).text() != ''
+                    self.tabla.item(filaActual, 10).text() != '' and
+                    self.tabla.item(filaActual, 11).text() != '' and
+                    self.tabla.item(filaActual, 12).text() != ''
             ):
 
                 datosVacios = False
@@ -382,7 +407,9 @@ class Consulta_datos_tabular(QMainWindow):
                         lista[7],
                         lista[8],
                         lista[9],
-                        lista[10]
+                        lista[10],
+                        lista[11],
+                        lista[12]
                     )
 
                     usuarios.append(u)
@@ -401,12 +428,14 @@ class Consulta_datos_tabular(QMainWindow):
                             u.contrasena == self.tabla.item(filaActual, 2).text() and
                             u.documento == self.tabla.item(filaActual, 3).text() and
                             u.correo == self.tabla.item(filaActual, 4).text() and
-                            u.respuesta1 == self.tabla.item(filaActual, 5).text() and
-                            u.respuesta2 == self.tabla.item(filaActual, 6).text() and
-                            u.respuesta3 == self.tabla.item(filaActual, 7).text() and
-                            u.respuesta4 == self.tabla.item(filaActual, 8).text() and
-                            u.respuesta5 == self.tabla.item(filaActual, 9).text() and
-                            u.respuesta6 == self.tabla.item(filaActual, 10).text()
+                            u.telefono == self.tabla.item(filaActual, 5).text() and
+                            u.direccion == self.tabla.item(filaActual, 6).text() and
+                            u.respuesta1 == self.tabla.item(filaActual, 7).text() and
+                            u.respuesta2 == self.tabla.item(filaActual, 8).text() and
+                            u.respuesta3 == self.tabla.item(filaActual, 9).text() and
+                            u.respuesta4 == self.tabla.item(filaActual, 10).text() and
+                            u.respuesta5 == self.tabla.item(filaActual, 11).text() and
+                            u.respuesta6 == self.tabla.item(filaActual, 12).text()
                     ):
                         existeRegistro = True
 
@@ -431,12 +460,14 @@ class Consulta_datos_tabular(QMainWindow):
                             u.contrasena = self.tabla.item(filaActual, 2).text()
                             u.documento = self.tabla.item(filaActual, 3).text()
                             u.correo = self.tabla.item(filaActual, 4).text()
-                            u.respuesta1 = self.tabla.item(filaActual, 5).text()
-                            u.respuesta2 = self.tabla.item(filaActual, 6).text()
-                            u.respuesta3 = self.tabla.item(filaActual, 7).text()
-                            u.respuesta4 = self.tabla.item(filaActual, 8).text()
-                            u.respuesta5 = self.tabla.item(filaActual, 9).text()
-                            u.respuesta6 = self.tabla.item(filaActual, 10).text()
+                            u.telefono = self.tabla.item(filaActual, 5).text()
+                            u.direccion = self.tabla.item(filaActual, 6).text()
+                            u.respuesta1 = self.tabla.item(filaActual, 7).text()
+                            u.respuesta2 = self.tabla.item(filaActual, 8).text()
+                            u.respuesta3 = self.tabla.item(filaActual, 9).text()
+                            u.respuesta4 = self.tabla.item(filaActual, 10).text()
+                            u.respuesta5 = self.tabla.item(filaActual, 11).text()
+                            u.respuesta6 = self.tabla.item(filaActual, 12).text()
 
                             self.file = open('datos/usuarios.txt', 'wb')
 
@@ -447,6 +478,8 @@ class Consulta_datos_tabular(QMainWindow):
                                     u.contrasena + ';' +
                                     u.documento + ';' +
                                     u.correo + ';' +
+                                    u.telefono + ';' +
+                                    u.direccion + ';' +
                                     u.respuesta1 + ';' +
                                     u.respuesta2 + ';' +
                                     u.respuesta3 + ';' +
@@ -474,11 +507,14 @@ class Consulta_datos_tabular(QMainWindow):
                             self.tabla.item(filaActual, 2).text() + ';' +
                             self.tabla.item(filaActual, 3).text() + ';' +
                             self.tabla.item(filaActual, 4).text() + ';' +
+                            self.tabla.item(filaActual, 5).text() + ';' +
                             self.tabla.item(filaActual, 6).text() + ';' +
                             self.tabla.item(filaActual, 7).text() + ';' +
                             self.tabla.item(filaActual, 8).text() + ';' +
                             self.tabla.item(filaActual, 9).text() + ';' +
-                            self.tabla.item(filaActual, 10).text() + ';' + '\n', encoding='UTF-8'))
+                            self.tabla.item(filaActual, 10).text() + ';' +
+                            self.tabla.item(filaActual, 11).text() + ';' +
+                            self.tabla.item(filaActual, 12).text() + ';' + '\n', encoding='UTF-8'))
 
                         self.file.seek(0, 2)
                         self.file.close()
@@ -496,3 +532,32 @@ class Consulta_datos_tabular(QMainWindow):
                     'Warning',
                     'Debe ingresar todos los datos en el registro'
                 )
+
+    def reiniciar_scroll(self):
+
+        # Limpiar la tabla
+        self.tabla.clearContents()
+
+        # Obtener todos los visitantes
+        visitantes = self.usuarios
+
+        # Actualizar la tabla con los datos de todos los visitantes
+        self.tabla.setRowCount(len(visitantes))
+
+        for row, visitante in enumerate(visitantes):
+            self.tabla.setItem(row, 0, QTableWidgetItem(visitante.nombreCompleto))
+            self.tabla.setItem(row, 1, QTableWidgetItem(visitante.usuario))
+            self.tabla.setItem(row, 2, QTableWidgetItem(visitante.contrasena))
+            self.tabla.setItem(row, 3, QTableWidgetItem(visitante.documento))
+            self.tabla.setItem(row, 4, QTableWidgetItem(visitante.correo))
+            self.tabla.setItem(row, 5, QTableWidgetItem(visitante.telefono))
+            self.tabla.setItem(row, 6, QTableWidgetItem(visitante.direccion))
+            self.tabla.setItem(row, 7, QTableWidgetItem(visitante.respuesta1))
+            self.tabla.setItem(row, 8, QTableWidgetItem(visitante.respuesta2))
+            self.tabla.setItem(row, 9, QTableWidgetItem(visitante.respuesta3))
+            self.tabla.setItem(row, 10, QTableWidgetItem(visitante.respuesta4))
+            self.tabla.setItem(row, 11, QTableWidgetItem(visitante.respuesta5))
+            self.tabla.setItem(row, 12, QTableWidgetItem(visitante.respuesta6))
+
+
+        self.tabla.resizeColumnsToContents()

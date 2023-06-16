@@ -19,7 +19,7 @@ class Residente_tabular(QMainWindow):
         self.setWindowTitle("Lista de residentes")
         self.setWindowIcon(QtGui.QIcon('imagenes/sophos.jpeg'))
         self.ancho = 800
-        self.alto = 600
+        self.alto = 550
         self.resize(self.ancho, self.alto)
 
         self.pantalla = self.frameGeometry()
@@ -40,7 +40,7 @@ class Residente_tabular(QMainWindow):
 
         # creacion de layout horizontal para la distribucion
 
-        self.vertical = QVBoxLayout()
+
 
         # creacion de layout horizontal para la distribucion
         self.vertical = QVBoxLayout()
@@ -92,16 +92,58 @@ class Residente_tabular(QMainWindow):
         self.editar.triggered.connect(self.accion_editar)
         self.toolbar.addAction(self.editar)
 
+        # toolbar buscar
+        self.actualizar = QAction(QIcon('imagenes/actualizar1.png'), "&Actualizar", self)
+        self.actualizar.triggered.connect(self.reiniciar_scroll)
+        self.toolbar.addAction(self.actualizar)
+
+        self.labelApto = QLabel("Apartamento: ")
+        self.labelApto.setStyleSheet('margin-left: 420px;')
+        self.toolbar.addWidget(self.labelApto)
+
+        self.campo_apartamento = QLineEdit()
+        self.campo_apartamento.setFixedWidth(100)
+        self.toolbar.addWidget(self.campo_apartamento)
+
+        # toolbar buscar
+        self.buscar = QAction(QIcon('imagenes/buscar1.png'), "&Buscar", self)
+        self.buscar.triggered.connect(self.accion_buscar)
+        self.toolbar.addAction(self.buscar)
+
         # ---- Fin toolbar------
 
-        # hacemos los labels informativos
-        self.letrero1 = QLabel()
+        # creacion de layout horizontal para la distribucion
+        self.horizontal = QHBoxLayout()
+
+        self.botonanterior = QPushButton(icon=QIcon('imagenes/anterior.png'))
+        self.botonanterior.setStyleSheet('border-radius: 100px;'
+                                         'background-color: transparent;'
+                                         'margin-left:20px;')
+        self.botonanterior.setFixedSize(50, 40)
+        self.botonanterior.setIconSize(QSize(30, 30))
+        self.botonanterior.clicked.connect(self.accion_botonAnterior)
+
+        # ahora creamos los letreros (Qlabel())
+        self.letrero1 = QLabel(self)
         self.letrero1.setText("Lista de Residentes")
-        self.letrero1.setFont(QFont("VAG_ROUNDED.ttf", 20))
-        self.letrero1.setStyleSheet('color: black;'
-                                    'background-color: transparent;')
+        self.letrero1.setFont(QFont('VAG_ROUNDED.ttf', 20))
         self.letrero1.setAlignment(Qt.AlignCenter)
-        self.vertical.addWidget(self.letrero1)
+        self.letrero1.setStyleSheet('background-color: transparent;'
+                                    ' color: black; '
+                                    'padding: 10px;'
+                                    'margin-right: 0px;')
+        # icono de sendero verde
+        self.icon_sendero = QLabel()
+        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
+        self.icon_sendero.setStyleSheet('background-color: transparent;')
+        self.icon_sendero.setPixmap(self.imagen2)
+        self.icon_sendero.setScaledContents(True)
+        self.icon_sendero.setFixedSize(50, 50)
+
+        self.horizontal.addWidget(self.botonanterior)
+        self.horizontal.addWidget(self.letrero1)
+        self.horizontal.addWidget(self.icon_sendero)
+        self.vertical.addLayout(self.horizontal)
 
         self.vertical.addSpacing(100)
 
@@ -154,44 +196,10 @@ class Residente_tabular(QMainWindow):
 
         self.vertical.addStretch()
 
-        # creacion layout horizontal botones
-        self.horizontal = QHBoxLayout()
-
-        # Boton volver
-
-        self.botonVolver = QPushButton("Volver")
-        self.botonVolver.setFixedWidth(100)
-        self.botonVolver.setFixedHeight(40)
-        self.botonVolver.setStyleSheet('background-color: #2F4F4F;'
-                                       'color: #FFFFFF;'
-                                       'padding: 5px;'
-                                       'border-radius:10px;')
-
-        self.botonVolver.clicked.connect(self.metodo_botonVolver)
-
-        # Se agrega el boton al layout vertical
-
-        self.horizontal.addWidget(self.botonVolver)
-        self.vertical.addLayout(self.horizontal)
-
-        self.vertical.addSpacing(30)
-
-        # layout horizontal para el icono sendero verde
-        self.horizontal2 = QHBoxLayout()
-
-        # icono de sendero verde
-        self.icon_sendero = QLabel()
-        self.imagen2 = QPixmap('imagenes/imagen_sendero_verde.png')
-        self.icon_sendero.setStyleSheet('background-color: transparent;')
-        self.icon_sendero.setPixmap(self.imagen2)
-        self.icon_sendero.setScaledContents(True)
-        self.icon_sendero.setFixedSize(50, 50)
-        self.horizontal2.addWidget(self.icon_sendero)
-        self.vertical.addLayout(self.horizontal2)
 
         self.fondo.setLayout(self.vertical)
 
-    def metodo_botonVolver(self):
+    def accion_botonAnterior(self):
         self.hide()
         self.Anterior.show()
 
@@ -282,7 +290,14 @@ class Residente_tabular(QMainWindow):
                 self.tabla.removeRow(filaActual)
 
     def accion_agregar(self):
-        ultimafila = self.tabla.rowCount()
+
+        return QMessageBox.warning(
+            self,
+            'Warning',
+            'boton inhabilitado.'
+        )
+
+        """ultimafila = self.tabla.rowCount()
 
         # insertas una fila nueva despues de la ultima fila
         self.tabla.insertRow(ultimafila)
@@ -296,11 +311,17 @@ class Residente_tabular(QMainWindow):
         self.tabla.setItem(ultimafila, 4, QTableWidgetItem(''))
         self.tabla.setItem(ultimafila, 5, QTableWidgetItem(''))
         self.tabla.setItem(ultimafila, 6, QTableWidgetItem(''))
-        self.tabla.setItem(ultimafila, 7, QTableWidgetItem(''))
+        self.tabla.setItem(ultimafila, 7, QTableWidgetItem(''))"""
 
     def accion_editar(self):
 
-        filaActual = self.tabla.currentRow()
+        return QMessageBox.warning(
+            self,
+            'Warning',
+            'boton inhabilitado.'
+        )
+
+        """filaActual = self.tabla.currentRow()
 
         if filaActual < 0:
             return QMessageBox.warning(
@@ -455,4 +476,131 @@ class Residente_tabular(QMainWindow):
                     self,
                     'Warning',
                     'Debe ingresar todos los datos en el registro'
+                )"""
+
+    def reiniciar_scroll(self):
+
+        # Limpiar la tabla
+        self.tabla.clearContents()
+
+        # Obtener todos los visitantes
+        visitantes = self.usuarios
+
+        # Actualizar la tabla con los datos de todos los visitantes
+        self.tabla.setRowCount(len(visitantes))
+
+        for row, visitante in enumerate(visitantes):
+            self.tabla.setItem(row, 0, QTableWidgetItem(visitante.nombreCompleto))
+
+            self.tabla.setItem(row, 1, QTableWidgetItem(visitante.cedula))
+            self.tabla.item(row, 1).setFlags(Qt.ItemIsEnabled)
+
+            self.tabla.setItem(row, 2, QTableWidgetItem(visitante.celular))
+
+            self.tabla.setItem(row, 3, QTableWidgetItem(visitante.correo))
+
+            self.tabla.setItem(row, 4, QTableWidgetItem(visitante.apartamento))
+
+            self.tabla.setItem(row, 5, QTableWidgetItem(visitante.vehiculo3))
+
+            self.tabla.setItem(row, 6, QTableWidgetItem(visitante.placa))
+
+            self.tabla.setItem(row, 7, QTableWidgetItem(visitante.celda))
+
+        self.tabla.resizeColumnsToContents()
+
+    def accion_buscar(self):
+        self.datosCorrectos = True
+        existeDocumento = False
+
+        if (
+                self.campo_apartamento.text() == ''
+
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'No ingresó nada en número de apartamento'
+            )
+
+        if (
+                not self.campo_apartamento.text().isnumeric()
+        ):
+            return QMessageBox.warning(
+                self,
+                'Warning',
+                'Ingrese solo números en apartamento'
+            )
+
+        if (
+                self.datosCorrectos
+        ):
+
+            self.file = open('datos/residente.txt', 'rb')
+            usuarios = []
+
+            while self.file:
+                linea = self.file.readline().decode('UTF-8')
+                # obtenemos del string una lista con 11 datos separados por;
+                lista = linea.split(";")
+
+                # paramos el bucle si ya no encuentra mas registros en el archivo
+                if linea == '':
+                    break
+
+                u = Residente(
+                    lista[0],
+                    lista[1],
+                    lista[2],
+                    lista[3],
+                    lista[4],
+                    lista[5],
+                    lista[6],
+                    lista[7]
                 )
+
+                # metemos el objeto en la lista de usuarios
+                usuarios.append(u)
+
+            # cerramos ael archivo txt
+            self.file.close()
+
+
+
+            # buscamos en la lista de usuarios si existe la cedula
+
+            apartamento = self.campo_apartamento.text()
+
+            # Limpiar la tabla
+            self.tabla.clearContents()
+
+            # Obtener los visitantes del apartamento ingresado
+            visitantes_apartamento = [v for v in self.usuarios if v.apartamento == apartamento]
+
+            # Actualizar la tabla con los datos del apartamento ingresado
+            self.tabla.setRowCount(len(visitantes_apartamento))
+
+            for row, visitante in enumerate(visitantes_apartamento):
+                self.tabla.setItem(row, 0, QTableWidgetItem(visitante.nombreCompleto))
+                self.tabla.setItem(row, 1, QTableWidgetItem(visitante.cedula))
+                self.tabla.setItem(row, 2, QTableWidgetItem(visitante.celular))
+                self.tabla.setItem(row, 3, QTableWidgetItem(visitante.correo))
+                self.tabla.setItem(row, 4, QTableWidgetItem(visitante.apartamento))
+                self.tabla.setItem(row, 5, QTableWidgetItem(visitante.vehiculo3))
+                self.tabla.setItem(row, 6, QTableWidgetItem(visitante.placa))
+                self.tabla.setItem(row, 7, QTableWidgetItem(visitante.celda))
+
+            self.tabla.resizeColumnsToContents()
+
+            # Verificar si se encontraron visitantes para el apartamento
+            if len(visitantes_apartamento) > 0:
+                existeDocumento = True
+
+            if not existeDocumento:
+                return QMessageBox.warning(
+                    self,
+                    'Warning',
+                    'No existe apartamento registrado'
+                )
+            self.campo_apartamento.setText("")
+
