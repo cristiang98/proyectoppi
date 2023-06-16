@@ -224,9 +224,7 @@ class Residente_tabular(QMainWindow):
                     self.tabla.item(filaActual, 2).text() != '' and
                     self.tabla.item(filaActual, 3).text() != '' and
                     self.tabla.item(filaActual, 4).text() != '' and
-                    self.tabla.item(filaActual, 5).text() != '' and
-                    self.tabla.item(filaActual, 6).text() != '' and
-                    self.tabla.item(filaActual, 7).text() != ''
+                    self.tabla.item(filaActual, 5).text() != ''
             ):
                 self.file = open('datos/residente.txt', 'rb')
 

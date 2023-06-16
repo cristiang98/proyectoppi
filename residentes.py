@@ -416,13 +416,12 @@ class Residentes(QMainWindow):
         if (
                 not self.editCedula.text().isdigit() or
                 not self.editCelular.text().isdigit() or
-                not self.editApartamento.text().isdigit() or
-                not self.editCelda.text().isdigit()
+                not self.editApartamento.text().isdigit()
         ):
             return QMessageBox.warning(
                 self,
                 'Warning',
-                'Cédula, Celular, Apto y Celda solo deben contener números.'
+                'Cédula, Celular y Apto solo deben contener números.'
             )
 
         if self.datosCorrectos:
@@ -645,9 +644,7 @@ class Residentes(QMainWindow):
                     self.editCelular.text() != '' and
                     self.editCorreo.text() != '' and
                     self.editApartamento.text() != '' and
-                    self.editVehiculo.text() != '' and
-                    self.editPlaca.text() != '' and
-                    self.editCelda.text() != ''
+                    self.editVehiculo.text() != ''
             ):
                 self.file = open('datos/residente.txt', 'rb')
 

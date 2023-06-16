@@ -1,4 +1,0 @@
-101;cristiangallego;3117077453;camila vargas;si;juy458;15/06/2023;18:21:47;1;
-101;cristiangallego;3117077453;jorge bermudez;no;;15/06/2023;18:22:11;;
-102;yurany lopez;3218255251;aldemar giraldo;no;;15/06/2023;18:37:04;;
-102;yurany lopez;3218255251;juan angel;si;loo524;15/06/2023;19:14:00;2;
